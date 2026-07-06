@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIAS — El sistema de gestión que trabaja por vos</title>
+<meta name="description" content="FIAS es el sistema de gestión integral para ferreterías y comercios: ventas, fiados, listas de precios con IA, Mercado Pago integrado, backups en la nube y un agente que atiende por WhatsApp.">
+<style>
+  :root{
+    --bg:#000;
+    --bg2:#0a0a0c;
+    --panel:#141418;
+    --panel2:#1c1c22;
+    --line:#26262e;
+    --txt:#f5f5f7;
+    --txt2:#a1a1a8;
+    --txt3:#6e6e76;
+    --blue:#2997ff;
+    --blue2:#0071e3;
+    --green:#30d158;
+    --yellow:#ffd60a;
+    --grad:linear-gradient(180deg,#ffffff 0%,#c9c9ce 55%,#8e8e96 100%);
+    --grad2:linear-gradient(92deg,#30d158,#2997ff);
+    --r:22px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--txt);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+
+  /* ── Nav ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+    background:rgba(10,10,12,.72);border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .nav-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:2rem;height:52px;padding:0 22px}
+  .brand{font-weight:800;font-size:1.02rem;letter-spacing:.14em;color:#fff}
+  .brand small{font-weight:400;font-size:.72rem;letter-spacing:.24em;color:var(--txt3);text-transform:uppercase}
+  .nav-links{display:flex;gap:1.6rem;margin-left:auto}
+  .nav-links a{font-size:.82rem;color:var(--txt2);transition:color .2s}
+  .nav-links a:hover{color:var(--txt)}
+  .nav-cta{
+    font-size:.78rem;font-weight:600;background:var(--blue2);color:#fff;
+    padding:.38rem .95rem;border-radius:999px;transition:filter .2s;
+  }
+  .nav-cta:hover{filter:brightness(1.15)}
+  @media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
+
+  /* ── Hero ── */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:120px 24px 60px;position:relative;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(52% 42% at 50% 8%,rgba(41,151,255,.13),transparent 70%),
+      radial-gradient(40% 34% at 78% 68%,rgba(41,151,255,.06),transparent 70%),
+      radial-gradient(36% 30% at 18% 74%,rgba(48,209,88,.07),transparent 70%);
+  }
+  .hero .kicker{
+    font-size:.8rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--txt3);margin-bottom:1.4rem;
+  }
+  .hero h1{
+    font-size:clamp(3.4rem,10vw,7.5rem);font-weight:800;letter-spacing:-.03em;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero h2{
+    font-size:clamp(1.35rem,3.4vw,2.3rem);font-weight:700;letter-spacing:-.02em;margin-top:1.1rem;max-width:820px;
+  }
+  .hero p{color:var(--txt2);font-size:clamp(1rem,1.6vw,1.2rem);max-width:640px;margin-top:1.1rem;line-height:1.55}
+  .hero-ctas{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap;justify-content:center}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;font-size:.98rem;font-weight:600;
+    padding:.78rem 1.7rem;border-radius:999px;transition:transform .2s,filter .2s;
+  }
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.12)}
+  .btn-blue{background:var(--blue2);color:#fff}
+  .btn-ghost{border:1px solid var(--line);color:var(--txt)}
+  .hero .scroll-hint{position:absolute;bottom:28px;color:var(--txt3);font-size:1.4rem;animation:bob 2.2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+  /* ── Secciones ── */
+  section{padding:110px 24px;position:relative}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem}
+  .t-blue{color:var(--blue)} .t-green{color:var(--green)} .t-purple{color:#bf5af2} .t-yellow{color:var(--yellow)}
+  h3.big{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.08;max-width:800px}
+  .lead{color:var(--txt2);font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.6;max-width:640px;margin-top:1.2rem}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform .8s cubic-bezier(.2,.6,.2,1)}
+  .rv.on{opacity:1;transform:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+  /* ── Mockup ventana ── */
+  .window{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.8);overflow:hidden;
+  }
+  .win-bar{display:flex;align-items:center;gap:.45rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--line)}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .win-title{margin-left:.6rem;font-size:.75rem;color:var(--txt3)}
+
+  /* mockup POS */
+  .pos-grid{display:grid;grid-template-columns:1.6fr 1fr;min-height:340px}
+  @media(max-width:720px){.pos-grid{grid-template-columns:1fr}}
+  .pos-items{padding:1.2rem;border-right:1px solid var(--line)}
+  .pos-row{display:flex;justify-content:space-between;align-items:center;padding:.72rem .9rem;border-radius:12px;font-size:.88rem}
+  .pos-row:nth-child(odd){background:var(--panel2)}
+  .pos-row .n{color:var(--txt)} .pos-row .d{color:var(--txt3);font-size:.74rem}
+  .pos-row .p{font-weight:700;font-variant-numeric:tabular-nums}
+  .pos-side{padding:1.4rem;display:flex;flex-direction:column;justify-content:center;gap:1rem}
+  .pos-total-label{color:var(--txt3);font-size:.78rem;text-transform:uppercase;letter-spacing:.12em}
+  .pos-total{font-size:2.5rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .pos-pay{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .chip{font-size:.75rem;font-weight:600;text-align:center;padding:.55rem .4rem;border-radius:10px;border:1px solid var(--line);color:var(--txt2)}
+  .chip.on{background:var(--blue2);border-color:transparent;color:#fff}
+
+  /* mockup chat */
+  .chat{max-width:430px;margin:0 auto;padding:1.3rem;display:flex;flex-direction:column;gap:.7rem;min-height:380px}
+  .bub{max-width:82%;padding:.65rem .95rem;border-radius:18px;font-size:.9rem;line-height:1.45}
+  .bub.me{align-self:flex-end;background:#144d37;border-bottom-right-radius:6px}
+  .bub.bot{align-self:flex-start;background:var(--panel2);border-bottom-left-radius:6px}
+  .bub .hora{display:block;font-size:.62rem;color:var(--txt3);margin-top:.3rem;text-align:right}
+
+  /* ── Bento features ── */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:3.5rem}
+  .cell{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:1.8rem;display:flex;flex-direction:column;gap:.55rem;
+    transition:transform .3s,border-color .3s;
+  }
+  .cell:hover{transform:translateY(-4px);border-color:#3a3a44}
+  .cell .ic{font-size:1.7rem}
+  .cell h4{font-size:1.05rem;font-weight:700}
+  .cell p{color:var(--txt2);font-size:.88rem;line-height:1.5}
+  .c3{grid-column:span 3}.c2{grid-column:span 2}
+  @media(max-width:900px){.c3,.c2{grid-column:span 6}}
+
+  /* ── Slider ── */
+  .slider-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .slider{
+    display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:2.4rem 24px;margin:0 -24px;scrollbar-width:none;
+  }
+  .slider::-webkit-scrollbar{display:none}
+  .slide{
+    scroll-snap-align:center;flex:0 0 min(430px,86vw);
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:2.1rem;display:flex;flex-direction:column;gap:.8rem;min-height:300px;
+  }
+  .slide .num{font-size:.78rem;font-weight:700;letter-spacing:.18em;color:var(--txt3)}
+  .slide h4{font-size:1.45rem;font-weight:800;letter-spacing:-.02em}
+  .slide h4 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .slide p{color:var(--txt2);font-size:.95rem;line-height:1.6}
+  .slide .tagline{margin-top:auto;font-size:.8rem;font-weight:600}
+  .slider-btns{display:flex;gap:.6rem}
+  .sbtn{
+    width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);
+    color:var(--txt);font-size:1.1rem;cursor:pointer;transition:background .2s;
+  }
+  .sbtn:hover{background:var(--panel2)}
+
+  /* ── Stats ── */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{text-align:center;padding:2rem 1rem;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+  .stat .v{font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:800;background:var(--grad2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{color:var(--txt2);font-size:.85rem;margin-top:.4rem}
+
+  /* ── Split ── */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3.5rem}
+  @media(max-width:900px){.split{grid-template-columns:1fr;gap:2.4rem}}
+  .feat-list{display:flex;flex-direction:column;gap:1.15rem;margin-top:1.6rem}
+  .feat{display:flex;gap:.9rem;align-items:flex-start}
+  .feat .fi{font-size:1.2rem;line-height:1.5}
+  .feat b{display:block;font-size:.98rem}
+  .feat span{color:var(--txt2);font-size:.88rem;line-height:1.5}
+
+  /* ── CTA final ── */
+  .final{
+    text-align:center;padding:150px 24px;position:relative;overflow:hidden;
+  }
+  .final::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(46% 52% at 50% 100%,rgba(41,151,255,.18),transparent 72%);
+  }
+  .final h3{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+  .final h3 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .final p{color:var(--txt2);margin:1.4rem auto 0;max-width:560px;font-size:1.1rem;line-height:1.6}
+
+  footer{border-top:1px solid var(--line);padding:2.6rem 24px;color:var(--txt3);font-size:.82rem}
+  .foot{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .foot a{color:var(--txt2)}
+  .foot a:hover{color:var(--txt)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top">FIAS&nbsp;&nbsp;<small>Corporation</small></a>
+    <div class="nav-links">
+      <a href="#producto">Producto</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#agente">Agente IA</a>
+      <a href="#seguridad">Seguridad</a>
+      <a class="nav-cta" href="#contacto">Pedí una demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="kicker rv">Sistema de gestión integral</div>
+  <h1 class="rv d1">FIAS</h1>
+  <h2 class="rv d2">El sistema que atiende el mostrador,<br>la caja y hasta el WhatsApp.</h2>
+  <p class="rv d3">Gestión completa para ferreterías y comercios: ventas, fiados, precios con inteligencia artificial,
+     Mercado Pago integrado y copias de seguridad automáticas. Todo en un solo programa.</p>
+  <div class="hero-ctas rv d3">
+    <a class="btn btn-blue" href="#contacto">Pedí una demo</a>
+    <a class="btn btn-ghost" href="#producto">Conocé FIAS ↓</a>
+  </div>
+  <div class="scroll-hint">⌄</div>
+</header>
+
+<!-- PRODUCTO / POS -->
+<section id="producto">
+  <div class="wrap">
+    <div class="eyebrow t-blue rv">Punto de venta</div>
+    <h3 class="big rv d1">Vendé rápido.<br>Cobrá como quieras.</h3>
+    <p class="lead rv d2">Escaneá o tipeá el código y listo. Efectivo, transferencia, débito, crédito en cuotas
+       o QR — con el Point de Mercado Pago conectado directo: el cobro viaja solo a la terminal y la venta
+       se confirma sola cuando el pago aprueba.</p>
+
+    <div class="window rv d2" style="margin-top:3.5rem">
+      <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">FIAS — Punto de venta</span></div>
+      <div class="pos-grid">
+        <div class="pos-items">
+          <div class="pos-row"><div><div class="n">Taladro percutor 13mm</div><div class="d">COD 8842 · x1</div></div><div class="p">$89.999</div></div>
+          <div class="pos-row"><div><div class="n">Caja tornillos fix 8×2"</div><div class="d">COD 1204 · x2</div></div><div class="p">$14.400</div></div>
+          <div class="pos-row"><div><div class="n">Cinta métrica 5m</div><div class="d">COD 3310 · x1</div></div><div class="p">$7.850</div></div>
+          <div class="pos-row"><div><div class="n">Guantes reforzados</div><div class="d">COD 5521 · x3</div></div><div class="p">$18.600</div></div>
+        </div>
+        <div class="pos-side">
+          <div>
+            <div class="pos-total-label">Total de la cuenta</div>
+            <div class="pos-total">$130.849</div>
+          </div>
+          <div class="pos-pay">
+            <div class="chip">Efectivo</div><div class="chip">Transferencia</div>
+            <div class="chip on">Débito · Point</div><div class="chip">QR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS BENTO -->
+<section id="modulos" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="eyebrow t-blue rv">Todo incluido</div>
+    <h3 class="big rv d1">Un solo programa.<br>Todo el negocio adentro.</h3>
+
+    <div class="bento">
+      <div class="cell c3 rv"><div class="ic">🧾</div><h4>Boletas de compra con IA</h4>
+        <p>Sacale una foto a la boleta del proveedor y FIAS la lee, la estructura y carga la mercadería.
+           ¿Querés ajustarla? Se lo pedís con palabras: «sumale el 10%», «quitale el IVA». Listo.</p></div>
+      <div class="cell c3 rv d1"><div class="ic">📋</div><h4>Listas de precios inteligentes</h4>
+        <p>Subí la lista del proveedor y los precios se actualizan manteniendo tus márgenes.
+           Recarga manual por porcentaje, historial de cada cambio y detalle producto por producto.</p></div>
+      <div class="cell c2 rv"><div class="ic">🤝</div><h4>Fiados bajo control</h4>
+        <p>Cuentas corrientes por cliente con DNI, entregas parciales y cobro directo en el Point.</p></div>
+      <div class="cell c2 rv d1"><div class="ic">💰</div><h4>Cierre de caja claro</h4>
+        <p>Desglose automático por medio de pago: efectivo, transferencia, débito, crédito y QR.</p></div>
+      <div class="cell c2 rv d2"><div class="ic">📊</div><h4>Informes y estadísticas</h4>
+        <p>Ventas, top de productos, estadísticas de clientes e IVA, siempre al día.</p></div>
+      <div class="cell c3 rv"><div class="ic">🔌</div><h4>Mercado Pago de fábrica</h4>
+        <p>Point y QR integrados de verdad: el cobro sale del sistema, la confirmación vuelve sola,
+           y si el pago no se concreta la venta se anula y el stock se repone. Sin dramas.</p></div>
+      <div class="cell c3 rv d1"><div class="ic">🔄</div><h4>Actualizaciones automáticas</h4>
+        <p>FIAS se actualiza solo desde la nube. Nuevas funciones y mejoras sin técnicos ni instalaciones.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDER -->
+<section>
+  <div class="wrap">
+    <div class="slider-head">
+      <div>
+        <div class="eyebrow t-green rv">Así se siente</div>
+        <h3 class="big rv d1">Un día con FIAS.</h3>
+      </div>
+      <div class="slider-btns rv d2">
+        <button class="sbtn" onclick="mover(-1)" aria-label="Anterior">‹</button>
+        <button class="sbtn" onclick="mover(1)" aria-label="Siguiente">›</button>
+      </div>
+    </div>
+  </div>
+  <div class="slider" id="slider">
+    <div class="slide">
+      <div class="num">08:00</div>
+      <h4>Abrís la caja.<br><em>FIAS ya hizo el backup.</em></h4>
+      <p>Mientras encendés las luces, la copia de seguridad de anoche ya está guardada en tu máquina y en la nube.</p>
+      <div class="tagline t-green">Backups automáticos</div>
+    </div>
+    <div class="slide">
+      <div class="num">10:30</div>
+      <h4>Llega la lista nueva<br><em>del proveedor.</em></h4>
+      <p>La subís tal cual te la mandaron. FIAS actualiza costos y recalcula tus precios de venta manteniendo el margen de cada producto.</p>
+      <div class="tagline t-blue">Listas de precios con IA</div>
+    </div>
+    <div class="slide">
+      <div class="num">12:15</div>
+      <h4>Cliente de siempre,<br><em>fiado de siempre.</em></h4>
+      <p>Le anotás la compra en su cuenta en dos toques. Cuando venga a pagar, cobrás la entrega directo en el Point.</p>
+      <div class="tagline t-yellow">Cuentas corrientes</div>
+    </div>
+    <div class="slide">
+      <div class="num">16:40</div>
+      <h4>Boleta del corralón:<br><em>una foto y adentro.</em></h4>
+      <p>La IA lee la boleta, carga los productos y el stock. Le pedís «sumale 10% de flete» y ajusta todo sola.</p>
+      <div class="tagline t-blue">Boletas con IA</div>
+    </div>
+    <div class="slide">
+      <div class="num">20:05</div>
+      <h4>Cerrás la caja<br><em>sin calculadora.</em></h4>
+      <p>Cuánto entró por efectivo, cuánto por débito, cuánto por QR. El desglose completo, en un vistazo, con gráfico incluido.</p>
+      <div class="tagline t-green">Cierre de caja</div>
+    </div>
+    <div class="slide">
+      <div class="num">22:30</div>
+      <h4>Desde el sillón:<br><em>«¿cuánto vendimos hoy?»</em></h4>
+      <p>Le escribís al agente por WhatsApp y te contesta con los números del día. Tu negocio, en el bolsillo.</p>
+      <div class="tagline t-blue">Agente IA por WhatsApp</div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTE -->
+<section id="agente" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="eyebrow t-green rv">Inteligencia artificial</div>
+        <h3 class="big rv d1">Tu negocio<br>ahora chatea.</h3>
+        <p class="lead rv d2">El agente FIAS atiende tu WhatsApp: le preguntás por las ventas, el stock o los fiados
+           y te responde al instante, con los datos reales de tu sistema. Y las acciones importantes siempre
+           te las confirma antes.</p>
+        <div class="feat-list rv d2">
+          <div class="feat"><div class="fi">💬</div><div><b>Consultas en lenguaje natural</b><span>«¿Cuánto vendimos hoy?» «¿Queda stock de amoladoras?» «¿Cuánto debe González?»</span></div></div>
+          <div class="feat"><div class="fi">🔒</div><div><b>Solo con vos</b><span>Únicamente los números que vos autorizás pueden hablarle. Todo lo demás se ignora.</span></div></div>
+          <div class="feat"><div class="fi">✅</div><div><b>Confirmación siempre</b><span>Ninguna acción sensible se ejecuta sin tu «sí» explícito por chat.</span></div></div>
+        </div>
+      </div>
+      <div class="window rv d2">
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">WhatsApp — Agente FIAS</span></div>
+        <div class="chat">
+          <div class="bub me">Cuánto vendimos hoy?<span class="hora">20:12 ✓✓</span></div>
+          <div class="bub bot">Hoy entraron <b>$412.350</b> en 37 ventas 💪<br>Efectivo $180.100 · Débito $145.250 · QR $87.000<span class="hora">20:12</span></div>
+          <div class="bub me">Queda stock del taladro 13mm?<span class="hora">20:13 ✓✓</span></div>
+          <div class="bub bot">Sí, quedan <b>4 unidades</b> del taladro percutor 13mm (COD 8842). El último entró el martes.<span class="hora">20:13</span></div>
+          <div class="bub me">Genio. Avisame mañana si baja de 2<span class="hora">20:14 ✓✓</span></div>
+          <div class="bub bot">Anotado ✔ Te aviso si el stock baja de 2 unidades.<span class="hora">20:14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEGURIDAD -->
+<section id="seguridad">
+  <div class="wrap">
+    <div class="eyebrow t-yellow rv">Tranquilidad</div>
+    <h3 class="big rv d1">Tus datos, blindados.</h3>
+    <p class="lead rv d2">Lo que pasa en tu negocio queda en tu negocio — y respaldado afuera, por si acaso.</p>
+    <div class="stats">
+      <div class="stat rv"><div class="v">24/7</div><div class="l">Backups automáticos, locales y en la nube</div></div>
+      <div class="stat rv d1"><div class="v">0</div><div class="l">Backups que alguien pueda borrar: son inmutables</div></div>
+      <div class="stat rv d2"><div class="v">100%</div><div class="l">Tuyo: el sistema corre en tu máquina, no en internet</div></div>
+      <div class="stat rv d3"><div class="v">✓</div><div class="l">Usuarios con permisos: dueño y empleados separados</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final" id="contacto">
+  <h3 class="rv">¿Listo para que tu negocio<br><span>trabaje solo?</span></h3>
+  <p class="rv d1">Escribinos y coordinamos una demo de FIAS en tu comercio. Sin compromiso, sin vueltas.</p>
+  <div class="hero-ctas rv d2">
+    <a class="btn btn-blue" href="mailto:theotejerpepic@gmail.com?subject=Demo%20FIAS">✉ Pedir una demo</a>
+    <a class="btn btn-ghost" href="mailto:theotejerpepic@gmail.com?subject=Consulta%20FIAS">Hacer una consulta</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div><b style="color:var(--txt2)">FIAS Corporation</b> — Sistema de gestión integral · Argentina</div>
+    <div><a href="mailto:theotejerpepic@gmail.com">theotejerpepic@gmail.com</a></div>
+    <div>© 2026 FIAS. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+  }, { threshold: .18 });
+  document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+  // Slider
+  function mover(dir) {
+    const s = document.getElementById("slider");
+    s.scrollBy({ left: dir * (Math.min(430, innerWidth * .86) + 18), behavior: "smooth" });
+  }
+</script>
+</body>
+</html>
