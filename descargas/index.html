@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Descargar FIAS — Instaladores oficiales</title>
-<meta name="description" content="Descargá el instalador oficial de FIAS para Windows o Mac. Instalalo, pegá tu clave de activación y listo.">
+<meta name="description" content="Descargá el instalador oficial de FIAS para Windows o Mac y el manual de usuario en PDF. Instalalo, pegá tu clave de activación y listo.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="/img/favicon-96.png" sizes="96x96">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -71,6 +71,16 @@
   .dl-card .desc{color:var(--slate);font-size:.93rem;line-height:1.6;margin-bottom:1.1rem}
   .dl-btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:auto}
 
+  .man-card{margin-top:1.3rem;background:linear-gradient(135deg,#f6f9fc 0%,#eef3ff 100%);border:1px solid var(--line);border-radius:var(--r);
+    padding:1.8rem;display:flex;align-items:center;gap:1.6rem;box-shadow:var(--shadow-sm)}
+  .man-ic{flex:none;width:64px;height:64px;border-radius:16px;background:#1e2d54;color:#fff;display:flex;align-items:center;justify-content:center}
+  .man-ic svg{width:32px;height:32px}
+  .man-txt{flex:1;min-width:0}
+  .man-txt h2{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+  .man-txt p{color:var(--slate);font-size:.93rem;line-height:1.6;margin-top:.3rem}
+  .man-meta{font-size:.78rem;color:var(--muted);margin-top:.35rem}
+  .man-card .dl-btns{margin-top:0;flex:none}
+  @media(max-width:820px){.man-card{flex-direction:column;align-items:flex-start}.man-card .dl-btns{width:100%}}
   .pasos{margin-top:3.4rem}
   .pasos h3{font-size:1.55rem;font-weight:800;letter-spacing:-.02em;margin-bottom:1.4rem;color:var(--navy)}
   .pasos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
@@ -152,6 +162,23 @@
           <svg viewBox="0 0 170 170" aria-hidden="true"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.2-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.93.21-9.84-1.96-14.75-6.52-3.13-2.73-7.04-7.41-11.73-14.04-5.03-7.08-9.17-15.29-12.41-24.65-3.47-10.11-5.21-19.9-5.21-29.38 0-10.86 2.35-20.22 7.04-28.07 3.7-6.3 8.61-11.27 14.76-14.92s12.79-5.51 19.95-5.63c3.91 0 9.05 1.21 15.43 3.59 6.36 2.39 10.45 3.6 12.24 3.6 1.34 0 5.88-1.42 13.57-4.24 7.27-2.62 13.41-3.7 18.44-3.28 13.63 1.1 23.87 6.47 30.68 16.15-12.19 7.39-18.22 17.73-18.1 31 .11 10.34 3.86 18.94 11.23 25.77 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.1-2.96 15.67-8.86 22.67-7.12 8.32-15.73 13.13-25.07 12.38a25.2 25.2 0 0 1-.19-3.07c0-7.78 3.39-16.1 9.4-22.91 3-3.45 6.82-6.31 11.45-8.6 4.62-2.25 8.99-3.5 13.1-3.74.12 1.08.17 2.17.17 3.27z"/></svg>
           Mac&nbsp;<small>.dmg</small></a>
       </div>
+    </div>
+  </div>
+
+  <div class="man-card" id="manual">
+    <div class="man-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg></div>
+    <div class="man-txt">
+      <h2>Manual de usuario</h2>
+      <p>Todas las pantallas de FIAS explicadas paso a paso, con capturas: ventas, fiados, stock, listas de precios, boletas, caja, informes, facturación y el agente de WhatsApp.</p>
+      <div class="man-meta">Versión 4.3.2 · 68 páginas</div>
+    </div>
+    <div class="dl-btns">
+      <a class="btn btn-blurple btn-dl" href="/descargas/Manual_FIAS.pdf" download="Manual_FIAS.pdf">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2z"/></svg>
+        Manual&nbsp;<small>PDF · 4,5 MB</small></a>
+      <a class="btn btn-outline btn-dl" href="/descargas/Manual_FIAS.docx" download="Manual_FIAS.docx">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2z"/></svg>
+        Word&nbsp;<small>.docx</small></a>
     </div>
   </div>
 
