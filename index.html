@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIAS — Que el negocio trabaje para vos, no vos para el negocio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-<meta name="description" content="FIAS es el sistema de gestión para ferreterías y comercios: cargá listas de precios y boletas en segundos, fiados sin cuaderno, Mercado Pago integrado y backups automáticos. Hecho por un ferretero, para ferreteros.">
+<meta name="description" content="FIAS es el sistema de gestión para comercios: cargá listas de precios y boletas en segundos, fiados sin cuaderno, Mercado Pago integrado y backups automáticos. Hecho por un comerciante, para comerciantes.">
 <meta property="og:title" content="FIAS — El sistema que te devuelve horas a vos">
 <meta property="og:description" content="Una lista de 1.500 productos: hasta 3 días a mano. Con FIAS, segundos.">
 <meta property="og:url" content="https://fias.com.ar">
@@ -240,6 +240,8 @@
   .founder{display:grid;grid-template-columns:.9fr 1.4fr;gap:3rem;align-items:center;margin-top:2.6rem}
   @media(max-width:820px){.founder{grid-template-columns:1fr}}
   .founder .ph{height:340px}
+  .founder .foto{display:block;border-radius:var(--r);overflow:hidden;box-shadow:0 18px 40px rgba(20,40,80,.16);max-width:440px;width:100%;justify-self:center}
+  .founder .foto img{display:block;width:100%;height:auto;aspect-ratio:1100/1211;object-fit:cover}
   .founder blockquote{font-size:clamp(1.15rem,2vw,1.5rem);font-weight:700;letter-spacing:-.01em;color:var(--navy);line-height:1.45}
   .founder .firma{margin-top:1.2rem;color:var(--slate);font-size:.95rem}
   .founder .firma b{color:var(--navy)}
@@ -351,7 +353,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
   <div class="hero-grad"></div>
   <div class="hero-in">
     <div>
-      <span class="kicker rv"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> De un ferretero, hecho para ferreteros</span>
+      <span class="kicker rv"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg> De un comerciante, hecho para comerciantes</span>
       <h1 class="rv d1">Que el negocio trabaje para vos, no vos para él.</h1>
       <p class="sub rv d2">FIAS hace lo pesado: listas de precios, boletas, fiados, stock, caja.
          Las horas quedan para vos. No seas el empleado de tu propio negocio.</p>
@@ -379,8 +381,8 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 
 <!-- MANIFIESTO -->
 <section class="manifesto">
-  <h2 class="rv">De un ferretero.<br><span>Hecho para ferreteros.</span></h2>
-  <p class="rv d1">Cuatro años detrás del mostrador de Ferretería Belgrano. FIAS no se imaginó: se vivió.</p>
+  <h2 class="rv">De un comerciante.<br><span>Hecho para comerciantes.</span></h2>
+  <p class="rv d1">FIAS no se imaginó: se vivió, con cuatro años detrás del mostrador de una ferretería.</p>
 </section>
 <section id="magia" class="alt">
   <div class="wrap">
@@ -577,11 +579,11 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
     <span class="eyebrow c-pink rv">La historia</span>
     <h2 class="t rv d1">Esto no se diseñó en una oficina.</h2>
     <div class="founder">
-      <div class="ph rv d1"><span class="ic">📷</span>FOTO PENDIENTE<br>Theo en el mostrador de Ferretería Belgrano<br><small>(se saca el jueves)</small></div>
+      <picture class="foto rv d1"><source srcset="img/theo.webp" type="image/webp"><img src="img/theo.jpg" width="1100" height="1211" loading="lazy" decoding="async" alt="Theo Luciano Tejera, fundador de FIAS, cebando un mate"></picture>
       <div class="rv d2">
         <blockquote>«Pasé cuatro años detrás del mostrador de nuestra ferretería. Ahí vi a mi papá
         dejar de 6 a 10 horas por día en tareas que una computadora resuelve en segundos.
-        FIAS existe para devolverle esas horas desperdiciadas monótonamente ,y a cada ferretero.»</blockquote>
+        FIAS existe para devolverle esas horas a él y a cada comerciante.»</blockquote>
         <div class="firma"><b>Theo Luciano Tejera</b> — fundador de FIAS · Ferretería Belgrano<br>
         Compras a distribuidores, actualización de precios y control de stock: los problemas que
         FIAS resuelve son los que él administró a mano durante años.</div>
@@ -636,7 +638,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
         <div class="pr-cupo">Incluye por semana: 20 boletas por foto · 30 listas con IA</div>
         <div class="pr-cupo" style="color:#635bff;font-weight:700">🎁 Tu primera contratación incluye 15 días del Agente de regalo</div>
         <a class="btn btn-blurple" href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier1_negocio">Comprar</a>
-        <div class="pr-alt">Ferretería grande: <b>versión Empresa</b> con el triple de cupos, $ 325.000/mes.<br>
+        <div class="pr-alt">Negocio grande: <b>versión Empresa</b> con el triple de cupos, $ 325.000/mes.<br>
           <a href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier1_empresa">Comprar Empresa →</a></div>
       </div>
       <div class="plan rv d2">
@@ -652,7 +654,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
         </ul>
         <div class="pr-cupo">Incluye por semana: 50 boletas · 40 listas · 200 consultas · 50 acciones</div>
         <a class="btn btn-navy" href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier2_negocio">Comprar</a>
-        <div class="pr-alt">Ferretería grande: <b>versión Empresa</b> con el triple de cupos, $ 950.000/mes.<br>
+        <div class="pr-alt">Negocio grande: <b>versión Empresa</b> con el triple de cupos, $ 950.000/mes.<br>
           <a href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier2_empresa">Comprar Empresa →</a></div>
       </div>
     </div>
@@ -673,8 +675,8 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
         <p>Nada grave: FIAS hace copias de seguridad automáticas locales y en la nube, que nadie puede borrar. Se instala en la máquina nueva, se restaura el backup y seguís trabajando.</p></details>
       <details><summary>¿Mis datos están en internet?</summary>
         <p>No. El sistema y tus datos viven en TU computadora. A la nube solo van las copias de seguridad (cifradas) y las actualizaciones.</p></details>
-      <details><summary>¿Sirve si no soy ferretería?</summary>
-        <p>FIAS está pensado al milímetro para ferreterías, pero funciona igual de bien en corralones, pinturerías y casas de repuestos.</p></details>
+      <details><summary>¿Sirve para mi rubro?</summary>
+        <p>Sí. FIAS nació en el mostrador de una ferretería, pero está hecho para cualquier comercio que vende con stock, fiados y listas de proveedores: ferreterías, corralones, pinturerías, casas de repuestos y más.</p></details>
       <details><summary>¿Funciona sin internet?</summary>
         <p>Sí. FIAS corre en tu computadora y el mostrador nunca se frena por la conexión. Internet se usa solo para las copias en la nube, las actualizaciones y el agente de WhatsApp.</p></details>
       <details><summary>Ya tengo mis productos en planillas o en otro sistema, ¿los pierdo?</summary>
@@ -700,7 +702,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 <footer>
   <div class="foot">
     <div style="line-height:1.9">
-      <b style="color:#fff">FIAS™</b> · Sistema de gestión para ferreterías<br>
+      <b style="color:#fff">FIAS™</b> · Sistema de gestión para comercios<br>
       Vendedor: Theo Luciano Tejera · CUIT 20-47405933-3<br>
       Fructuoso Rivera, Ciudad de Córdoba (CP 5000), Córdoba, Argentina
     </div>
@@ -709,7 +711,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
       <a href="/terminos/">Términos y Condiciones</a> · <a href="/privacidad/">Política de Privacidad</a><br>
       <a href="/arrepentimiento/" style="display:inline-block;margin-top:6px;border:1.5px solid #8898aa;border-radius:999px;padding:6px 16px;color:#e6ebf1;font-weight:700">Botón de arrepentimiento</a>
     </div>
-    <div>© 2026 FIAS™. Hecho por un ferretero, para ferreteros. 🇦🇷</div>
+    <div>© 2026 FIAS™. Hecho por un comerciante, para comerciantes. 🇦🇷</div>
   </div>
 </footer>
 
