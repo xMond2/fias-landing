@@ -1,0 +1,100 @@
+/* Base compartida de las animaciones de FIAS.
+   Los estilos de la interfaz son los REALES del programa (static/styles.css y
+   templates/base.html de FIAS 4.3.4), con los mismos nombres de clase.
+   El programa se dibuja a 1280×720 dentro de un escenario de 960×540 (×0,75),
+   que a su vez se escala al ancho del iframe. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800&display=swap");
+
+:root{
+  --bg:#eef2f9; --bg2:#f6f8fc; --panel:#fff; --panel2:#f1f5fb; --text:#1e2d54; --muted:#5e6f96;
+  --line:#e2e8f0; --blue:#1F409C; --blue-dark:#16306f; --green:#22c55e; --orange:#f59e0b;
+  --yellow:#eab308; --gray:#94a3b8; --shadow:0 12px 30px rgba(30,41,59,.07); --radius:16px;
+  --verde-fias:#5CB848; --navy:#1E2D54;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);overflow:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+#stage{position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:0 0;overflow:hidden;background:var(--bg)}
+#fias{position:absolute;left:0;top:0;width:1280px;height:720px;transform:scale(.75);transform-origin:0 0}
+.abs{position:absolute}
+.oculto{opacity:0}
+.muted{color:var(--muted)} .small{font-size:12px}
+
+/* ── Ventana del programa (base.html) ── */
+.app-shell{position:absolute;left:12px;top:12px;width:1256px;height:696px;display:grid;grid-template-columns:216px 1fr;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;min-height:0}
+.sidebar-top{display:flex;flex-direction:column;align-items:center;gap:1px;margin-bottom:8px}
+.sidebar-mini{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700;font-size:22px}
+.sidebar-mini img{width:28px;height:28px;object-fit:contain}
+.sidebar-top .small{color:#5e7ea7;font-weight:600}
+.side-nav{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+.side-link{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:12px;color:#1F409C;font-weight:600;font-size:14.5px}
+.side-ico{width:31px;height:31px;border-radius:9px;background:#eef4ff;border:1px solid #dbe7fb;display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:#2563eb}
+.side-ico svg{width:19px;height:19px}
+.side-link.active{background:var(--blue);color:#fff;font-weight:700;box-shadow:0 6px 16px rgba(31,64,156,.32)}
+.side-link.active .side-ico{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff}
+.sidebar-foot{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:5px}
+.cloud-card{display:flex;align-items:center;gap:9px;background:#f4f7fc;border:1px solid #e7eefb;border-radius:11px;padding:5px 10px}
+.cloud-ic{width:32px;height:32px;border-radius:9px;background:#e8f0fd;color:#2f5fd0;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cc-t{font-size:12px;font-weight:700;color:#334155;line-height:1.15}
+.cc-s{font-size:11px;color:#94a3b8;margin-top:1px}
+.user-card{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e7eefb;border-radius:12px;padding:8px 10px}
+.user-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c5cff,#5b6bf0);color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center}
+.uc-name{font-size:13.5px;font-weight:800;color:#1e2d54;line-height:1.15}
+.uc-role{font-size:11.5px;color:#7c8aa5}
+.app-main{position:relative;background:var(--bg2);display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.content-area{position:relative;padding:18px 22px;flex:1;min-height:0;overflow:hidden}
+
+/* ── Componentes (styles.css) ── */
+.page-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.page-header h2{margin:0;color:#1e2d54;font-size:32px}
+.page-sub{color:var(--muted);margin-top:6px}
+.card,.tile{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px}
+.card h3{margin:0 0 8px;font-size:17px}
+.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;color:var(--text)}
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;white-space:nowrap}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:linear-gradient(180deg,#2a52be 0%,#1F409C 100%);color:#fff;box-shadow:0 8px 18px rgba(31,64,156,.28),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-ghost{background:#fff;border:1px solid var(--line);color:var(--text)}
+.btn-soft{background:#e8f0fd;border:1px solid #cfe0fa;color:#1F409C}
+.btn-soft-danger{background:#fdeaea;border:1px solid #f3cccc;color:#c0392b}
+.btn-danger{background:#ef4444;color:#fff}
+.btn-xs{padding:7px 10px;font-size:12px;border-radius:8px}
+.input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text);font-size:14px;min-height:45px;display:flex;align-items:center}
+.input.foco{border-color:var(--blue);box-shadow:0 0 0 4px rgba(31,64,156,.15)}
+.lbl{font-weight:700;color:var(--text);font-size:14px;margin:10px 0 6px;display:block}
+.table-wrap{overflow:hidden;border:1px solid rgba(40,75,133,.08);border-radius:16px;background:#fff}
+.table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+.table thead th{background:#edf5fc;color:#294d82;font-weight:900;border-bottom:1px solid #d0d5dd;border-right:1px solid #d0d5dd;text-align:left}
+.table th,.table td{padding:12px;border-bottom:1px solid #e8ecf0;border-right:1px solid #e8ecf0;text-align:left}
+.table td:last-child,.table th:last-child{border-right:none}
+.num{text-align:right!important;font-variant-numeric:tabular-nums}
+
+/* Modales (Modal / fias-pop) */
+.modal-backdrop{position:absolute;inset:0;background:rgba(18,35,62,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.modal-card{position:absolute;display:flex;flex-direction:column;background:#fff;border-radius:22px;border:1px solid rgba(40,75,133,.10);box-shadow:0 30px 70px rgba(15,23,42,.22);overflow:hidden}
+.modal-head,.modal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;border-bottom:1px solid #edf4fa}
+.modal-foot{border-top:1px solid #edf4fa;border-bottom:none;justify-content:flex-end;margin-top:auto}
+.modal-title{font-size:20px;font-weight:900;color:#214172}
+.modal-body{padding:18px;flex:1}
+.cerrar{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:18px}
+
+/* Filas que se agregan / eligen (keyframes reales pickedFlash / rowAddedFlash) */
+.flash{background:rgba(112,185,102,.22)!important}
+
+/* Barra "Analizando" real (.lp-progress) */
+.lp-progress{position:relative;width:86px;height:8px;background:#e9eef5;border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle}
+.lp-progress i{position:absolute;top:0;left:0;height:100%;width:40%;background:linear-gradient(90deg,#2a52be,#5b8def);border-radius:6px}
+
+/* ── Capa de la animación (no es del programa) ── */
+#cursor{position:absolute;left:0;top:0;width:22px;height:22px;z-index:50;pointer-events:none}
+#pulso{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:3px solid #2563EB;z-index:49;opacity:0}
+#subt{position:absolute;left:50%;bottom:16px;z-index:60;background:rgba(255,255,255,.97);color:var(--navy);font-weight:800;font-size:34px;line-height:1.15;padding:8px 22px;border-radius:14px;box-shadow:0 8px 24px rgba(30,41,59,.14);white-space:nowrap;transform:translateX(-50%)}
+.tilde{position:absolute;width:74px;height:74px;border-radius:50%;background:var(--verde-fias);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(92,184,72,.4);z-index:55}
+.tilde svg{width:40px;height:40px}
+
+/* Botón de pausa / reproducir */
+#pp{position:absolute;left:16px;bottom:18px;z-index:70;width:60px;height:60px;border-radius:50%;border:none;background:rgba(30,45,84,.82);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 20px rgba(15,23,42,.25);opacity:.9;transition:opacity .15s,transform .15s}
+#pp:hover{opacity:1;transform:scale(1.06)}
+#pp:focus-visible{outline:3px solid #5CB848;outline-offset:3px}
+#pp svg{width:26px;height:26px}
+#stage{cursor:pointer}

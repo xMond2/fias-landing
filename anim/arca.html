@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: facturación con ARCA en FIAS</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+.pg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.pg-tit{display:flex;align-items:center;gap:14px}
+.pg-logo{width:54px;height:54px;border-radius:14px;background:#eaf1fd;color:#2f5fd0;display:flex;align-items:center;justify-content:center}
+.pg-logo svg{width:28px;height:28px}
+.pg-head h2{font-size:30px;font-weight:700;color:#1e2d54;margin:0}
+.pg-head .page-sub{margin-top:2px;font-size:16px}
+.alert-success{background:#f0faf4;border:1px solid #bfe8cf;color:#166534;border-radius:16px;padding:16px 18px;font-size:15px;line-height:1.5}
+.icon-btn{width:36px;height:36px;border-radius:50%;background:#eef5fb;color:#2a4d85;display:flex;align-items:center;justify-content:center}
+
+.pos-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pos-top .pg-tit{gap:12px}.pos-top h2{font-size:28px;margin:0;color:#1e2d54}
+.pos-search{display:flex;gap:8px;align-items:center}
+.pos-search .input{width:380px;min-height:44px;padding:10px 14px;font-size:13.5px;color:#94a3b8}
+.btn-buscar{background:#2563eb;color:#fff;border-radius:12px;padding:12px 18px;font-weight:700;font-size:14px}
+.pos-wrap{background:#fff;border-radius:16px;padding:14px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.excel-wrap{border:1px solid #e8edf5;border-radius:14px;padding:6px;overflow:hidden}
+table.excel{width:100%;border-collapse:collapse;table-layout:fixed}
+table.excel th{background:#fbfcfe;color:#475569;font-weight:600;font-size:14px;text-align:center;padding:9px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7}
+table.excel td{padding:6px 8px;height:46px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;text-align:center;font-size:14px;color:#1e2d54}
+table.excel td:last-child,table.excel th:last-child{border-right:none}
+.cell-foco{background:#fffdf2!important;box-shadow:inset 0 0 0 2px rgba(239,150,64,.25);border-radius:8px}
+.mb{display:inline-flex;width:30px;height:30px;border-radius:10px;align-items:center;justify-content:center;font-weight:900;font-size:13px}
+.mb.dev{background:#ffe8b1;color:#8d6418}.mb.del{background:#ffd5d1;color:#9a342a}
+.pos-footer{display:flex;align-items:center;gap:22px;margin-top:14px}
+.totals{min-width:300px;background:#fff;border:1px solid rgba(40,75,133,.08);border-radius:18px;box-shadow:0 10px 24px rgba(35,62,108,.05);padding:6px 14px}
+.kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf4fa;font-size:14px}
+.kv .k{font-weight:800;color:#355687}.kv .v{font-weight:900;color:#183768;font-variant-numeric:tabular-nums}.kv.big{border-bottom:none}.kv.big .k,.kv.big .v{font-size:22px}
+.pos-actions{display:flex;gap:12px;flex:1;justify-content:center}
+.pa-btn{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:17px 10px;font-weight:700;font-size:16px;border:1px solid transparent;width:150px}
+.pa-btn svg{width:21px;height:21px}
+.pa-vender{background:#2563eb;color:#fff;box-shadow:0 8px 18px rgba(37,99,235,.30)}.pa-fiar{background:#e8f0fd;color:#1F409C;border-color:#cfe0fa}
+.pa-presu{background:#eafaf1;color:#1f9d55;border-color:#c6ecd6}.pa-limpiar{background:#fdeaea;color:#c0392b;border-color:#f3cccc}
+.fias-ov{position:absolute;inset:0;background:rgba(18,35,62,.30);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.tbl-rev{width:100%;border-collapse:collapse}
+.tbl-rev th{background:#fbfcfe;color:#475569;font-weight:600;font-size:13.5px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;text-align:center;padding:9px}
+.tbl-rev td{border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;color:#334155;font-size:13px;text-align:center;padding:7px 8px;height:43px;white-space:nowrap}
+.tbl-rev td:last-child,.tbl-rev th:last-child{border-right:none}
+.bus-in{height:42px;border:1.5px solid #2563eb;border-radius:12px;background:#f7faff;padding-left:40px;display:flex;align-items:center;font-size:14px;color:#1e2d54;position:relative;margin-bottom:12px}
+.bus-in svg{position:absolute;left:13px;color:#2563eb}
+.pm-x{position:absolute;top:18px;right:18px;background:#eef5fb;color:#5b6b85;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.pm-hd{display:flex;align-items:center;gap:15px;padding:2px 0 18px;border-bottom:1px solid #eef2f7;margin-bottom:20px}
+.pm-circ{width:56px;height:56px;border-radius:50%;background:#e8f0fd;color:#1F409C;display:flex;align-items:center;justify-content:center}
+.pm-ttl{font-size:22px;font-weight:800;color:#1f3a63}.pm-sub{font-size:14px;color:#64748b;margin:0 0 16px}
+.pm-grid{display:flex;gap:14px}
+.pm-card{flex:1;min-width:96px;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 10px;text-align:center;background:#fff}
+.pm-card.hov{border-color:#1F409C;background:#f5f9ff}
+.pm-cardico{color:#1F409C;margin-bottom:10px}.pm-cardico svg{width:26px;height:26px}.pm-cardlbl{font-size:13.5px;font-weight:600;color:#3a4a63}
+.fv{text-align:center}.fv-circ{width:66px;height:66px;border-radius:50%;background:#1F409C;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.fv-ttl{font-size:23px;font-weight:800;color:#1f2d4a}.fv-sub{color:#64748b;font-size:14.5px;margin:4px 0 14px}
+.pm-totalbox{background:#eef4fe;border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#5a6b86}
+.pm-totalbox b{color:#1F409C;font-weight:800;font-size:17px}
+.fv-btns{display:flex;gap:10px;margin-top:16px}.fv-btns .btn{flex:1}
+.docfoot .btn{border-radius:16px;padding:14px 26px;font-size:16px}.docfoot .btn-ghost svg{color:#2563eb}
+.doc-wrap{background:#5b6068;border-radius:14px;height:100%;position:relative;overflow:hidden}
+.ticket{position:absolute;left:50%;top:22px;width:330px;margin-left:-165px;background:#fff;padding:18px 20px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#111;box-shadow:0 8px 30px rgba(0,0,0,.35);line-height:1.55}
+.ticket .c{text-align:center}.ticket .r{display:flex;justify-content:space-between}.ticket hr{border:none;border-top:1px dashed #999;margin:6px 0}
+.agregado{color:#2f7d4a;font-size:13px;font-weight:600;margin-top:10px}
+.content-area{padding:30px 34px}
+.det{border:1px solid #e5e9f2;border-radius:12px;overflow:hidden;margin-bottom:6px}
+.det-h{display:flex;justify-content:space-between;background:#f5f8fd;padding:9px 12px;font-size:13px;font-weight:700;color:#334155}
+.dt{width:100%;border-collapse:collapse;font-size:12.5px}.dt th{text-align:center;color:#64748b;font-weight:700;padding:6px 8px;border-bottom:1px solid #eef2f7}.dt td{text-align:center;padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155}
+.det-t{text-align:right;padding:9px 12px;font-weight:900;color:#12233f;font-size:14px}
+.input.sel{background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6b8c' stroke-width='2'%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:15px}
+#hojaWrap{position:absolute;left:50%;top:14px;width:794px;height:1123px;margin-left:-397px;transform-origin:50% 0}
+.sheet{width:794px;height:1123px;background:#fff;padding:34px 36px;box-shadow:0 8px 30px rgba(0,0,0,.35);font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#111}
+.marco{border:1.6px solid #111;height:100%;display:flex;flex-direction:column}
+.fh{display:flex;position:relative;border-bottom:1.6px solid #111}.fh-l,.fh-r{flex:1;padding:18px 20px;font-size:12px;line-height:1.55}.fh-l{border-right:1.6px solid #111}.fh-r{text-align:right}
+.letra{position:absolute;left:50%;top:-1px;width:54px;height:58px;margin-left:-27px;background:#fff;border:1.6px solid #111;border-top:none;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.letra b{font-size:32px;font-weight:800;line-height:1}.letra small{font-size:8.5px}
+.rec{display:flex;justify-content:space-between;padding:10px 20px;border-bottom:1.6px solid #111;font-size:12px}
+.ft{width:100%;border-collapse:collapse;font-size:12.5px}.ft th{font-size:11.5px;background:#f7f7f7;border-bottom:1.2px solid #111;padding:7px 10px;text-align:left}.ft td{padding:7px 10px;border-bottom:1px solid #ddd}
+.ftot{align-self:flex-end;width:300px;display:flex;justify-content:space-between;font-size:17px;border-top:1.6px solid #111;padding:8px 20px;margin-bottom:10px}
+.pie{display:flex;align-items:center;gap:16px;border-top:1.6px solid #111;padding:14px 20px;font-size:12.5px;line-height:1.7}
+#portada{position:absolute;inset:0;z-index:45;overflow:hidden;background:linear-gradient(115deg,#4f8ff5 0%,#6fb1f8 45%,#a9dcff 100%);color:#fff;font-family:Inter,sans-serif}
+#portada::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 30% 40%,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at 30% 40%,#000 30%,transparent 75%)}
+#portada .pt-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),transparent 65%);right:-120px;top:-160px}
+#portada .pt-logo{position:absolute;left:44px;top:36px;display:flex;align-items:center;gap:10px;font:900 20px Inter;color:#0a2540}
+#portada .pt-logo img{width:28px;height:28px}
+#portada .pt-txt{position:absolute;left:44px;top:120px;width:450px}
+#portada .pt-kick{display:inline-flex;background:#0a2540;color:#fff;font:700 14px Inter;padding:7px 14px;border-radius:999px}
+#portada .pt-h{font:800 50px/1.04 Manrope,Inter,sans-serif;letter-spacing:-.035em;color:#0a2540;margin-top:18px}
+#portada .pt-h .w{color:#fff}
+#portada .pt-sub{font:500 20px/1.4 Inter;color:#123a6b;margin-top:14px}
+#portada .pt-card{position:absolute;background:#fff;border-radius:18px;box-shadow:0 30px 60px -20px rgba(10,37,64,.45);color:#0a2540}
+#portada .pt-til{position:absolute;width:64px;height:64px;border-radius:50%;background:#5CB848;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(92,184,72,.5)}
+#portada .pt-til svg{width:34px}
+#portada .pt-chip{position:absolute;background:#fff;color:#1d4fd7;font:800 13px Inter;border-radius:999px;padding:6px 12px;box-shadow:0 6px 16px rgba(10,37,64,.15)}
+#portada .mono{font-family:ui-monospace,Menlo,monospace}
+#portada .fl{display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="fias">
+<div class="app-shell"><aside class="sidebar">
+ <div class="sidebar-top"><div class="sidebar-mini"><img src="logo_fias.png" alt="FIAS"><span>FIAS™</span></div><div class="small">Sistema de Gestión</div></div>
+ <nav class="side-nav"><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg></span><span>Inicio</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L22 7H6"/></svg></span><span>Ventas</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16.5 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Fiados</span></div><div class="side-link active"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span><span>Comprobantes</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg></span><span>Productos</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>Boletas de compra</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M15.5 8.8c-.6-1-1.8-1.6-3.5-1.6-2 0-3.2 1-3.2 2.4 0 3.4 7 1.7 7 5 0 1.5-1.4 2.5-3.7 2.5-1.9 0-3.2-.8-3.7-1.9"/><line x1="12" y1="5.4" x2="12" y2="18.6"/></svg></span><span>Cierre de Caja</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="13"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="9"/></svg></span><span>Informes</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Configuración</span></div></nav>
+ <div class="sidebar-foot">
+  <div class="cloud-card"><span class="cloud-ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span><div><div class="cc-t">Copia de seguridad</div><div class="cc-s">Próxima en 44 min</div></div></div>
+  <div class="user-card"><span class="user-av">A</span><div style="flex:1"><div class="uc-name">Admin</div><div class="uc-role">Administrador</div></div><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8fa0bd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+ </div>
+</aside><section class="app-main"><main class="content-area"><div class="pg-head"><div class="pg-tit"><div class="pg-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><h2>Comprobantes</h2><div class="page-sub">Ventas, fiados, pagos de fiados, devoluciones y salidas.</div></div></div></div>
+<div class="card" style="padding:0;overflow:hidden"><table class="tbl-rev"><tr><th>Fecha</th><th>N°</th><th>Medio</th><th>Fact.</th><th>Nota</th><th>Total</th><th></th></tr>
+<tr><td>26/09/2026 10:42</td><td>V-00004821</td><td>Efectivo</td><td id="factCol">NO</td><td>—</td><td>$ 13.505,50</td><td><span class="btn btn-ghost btn-xs">Facturar</span> <span class="btn btn-primary btn-xs" id="bVer">Ver</span></td></tr>
+<tr><td>26/09/2026 10:15</td><td>V-00004820</td><td>Transferencia</td><td>NO</td><td>—</td><td>$ 18.450,00</td><td><span class="btn btn-ghost btn-xs">Facturar</span> <span class="btn btn-primary btn-xs">Ver</span></td></tr>
+<tr><td>26/09/2026 09:58</td><td>V-00004819</td><td>Efectivo</td><td style="color:#15803d;font-weight:700">Factura C</td><td>—</td><td>$ 7.320,00</td><td><span class="btn btn-ghost btn-xs">NC</span> <span class="btn btn-primary btn-xs">Ver</span></td></tr>
+<tr><td>25/09/2026 19:40</td><td>V-00004818</td><td>Posnet</td><td>NO</td><td>—</td><td>$ 42.980,00</td><td><span class="btn btn-ghost btn-xs">Facturar</span> <span class="btn btn-primary btn-xs">Ver</span></td></tr></table></div></main></section></div><div class="modal-backdrop oculto" id="velo"></div><div class="modal-card oculto" id="mDoc" style="left:60px;top:10px;width:1160px;height:606px">
+ <div class="modal-head"><div class="modal-title" id="docT">Comprobante</div><span class="icon-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+ <div class="modal-body" style="padding:14px 18px"><div class="doc-wrap"><div class="ticket"><div class="c"><b style="font-size:15px">Comercio Demo</b><br>Av. Siempreviva 742<br>CUIT 20-00000000-0</div><hr><div class="c"><b>VENTA</b> N° V-00004821<br>26/09/2026 10:42</div><hr><div>1 x Tornillo autoperforante 8x1" x100</div><div class="r"><span>$6655.50</span><span>$6655.50</span></div><div>1 x Tornillo fix 8 mm c/tarugo x50</div><div class="r"><span>$3980.00</span><span>$3980.00</span></div><div>1 x Tornillo madera 4x40 x100</div><div class="r"><span>$2870.00</span><span>$2870.00</span></div><hr><div class="r" style="font-size:15px"><b>TOTAL</b><b>$13505.50</b></div><div>Medio de pago: Efectivo</div><hr><div class="c">¡Gracias por su compra!</div></div><div id="hojaWrap"><div class="sheet"><div class="marco">
+ <div class="fh"><div class="fh-l"><div style="font-size:21px;font-weight:800">Comercio Demo</div>Av. Siempreviva 742<br><b>CUIT:</b> 20-00000000-0<br><b>Condición frente al IVA:</b> Responsable Monotributo<br><b>Ingresos Brutos:</b> 20-00000000-0<br><b>Inicio de actividades:</b> 01/03/2020</div>
+  <div class="letra"><b>C</b><small>COD. 11</small></div>
+  <div class="fh-r"><div style="font-size:19px;font-weight:800">FACTURA C</div><div style="font-size:14px;font-weight:700">N° 0001-00000023</div><b>Fecha de emisión:</b> 2026-09-26<br><b>Punto de venta:</b> 0001</div></div>
+ <div class="rec"><span><b>Cliente:</b> Consumidor Final</span><span><b>Forma de pago:</b> Efectivo · <b>Condición frente al IVA:</b> Consumidor Final</span></div>
+ <table class="ft"><tr><th>CÓDIGO</th><th>DESCRIPCIÓN</th><th>CANT.</th><th>P. UNITARIO</th><th>IMPORTE</th></tr><tr><td>4410</td><td>Tornillo autoperforante 8x1" x100</td><td>1</td><td>$ 6655.50</td><td>$ 6655.50</td></tr><tr><td>4415</td><td>Tornillo fix 8 mm c/tarugo x50</td><td>1</td><td>$ 3980.00</td><td>$ 3980.00</td></tr><tr><td>4432</td><td>Tornillo madera 4x40 x100</td><td>1</td><td>$ 2870.00</td><td>$ 2870.00</td></tr></table>
+ <div style="flex:1"></div><div class="ftot"><b>TOTAL</b><b>$ 13505.50</b></div>
+ <div class="pie" id="pie"><svg viewBox="0 0 92 92" width="92" height="92" fill="#111"><rect x="0" y="0" width="4" height="4"/><rect x="4" y="0" width="4" height="4"/><rect x="8" y="0" width="4" height="4"/><rect x="12" y="0" width="4" height="4"/><rect x="16" y="0" width="4" height="4"/><rect x="20" y="0" width="4" height="4"/><rect x="24" y="0" width="4" height="4"/><rect x="32" y="0" width="4" height="4"/><rect x="40" y="0" width="4" height="4"/><rect x="52" y="0" width="4" height="4"/><rect x="60" y="0" width="4" height="4"/><rect x="64" y="0" width="4" height="4"/><rect x="68" y="0" width="4" height="4"/><rect x="72" y="0" width="4" height="4"/><rect x="76" y="0" width="4" height="4"/><rect x="80" y="0" width="4" height="4"/><rect x="84" y="0" width="4" height="4"/><rect x="88" y="0" width="4" height="4"/><rect x="0" y="4" width="4" height="4"/><rect x="4" y="4" width="4" height="4"/><rect x="16" y="4" width="4" height="4"/><rect x="24" y="4" width="4" height="4"/><rect x="36" y="4" width="4" height="4"/><rect x="44" y="4" width="4" height="4"/><rect x="56" y="4" width="4" height="4"/><rect x="64" y="4" width="4" height="4"/><rect x="76" y="4" width="4" height="4"/><rect x="84" y="4" width="4" height="4"/><rect x="88" y="4" width="4" height="4"/><rect x="0" y="8" width="4" height="4"/><rect x="4" y="8" width="4" height="4"/><rect x="8" y="8" width="4" height="4"/><rect x="12" y="8" width="4" height="4"/><rect x="16" y="8" width="4" height="4"/><rect x="20" y="8" width="4" height="4"/><rect x="24" y="8" width="4" height="4"/><rect x="40" y="8" width="4" height="4"/><rect x="44" y="8" width="4" height="4"/><rect x="60" y="8" width="4" height="4"/><rect x="64" y="8" width="4" height="4"/><rect x="72" y="8" width="4" height="4"/><rect x="76" y="8" width="4" height="4"/><rect x="80" y="8" width="4" height="4"/><rect x="84" y="8" width="4" height="4"/><rect x="88" y="8" width="4" height="4"/><rect x="0" y="12" width="4" height="4"/><rect x="8" y="12" width="4" height="4"/><rect x="12" y="12" width="4" height="4"/><rect x="16" y="12" width="4" height="4"/><rect x="24" y="12" width="4" height="4"/><rect x="64" y="12" width="4" height="4"/><rect x="72" y="12" width="4" height="4"/><rect x="76" y="12" width="4" height="4"/><rect x="80" y="12" width="4" height="4"/><rect x="88" y="12" width="4" height="4"/><rect x="0" y="16" width="4" height="4"/><rect x="8" y="16" width="4" height="4"/><rect x="12" y="16" width="4" height="4"/><rect x="16" y="16" width="4" height="4"/><rect x="24" y="16" width="4" height="4"/><rect x="32" y="16" width="4" height="4"/><rect x="36" y="16" width="4" height="4"/><rect x="52" y="16" width="4" height="4"/><rect x="56" y="16" width="4" height="4"/><rect x="64" y="16" width="4" height="4"/><rect x="72" y="16" width="4" height="4"/><rect x="76" y="16" width="4" height="4"/><rect x="80" y="16" width="4" height="4"/><rect x="88" y="16" width="4" height="4"/><rect x="0" y="20" width="4" height="4"/><rect x="12" y="20" width="4" height="4"/><rect x="20" y="20" width="4" height="4"/><rect x="24" y="20" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="40" y="20" width="4" height="4"/><rect x="52" y="20" width="4" height="4"/><rect x="60" y="20" width="4" height="4"/><rect x="64" y="20" width="4" height="4"/><rect x="72" y="20" width="4" height="4"/><rect x="80" y="20" width="4" height="4"/><rect x="88" y="20" width="4" height="4"/><rect x="0" y="24" width="4" height="4"/><rect x="4" y="24" width="4" height="4"/><rect x="8" y="24" width="4" height="4"/><rect x="12" y="24" width="4" height="4"/><rect x="16" y="24" width="4" height="4"/><rect x="20" y="24" width="4" height="4"/><rect x="24" y="24" width="4" height="4"/><rect x="36" y="24" width="4" height="4"/><rect x="44" y="24" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="24" width="4" height="4"/><rect x="68" y="24" width="4" height="4"/><rect x="72" y="24" width="4" height="4"/><rect x="76" y="24" width="4" height="4"/><rect x="80" y="24" width="4" height="4"/><rect x="84" y="24" width="4" height="4"/><rect x="88" y="24" width="4" height="4"/><rect x="0" y="28" width="4" height="4"/><rect x="4" y="28" width="4" height="4"/><rect x="20" y="28" width="4" height="4"/><rect x="24" y="28" width="4" height="4"/><rect x="40" y="28" width="4" height="4"/><rect x="44" y="28" width="4" height="4"/><rect x="60" y="28" width="4" height="4"/><rect x="64" y="28" width="4" height="4"/><rect x="80" y="28" width="4" height="4"/><rect x="84" y="28" width="4" height="4"/><rect x="12" y="36" width="4" height="4"/><rect x="16" y="36" width="4" height="4"/><rect x="32" y="36" width="4" height="4"/><rect x="36" y="36" width="4" height="4"/><rect x="52" y="36" width="4" height="4"/><rect x="56" y="36" width="4" height="4"/><rect x="72" y="36" width="4" height="4"/><rect x="76" y="36" width="4" height="4"/><rect x="0" y="40" width="4" height="4"/><rect x="12" y="40" width="4" height="4"/><rect x="20" y="40" width="4" height="4"/><rect x="32" y="40" width="4" height="4"/><rect x="40" y="40" width="4" height="4"/><rect x="52" y="40" width="4" height="4"/><rect x="60" y="40" width="4" height="4"/><rect x="72" y="40" width="4" height="4"/><rect x="80" y="40" width="4" height="4"/><rect x="4" y="44" width="4" height="4"/><rect x="16" y="44" width="4" height="4"/><rect x="24" y="44" width="4" height="4"/><rect x="36" y="44" width="4" height="4"/><rect x="44" y="44" width="4" height="4"/><rect x="56" y="44" width="4" height="4"/><rect x="64" y="44" width="4" height="4"/><rect x="76" y="44" width="4" height="4"/><rect x="84" y="44" width="4" height="4"/><rect x="0" y="48" width="4" height="4"/><rect x="4" y="48" width="4" height="4"/><rect x="20" y="48" width="4" height="4"/><rect x="24" y="48" width="4" height="4"/><rect x="40" y="48" width="4" height="4"/><rect x="44" y="48" width="4" height="4"/><rect x="60" y="48" width="4" height="4"/><rect x="64" y="48" width="4" height="4"/><rect x="80" y="48" width="4" height="4"/><rect x="84" y="48" width="4" height="4"/><rect x="12" y="56" width="4" height="4"/><rect x="16" y="56" width="4" height="4"/><rect x="32" y="56" width="4" height="4"/><rect x="36" y="56" width="4" height="4"/><rect x="52" y="56" width="4" height="4"/><rect x="56" y="56" width="4" height="4"/><rect x="72" y="56" width="4" height="4"/><rect x="76" y="56" width="4" height="4"/><rect x="0" y="60" width="4" height="4"/><rect x="12" y="60" width="4" height="4"/><rect x="20" y="60" width="4" height="4"/><rect x="32" y="60" width="4" height="4"/><rect x="40" y="60" width="4" height="4"/><rect x="52" y="60" width="4" height="4"/><rect x="60" y="60" width="4" height="4"/><rect x="72" y="60" width="4" height="4"/><rect x="80" y="60" width="4" height="4"/><rect x="0" y="64" width="4" height="4"/><rect x="4" y="64" width="4" height="4"/><rect x="8" y="64" width="4" height="4"/><rect x="12" y="64" width="4" height="4"/><rect x="16" y="64" width="4" height="4"/><rect x="20" y="64" width="4" height="4"/><rect x="24" y="64" width="4" height="4"/><rect x="36" y="64" width="4" height="4"/><rect x="44" y="64" width="4" height="4"/><rect x="56" y="64" width="4" height="4"/><rect x="64" y="64" width="4" height="4"/><rect x="76" y="64" width="4" height="4"/><rect x="84" y="64" width="4" height="4"/><rect x="0" y="68" width="4" height="4"/><rect x="4" y="68" width="4" height="4"/><rect x="20" y="68" width="4" height="4"/><rect x="24" y="68" width="4" height="4"/><rect x="40" y="68" width="4" height="4"/><rect x="44" y="68" width="4" height="4"/><rect x="60" y="68" width="4" height="4"/><rect x="64" y="68" width="4" height="4"/><rect x="80" y="68" width="4" height="4"/><rect x="84" y="68" width="4" height="4"/><rect x="0" y="72" width="4" height="4"/><rect x="8" y="72" width="4" height="4"/><rect x="12" y="72" width="4" height="4"/><rect x="16" y="72" width="4" height="4"/><rect x="24" y="72" width="4" height="4"/><rect x="0" y="76" width="4" height="4"/><rect x="8" y="76" width="4" height="4"/><rect x="12" y="76" width="4" height="4"/><rect x="16" y="76" width="4" height="4"/><rect x="24" y="76" width="4" height="4"/><rect x="32" y="76" width="4" height="4"/><rect x="36" y="76" width="4" height="4"/><rect x="52" y="76" width="4" height="4"/><rect x="56" y="76" width="4" height="4"/><rect x="72" y="76" width="4" height="4"/><rect x="76" y="76" width="4" height="4"/><rect x="0" y="80" width="4" height="4"/><rect x="8" y="80" width="4" height="4"/><rect x="12" y="80" width="4" height="4"/><rect x="16" y="80" width="4" height="4"/><rect x="20" y="80" width="4" height="4"/><rect x="24" y="80" width="4" height="4"/><rect x="32" y="80" width="4" height="4"/><rect x="40" y="80" width="4" height="4"/><rect x="52" y="80" width="4" height="4"/><rect x="60" y="80" width="4" height="4"/><rect x="72" y="80" width="4" height="4"/><rect x="80" y="80" width="4" height="4"/><rect x="0" y="84" width="4" height="4"/><rect x="4" y="84" width="4" height="4"/><rect x="16" y="84" width="4" height="4"/><rect x="24" y="84" width="4" height="4"/><rect x="36" y="84" width="4" height="4"/><rect x="44" y="84" width="4" height="4"/><rect x="56" y="84" width="4" height="4"/><rect x="64" y="84" width="4" height="4"/><rect x="76" y="84" width="4" height="4"/><rect x="84" y="84" width="4" height="4"/><rect x="0" y="88" width="4" height="4"/><rect x="4" y="88" width="4" height="4"/><rect x="8" y="88" width="4" height="4"/><rect x="12" y="88" width="4" height="4"/><rect x="16" y="88" width="4" height="4"/><rect x="20" y="88" width="4" height="4"/><rect x="24" y="88" width="4" height="4"/><rect x="40" y="88" width="4" height="4"/><rect x="44" y="88" width="4" height="4"/><rect x="60" y="88" width="4" height="4"/><rect x="64" y="88" width="4" height="4"/><rect x="80" y="88" width="4" height="4"/><rect x="84" y="88" width="4" height="4"/></svg><div><b style="font-size:14px">CAE: 76395128463827</b><br>Vencimiento CAE: 06/10/2026<br>Comprobante autorizado por ARCA</div></div>
+</div></div></div></div></div>
+ <div class="modal-foot docfoot"><div class="btn btn-ghost" style="margin-right:auto">Cerrar</div><div class="btn btn-ghost"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Compartir</div><div class="btn btn-ghost" id="bFacturar"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Facturar</div><div class="btn btn-primary"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</div></div></div><div class="modal-card oculto" id="mFac" style="left:320px;top:40px;width:640px">
+ <div class="modal-head"><div class="modal-title">Factura de venta</div><span class="icon-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+ <div class="modal-body"><div class="det"><div class="det-h"><span>Detalle que va en la factura</span><span>Efectivo</span></div>
+  <table class="dt"><tr><th>Código</th><th>Producto</th><th>Cant.</th><th>P. unit.</th><th>Total</th></tr><tr><td>4410</td><td style="text-align:left">Tornillo autoperforante 8x1" x100</td><td>1</td><td>$ 6.655,50</td><td>$ 6.655,50</td></tr><tr><td>4415</td><td style="text-align:left">Tornillo fix 8 mm c/tarugo x50</td><td>1</td><td>$ 3.980,00</td><td>$ 3.980,00</td></tr><tr><td>4432</td><td style="text-align:left">Tornillo madera 4x40 x100</td><td>1</td><td>$ 2.870,00</td><td>$ 2.870,00</td></tr></table>
+  <div class="det-t">Total $ 13.505,50</div></div>
+  <label class="lbl">Buscar cliente guardado</label><div class="input" style="color:#94a3b8">Escribí el nombre, DNI o CUIT…</div>
+  <label class="lbl">Cliente</label><div class="input sel">Consumidor final (sin identificar)</div></div>
+ <div class="modal-foot"><div class="btn btn-ghost">Cancelar</div><div class="btn btn-primary" id="bEmitir">Emitir factura</div></div></div>
+</div>
+<div class="tilde oculto" id="tilde" style="left:780px;top:60px"><svg viewBox="0 0 40 40"><path d="M9 21l7 7 15-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div id="portada"><div class="pt-glow"></div><div class="pt-logo" data-d="0"><img src="logo_fias.png" alt="">FIAS™</div><div class="pt-txt"><span class="pt-kick" data-d="100">Facturación ARCA</span><div class="pt-h"><div data-d="250">Facturás</div><div class="w" data-d="400">en dos clics.</div></div><p class="pt-sub" data-d="600">Desde el comprobante: Facturar, Emitir. Factura C con CAE y QR.</p></div><div class="pt-card" data-pop="750" style="right:70px;top:90px;width:300px;height:370px;padding:20px;border-radius:6px;font:11px Arial;color:#111"><div class="fl" style="border-bottom:1.5px solid #111;padding-bottom:10px"><div><b style="font-size:14px">Comercio Demo</b><br>Monotributo</div><div style="width:40px;height:44px;border:1.5px solid #111;border-top:none;display:flex;align-items:center;justify-content:center;font:800 24px Arial">C</div><div style="text-align:right"><b>FACTURA C</b><br>0001-00000023</div></div><div style="margin-top:14px;line-height:1.9">Tornillo autoperforante x100 ... $6.655,50<br>Tornillo fix 8 mm x50 .......... $3.980,00<br>Tornillo madera x100 ........... $2.870,00</div><div style="text-align:right;font:800 16px Arial;margin-top:10px">TOTAL $ 13.505,50</div><div style="position:absolute;left:20px;right:20px;bottom:20px;display:flex;gap:12px;align-items:center;border-top:1.5px solid #111;padding-top:12px"><div style="width:62px;height:62px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/10px 10px"></div><div><b>CAE: 76395128463827</b><br>Autorizado por ARCA</div></div></div><span class="pt-chip" data-pop="950" style="right:300px;top:390px">✓ CAE aprobado</span><div class="pt-til" data-pop="1150" style="right:40px;top:66px"><svg viewBox="0 0 40 40"><path d="M9 21l7 7 15-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div id="pulso"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l15 8-6.5 1.8L8.6 18z" fill="#1E2D54" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+<div id="subt"></div>
+</div>
+<script>
+(() => {
+const INTRO = 2800, SALTO = 0;
+
+const T_END = 11500, ESPERA = 1600, VIS = [300, 9000];
+const CAMINO = [[300, 900, 460], [900, "bVer"], [1300, "bVer"], [2200, "bFacturar"], [2600, "bFacturar"], [4000, "bEmitir"], [11500, "bEmitir"]];
+const CLICS = [1000, 2300, 4100];
+const SUBS = [[0, 2300, "Desde el comprobante: Facturar"], [2300, 4300, "Consumidor final, ya precargado"], [4300, 7300, "Emitís y ARCA le da el CAE"], [7300, 99999, "Factura C con CAE y QR"]];
+function escena(t) {
+  fondo($("velo"), [[1100, 0]], t);
+  modal($("mDoc"), t, 1100);
+  modal($("mFac"), t, 2450, 4250);
+  const esF = t >= 4400;
+  $("docT").textContent = esF ? "Factura C 0001-00000023" : "Comprobante";
+  S(document.querySelector(".ticket"), esF ? 0 : 1);
+  const h = eo(p(t, 4400, 4700));
+  // hoja A4 escalada para entrar; al final, zoom al pie con CAE y QR
+  const z = eio(p(t, 7200, 8600)), esc = .34 + (1.25 - .34) * z, dy = (200 - 1040 * 1.25) * z;
+  S($("hojaWrap"), esF ? h : 0, `translateY(${dy}px) scale(${esc})`);
+  $("factCol").textContent = esF ? "Factura C" : "NO";
+  pop($("tilde"), t, 9200);
+}
+
+const $ = id => document.getElementById(id);
+const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const p = (t, a, b) => cl((t - a) / (b - a));
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const back = x => { const c = 1.7, d = c + 1; return 1 + d * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const fmt = n => "$ " + n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const ent = n => Math.round(n).toLocaleString("es-AR");
+const S = (el, o, tr) => { el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; };
+const tipeo = (txt, t, a, b) => txt.slice(0, Math.round(txt.length * p(t, a, b)));
+const cursorTxt = (t, a, b) => (t > a && t < b && Math.floor(t / 380) % 2) ? "|" : "";
+// Entrada real de las ventanas de FIAS: fiasPopIn .22s cubic-bezier(.2,.8,.3,1) — escala .93 y 6 px
+const modal = (el, t, a, sale) => { const k = eo(p(t, a, a + 220)), o = sale ? 1 - p(t, sale, sale + 180) : 1; S(el, k * o, `translateY(${6 * (1 - k)}px) scale(${.93 + .07 * k})`); el.style.visibility = k * o > 0 ? "visible" : "hidden"; return k * o; };
+const fondo = (el, rangos, t) => { let o = 0; for (const [a, b] of rangos) o = Math.max(o, p(t, a, a + 200) * (b ? 1 - p(t, b, b + 180) : 1)); S(el, o); el.style.visibility = o > 0 ? "visible" : "hidden"; };
+const entra = (el, t, a, sale) => { const k = eo(p(t, a, a + 300)), o = sale ? 1 - p(t, sale, sale + 250) : 1; S(el, k * o, `translateY(${10 * (1 - k)}px)`); return k * o; };
+const pop = (el, t, a) => { const k = p(t, a, a + 450); S(el, k > 0 ? 1 : 0, `scale(${back(k)})`); };
+const stage = $("stage"); let K = 1, RUTA = [];
+const centro = (el, dx = 0, dy = 0) => { const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [(r.left - s.left + r.width / 2) / K + dx, (r.top - s.top + r.height / 2) / K + dy]; };
+function medir() { RUTA = CAMINO.map(c => typeof c[1] === "string" ? [c[0], ...centro($(c[1]), c[2] || 0, c[3] || 0)] : c); }
+function cursorEn(t) {
+  if (t <= RUTA[0][0]) return RUTA[0];
+  for (let i = 1; i < RUTA.length; i++) { const [t1, x1, y1] = RUTA[i], [t0, x0, y0] = RUTA[i - 1]; if (t <= t1) { const k = eio(p(t, t0, t1)); return [t, x0 + (x1 - x0) * k, y0 + (y1 - y0) * k]; } }
+  return RUTA[RUTA.length - 1];
+}
+let subActual = "";
+// Portada de apertura (anim_portadas.py): dura INTRO ms y después entra el programa
+const OFF = typeof INTRO === "number" ? INTRO : 0, SKIP = typeof SALTO === "number" ? SALTO : 0, FIN = OFF + T_END - SKIP;
+const PT = document.getElementById("portada");
+const ptEls = PT ? [...PT.querySelectorAll("[data-d],[data-pop]")] : [];
+ptEls.forEach(e => e.dataset.t0 = e.style.transform || "");
+function portada(tg) {
+  if (!PT) return;
+  ptEls.forEach(e => {
+    const pop = e.dataset.pop, d = +(pop || e.dataset.d), k = p(tg, d, d + (pop ? 550 : 450)), t0 = e.dataset.t0;
+    if (pop) S(e, k > 0 ? 1 : 0, `${t0} translateY(${22 * (1 - eo(k))}px) scale(${.86 + .14 * back(k)})`);
+    else S(e, eo(k), `${t0} translateY(${14 * (1 - eo(k))}px)`);
+  });
+  const out = p(tg, OFF - 450, OFF);
+  PT.style.opacity = 1 - out; PT.style.transform = `scale(${1 + .04 * out})`; PT.style.visibility = out >= 1 ? "hidden" : "visible";
+}
+function render(tg) {
+  portada(tg);
+  const t = Math.max(tg - OFF, 0) + SKIP, enProg = tg >= OFF - 150 ? 1 : 0;
+  escena(t);
+  const [, cx, cy] = cursorEn(t);
+  const vis = p(t, VIS[0], VIS[0] + 200) * (1 - p(t, VIS[1], VIS[1] + 300)) * enProg;
+  let esc = 1, pul = 0, pk = 0;
+  for (const c of CLICS) { const q = p(t, c, c + 450); if (q > 0 && q < 1) { pul = 1 - q; pk = q; esc = .82 + .18 * p(t, c + 60, c + 200); } }
+  S($("cursor"), vis, `translate(${cx}px,${cy}px) scale(${esc})`);
+  S($("pulso"), pul * vis, `translate(${cx}px,${cy}px) scale(${.4 + pk})`);
+  const s = SUBS.find(([a, b]) => t >= a && t < b);
+  if (s && s[2] !== subActual) { subActual = s[2]; $("subt").textContent = s[2]; }
+  const e = s ? (s[0] === 0 ? p(tg, OFF, OFF + 250) : p(t, s[0], s[0] + 220)) : 1;
+  S($("subt"), (PT ? enProg : 1) * (s && s[0] === 0 && !PT ? 1 : e), "translateX(-50%) translateY(" + 8 * (1 - e) + "px)");
+}
+function ajustar() { K = innerWidth / 960; stage.style.transform = `scale(${K})`; document.body.style.height = 540 * K + "px"; }
+addEventListener("resize", () => { ajustar(); medir(); }); ajustar();
+const TOTAL = FIN + 1500, reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let jugando = false, t0 = null, acum = 0, raf = 0;
+function paso(ahora) {
+  if (!jugando) return;
+  if (t0 === null) t0 = ahora - acum;
+  acum = (ahora - t0) % TOTAL; if (ahora - t0 >= TOTAL) t0 = ahora - acum;
+  render(Math.min(acum, FIN)); raf = requestAnimationFrame(paso);
+}
+// Botón de pausa / reproducir (el visitante manda: si pausó, la página no la reanuda sola)
+let pausadoPorUsuario = false, forzado = false;
+const IC_PAUSA = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>';
+const IC_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+const boton = document.createElement("button");
+boton.id = "pp"; boton.type = "button"; stage.appendChild(boton);
+function pintarBoton() { boton.innerHTML = jugando ? IC_PAUSA : IC_PLAY; boton.setAttribute("aria-label", jugando ? "Pausar animación" : "Reproducir animación"); boton.title = jugando ? "Pausar" : "Reproducir"; }
+function play() { if (jugando || (reducido && !forzado)) return; jugando = true; t0 = null; raf = requestAnimationFrame(paso); pintarBoton(); }
+function pausa() { jugando = false; cancelAnimationFrame(raf); pintarBoton(); }
+function alternar() { if (jugando) { pausadoPorUsuario = true; pausa(); } else { pausadoPorUsuario = false; forzado = true; play(); } }
+boton.addEventListener("click", e => { e.stopPropagation(); alternar(); });
+stage.addEventListener("click", alternar);
+addEventListener("keydown", e => { if (e.code === "Space" || e.key === "k") { e.preventDefault(); alternar(); } });
+pintarBoton();
+addEventListener("message", e => { const d = e.data || {}; if (d.fias === "play" && !pausadoPorUsuario) play(); if (d.fias === "pause") pausa(); });
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  if (typeof preparar === "function") preparar();
+  medir();
+  const q = new URLSearchParams(location.search);
+  if (q.has("t")) render(+q.get("t"));
+  else if (reducido) render(FIN);
+  else if (window.parent === window) play();
+  else render(PT ? 1700 : ESPERA);
+});
+
+})();
+</script>
+</body>
+</html>

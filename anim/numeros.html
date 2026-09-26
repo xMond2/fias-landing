@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: los informes de FIAS</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+.pg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.pg-tit{display:flex;align-items:center;gap:14px}
+.pg-logo{width:54px;height:54px;border-radius:14px;background:#eaf1fd;color:#2f5fd0;display:flex;align-items:center;justify-content:center}
+.pg-logo svg{width:28px;height:28px}
+.pg-head h2{font-size:30px;font-weight:700;color:#1e2d54;margin:0}
+.pg-head .page-sub{margin-top:2px;font-size:16px}
+.alert-success{background:#f0faf4;border:1px solid #bfe8cf;color:#166534;border-radius:16px;padding:16px 18px;font-size:15px;line-height:1.5}
+.icon-btn{width:36px;height:36px;border-radius:50%;background:#eef5fb;color:#2a4d85;display:flex;align-items:center;justify-content:center}
+
+.content-area{padding:30px 34px}
+.im-stats{background:#fff;border:1px solid #e8edf5;border-radius:18px;box-shadow:0 2px 12px rgba(30,41,59,.05);display:flex;padding:6px 0;margin-bottom:24px}
+.im-stat{flex:1;display:flex;align-items:center;gap:10px;padding:14px 14px;min-width:0}.im-stat+.im-stat{border-left:1px solid #e9eef7}
+.im-chip{width:54px;height:54px;border-radius:14px;background:#f3f6fb;border:1px solid #e9eef7;color:#2563eb;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.im-lbl{font-size:13px;color:#7c8aa3}.im-val{font-size:16px;font-weight:800;color:#1e2d54;font-variant-numeric:tabular-nums;white-space:nowrap}.im-sb{font-size:12.5px;color:#7c8aa3}
+.im-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.im-card{background:#fff;border:1px solid #e8edf5;border-radius:20px;box-shadow:0 2px 12px rgba(30,41,59,.05);display:flex;align-items:center;gap:26px;padding:30px 34px}
+.im-card.hov{transform:translateY(-2px);box-shadow:0 14px 30px rgba(30,41,59,.10);border-color:#c9d8f2}
+.im-ico{width:68px;height:68px;border-radius:18px;background:#f3f6fb;border:1px solid #e9eef7;color:#2563eb;display:flex;align-items:center;justify-content:center}
+.im-tt{font-size:21px;font-weight:800;color:#1e2d54}.im-sub{font-size:14.5px;color:#7c8aa3}
+.ing-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:16px}
+.ing-kpi{background:#fff;border:1px solid #e8edf5;border-radius:16px;padding:12px 16px;box-shadow:0 2px 10px rgba(30,41,59,.04)}
+.ik-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ik-ic.blue{background:#e8f0fd;color:#2f5fd0}.ik-ic.green{background:#e7f6ef;color:#16a34a}.ik-ic.red{background:#fdecec;color:#e5484d}.ik-ic.orange{background:#fff3e0;color:#ef8f1c}
+.ik-lbl{font-size:13px;color:#64748b;font-weight:600}.ik-val{font-size:21px;font-weight:800;color:#1e2d54;margin-top:11px;white-space:nowrap}.ik-val.neg{color:#e5484d}.ik-val.pos{color:#16a34a}.ik-sub{font-size:12px;color:#94a3b8}
+.caja-charts{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.barras{display:flex;align-items:flex-end;gap:7px;height:190px;border-bottom:1px solid rgba(120,130,160,.25);margin-top:10px}
+.bar{flex:1;max-width:46px;background:#1F409C;border-radius:5px 5px 0 0;transform-origin:50% 100%}
+.ley{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted)}.ley i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:5px}
+#dona{transform-origin:75px 75px}
+.iv-ic{width:48px;height:48px;border-radius:14px;background:#e9f0ff;color:#2563eb;display:flex;align-items:center;justify-content:center}
+.iva-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;border:1px solid #e7eef7;border-radius:18px;padding:20px 22px;box-shadow:0 6px 22px rgba(39,76,136,.06)}
+.iva-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc)}
+.iva-card .ic{width:52px;height:52px;border-radius:14px;background:var(--accbg);color:var(--acc);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.iva-card .tt{font-size:16px;font-weight:800;color:#1c2e57}.iva-card .sb{font-size:12.5px;color:#7c8aa3}.iva-card .monto{font-size:26px;font-weight:900;color:var(--acc);letter-spacing:-.5px;margin-top:6px;font-variant-numeric:tabular-nums}
+#portada{position:absolute;inset:0;z-index:45;overflow:hidden;background:linear-gradient(115deg,#4f8ff5 0%,#6fb1f8 45%,#a9dcff 100%);color:#fff;font-family:Inter,sans-serif}
+#portada::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 30% 40%,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at 30% 40%,#000 30%,transparent 75%)}
+#portada .pt-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),transparent 65%);right:-120px;top:-160px}
+#portada .pt-logo{position:absolute;left:44px;top:36px;display:flex;align-items:center;gap:10px;font:900 20px Inter;color:#0a2540}
+#portada .pt-logo img{width:28px;height:28px}
+#portada .pt-txt{position:absolute;left:44px;top:120px;width:450px}
+#portada .pt-kick{display:inline-flex;background:#0a2540;color:#fff;font:700 14px Inter;padding:7px 14px;border-radius:999px}
+#portada .pt-h{font:800 50px/1.04 Manrope,Inter,sans-serif;letter-spacing:-.035em;color:#0a2540;margin-top:18px}
+#portada .pt-h .w{color:#fff}
+#portada .pt-sub{font:500 20px/1.4 Inter;color:#123a6b;margin-top:14px}
+#portada .pt-card{position:absolute;background:#fff;border-radius:18px;box-shadow:0 30px 60px -20px rgba(10,37,64,.45);color:#0a2540}
+#portada .pt-til{position:absolute;width:64px;height:64px;border-radius:50%;background:#5CB848;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(92,184,72,.5)}
+#portada .pt-til svg{width:34px}
+#portada .pt-chip{position:absolute;background:#fff;color:#1d4fd7;font:800 13px Inter;border-radius:999px;padding:6px 12px;box-shadow:0 6px 16px rgba(10,37,64,.15)}
+#portada .mono{font-family:ui-monospace,Menlo,monospace}
+#portada .fl{display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="fias">
+<div class="app-shell"><aside class="sidebar">
+ <div class="sidebar-top"><div class="sidebar-mini"><img src="logo_fias.png" alt="FIAS"><span>FIAS™</span></div><div class="small">Sistema de Gestión</div></div>
+ <nav class="side-nav"><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg></span><span>Inicio</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L22 7H6"/></svg></span><span>Ventas</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16.5 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Fiados</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></span><span>Comprobantes</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg></span><span>Productos</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>Boletas de compra</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M15.5 8.8c-.6-1-1.8-1.6-3.5-1.6-2 0-3.2 1-3.2 2.4 0 3.4 7 1.7 7 5 0 1.5-1.4 2.5-3.7 2.5-1.9 0-3.2-.8-3.7-1.9"/><line x1="12" y1="5.4" x2="12" y2="18.6"/></svg></span><span>Cierre de Caja</span></div><div class="side-link active"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="13"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="9"/></svg></span><span>Informes</span></div><div class="side-link"><span class="side-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Configuración</span></div></nav>
+ <div class="sidebar-foot">
+  <div class="cloud-card"><span class="cloud-ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span><div><div class="cc-t">Copia de seguridad</div><div class="cc-s">Próxima en 44 min</div></div></div>
+  <div class="user-card"><span class="user-av">A</span><div style="flex:1"><div class="uc-name">Admin</div><div class="uc-role">Administrador</div></div><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8fa0bd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+ </div>
+</aside><section class="app-main"><main class="content-area"><div id="vInf"><div class="pg-head"><div class="pg-tit"><div class="pg-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><div><h2>Informes</h2><div class="page-sub">IVA, clientes y capital.</div></div></div></div><div class="im-stats"><div class="im-stat"><span class="im-chip"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2.5" x2="12" y2="21.5"/><path d="M17 6.2c-.8-1.3-2.4-2.1-4.8-2.1-2.8 0-4.5 1.4-4.5 3.4 0 4.6 9.6 2.3 9.6 6.9 0 2.1-1.9 3.5-5.1 3.5-2.6 0-4.4-1-5.1-2.6"/></svg></span><div><div class="im-lbl">Ingresos brutos</div><div class="im-val" id="k0">—</div><div class="im-sb">Este mes</div></div></div><div class="im-stat"><span class="im-chip"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.8" cy="6.8" r="2.8"/><circle cx="17.2" cy="17.2" r="2.8"/></svg></span><div><div class="im-lbl">Ingresos netos</div><div class="im-val" id="k1">—</div><div class="im-sb">Este mes</div></div></div><div class="im-stat"><span class="im-chip"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div><div class="im-lbl">Clientes</div><div class="im-val" id="k2">—</div><div class="im-sb">Activos</div></div></div><div class="im-stat"><span class="im-chip"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><div><div class="im-lbl">Capital de fiados</div><div class="im-val" id="k3">—</div><div class="im-sb">Actual</div></div></div></div><div class="im-grid"><div class="im-card" id="cIng"><span class="im-ico"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2.5" x2="12" y2="21.5"/><path d="M17 6.2c-.8-1.3-2.4-2.1-4.8-2.1-2.8 0-4.5 1.4-4.5 3.4 0 4.6 9.6 2.3 9.6 6.9 0 2.1-1.9 3.5-5.1 3.5-2.6 0-4.4-1-5.1-2.6"/></svg></span><div style="flex:1"><div class="im-tt">Ingresos</div><div class="im-sub">Ventas, entregas y salidas por período o turno.</div></div><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></div><div class="im-card" id="cIva"><span class="im-ico"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.8" cy="6.8" r="2.8"/><circle cx="17.2" cy="17.2" r="2.8"/></svg></span><div style="flex:1"><div class="im-tt">IVA</div><div class="im-sub">Ingreso y egreso de IVA.</div></div><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></div><div class="im-card" id="cCli"><span class="im-ico"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div style="flex:1"><div class="im-tt">Clientes</div><div class="im-sub">Estadísticas y ajustes.</div></div><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></div><div class="im-card" id="cCap"><span class="im-ico"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><div style="flex:1"><div class="im-tt">Capital</div><div class="im-sub">Stock valorizado y fiados pendientes.</div></div><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></div></div></div><div id="vIng" class="oculto" style="position:absolute;inset:30px 34px"><div class="pg-head"><div class="pg-tit"><div class="pg-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2.5" x2="12" y2="21.5"/><path d="M17 6.2c-.8-1.3-2.4-2.1-4.8-2.1-2.8 0-4.5 1.4-4.5 3.4 0 4.6 9.6 2.3 9.6 6.9 0 2.1-1.9 3.5-5.1 3.5-2.6 0-4.4-1-5.1-2.6"/></svg></div><div><h2>Ingresos</h2><div class="page-sub">Reporte de ventas, entregas, devoluciones y salidas por período o turno.</div></div></div><div class="btn btn-ghost" id="bVolver">← Volver</div></div>
+<div class="ing-kpis"><div class="ing-kpi"><div style="display:flex;align-items:center;gap:10px"><span class="ik-ic blue"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.5 3h2l2.4 12.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L22 7H6"/></svg></span><span class="ik-lbl">Ventas ›</span></div><div class="ik-val ">$ 4.812.640,00</div><div class="ik-sub">ver efectivo / transferencia</div></div><div class="ing-kpi"><div style="display:flex;align-items:center;gap:10px"><span class="ik-ic green"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/></svg></span><span class="ik-lbl">Entregas (fiados) ›</span></div><div class="ik-val ">$ 612.300,00</div><div class="ik-sub">ver efectivo / transferencia</div></div><div class="ing-kpi"><div style="display:flex;align-items:center;gap:10px"><span class="ik-ic red"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></span><span class="ik-lbl">Devoluciones ›</span></div><div class="ik-val neg">-$ 38.450,00</div><div class="ik-sub">ver detalle</div></div><div class="ing-kpi"><div style="display:flex;align-items:center;gap:10px"><span class="ik-ic orange"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></span><span class="ik-lbl">Salidas ›</span></div><div class="ik-val neg">-$ 96.200,00</div><div class="ik-sub">ver detalle</div></div><div class="ing-kpi"><div style="display:flex;align-items:center;gap:10px"><span class="ik-ic blue"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2.5" x2="12" y2="21.5"/><path d="M17 6.2c-.8-1.3-2.4-2.1-4.8-2.1-2.8 0-4.5 1.4-4.5 3.4 0 4.6 9.6 2.3 9.6 6.9 0 2.1-1.9 3.5-5.1 3.5-2.6 0-4.4-1-5.1-2.6"/></svg></span><span class="ik-lbl">Saldo inicial</span></div><div class="ik-val pos">$ 20.000,00</div><div class="ik-sub">cargado en Salidas</div></div></div>
+<div class="caja-charts"><div class="card"><h3>Ingresos por día</h3><div class="barras"><div class="bar" style="height:48px"></div><div class="bar" style="height:65px"></div><div class="bar" style="height:55px"></div><div class="bar" style="height:76px"></div><div class="bar" style="height:71px"></div><div class="bar" style="height:90px"></div><div class="bar" style="height:61px"></div><div class="bar" style="height:82px"></div><div class="bar" style="height:100px"></div><div class="bar" style="height:72px"></div><div class="bar" style="height:92px"></div><div class="bar" style="height:86px"></div><div class="bar" style="height:110px"></div><div class="bar" style="height:96px"></div><div class="bar" style="height:80px"></div><div class="bar" style="height:104px"></div><div class="bar" style="height:89px"></div><div class="bar" style="height:115px"></div></div></div>
+ <div class="card"><h3>Por medio de pago</h3><div class="ley"><span><i style="background:#1F409C"></i>Efectivo 45%</span><span><i style="background:#1d9e75"></i>Transferencia 32%</span><span><i style="background:#ef9f27"></i>Débito 13%</span><span><i style="background:#7c5cd6"></i>Crédito 10%</span></div><svg viewBox="0 0 120 120" width="150" height="150" id="dona" style="display:block;margin:4px auto 0"><circle id="a0" cx="60" cy="60" r="44" fill="none" stroke="#1F409C" stroke-width="17" stroke-dasharray="124.4 276.5" stroke-dashoffset="0.0" transform="rotate(-90 60 60)"/><circle id="a1" cx="60" cy="60" r="44" fill="none" stroke="#1d9e75" stroke-width="17" stroke-dasharray="88.5 276.5" stroke-dashoffset="-124.4" transform="rotate(-90 60 60)"/><circle id="a2" cx="60" cy="60" r="44" fill="none" stroke="#ef9f27" stroke-width="17" stroke-dasharray="35.9 276.5" stroke-dashoffset="-212.9" transform="rotate(-90 60 60)"/><circle id="a3" cx="60" cy="60" r="44" fill="none" stroke="#7c5cd6" stroke-width="17" stroke-dasharray="27.6 276.5" stroke-dashoffset="-248.8" transform="rotate(-90 60 60)"/></svg></div></div></div></main></section></div><div class="modal-backdrop oculto" id="velo"></div><div class="modal-card oculto" id="mIva" style="left:260px;top:150px;width:760px">
+ <div class="modal-head"><div style="display:flex;align-items:center;gap:12px"><span class="iv-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.8" cy="6.8" r="2.8"/><circle cx="17.2" cy="17.2" r="2.8"/></svg></span><div><div style="font-size:20px;font-weight:900;color:#1c2e57">IVA</div><div style="font-size:13px;color:#7c8aa3">Ingreso por boletas de compra y egreso por ventas facturadas.</div></div></div><span class="icon-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+ <div class="modal-body"><div class="pill" style="display:inline-block;margin-bottom:14px">01/09/2026 – 26/09/2026</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+   <div class="iva-card" style="--acc:#16a34a;--accbg:#e7f7ee"><span class="ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></span><div><div class="tt">Ingreso de IVA</div><div class="sb">Boletas de compra cargadas con IVA.</div><div class="monto" id="ivaIn">$0,00</div></div></div>
+   <div class="iva-card" style="--acc:#dc2626;--accbg:#fdeaea"><span class="ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></span><div><div class="tt">Egreso de IVA</div><div class="sb">Ventas facturadas y cierres × 21%.</div><div class="monto" id="ivaOut">$0,00</div></div></div>
+  </div></div></div>
+</div>
+<div class="tilde oculto" id="tilde" style="left:443px;top:58px"><svg viewBox="0 0 40 40"><path d="M9 21l7 7 15-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div id="portada"><div class="pt-glow"></div><div class="pt-logo" data-d="0"><img src="logo_fias.png" alt="">FIAS™</div><div class="pt-txt"><span class="pt-kick" data-d="100">Informes</span><div class="pt-h"><div data-d="250">Tus números,</div><div class="w" data-d="400">sin calculadora.</div></div><p class="pt-sub" data-d="600">Cuánto entró, cuánto ganaste y el IVA, en una pantalla.</p></div><div class="pt-card" data-pop="750" style="right:54px;top:100px;width:330px;padding:20px 22px"><div style="font:700 12px Inter;color:#697386">Ingresos por día · septiembre</div><div style="display:flex;align-items:flex-end;gap:7px;height:170px;margin-top:14px"><div style="flex:1;height:38%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:52%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:44%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:61%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:57%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:72%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:49%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:66%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:80%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:58%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:74%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:69%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:88%;background:#1F409C;border-radius:4px 4px 0 0"></div><div style="flex:1;height:92%;background:#1F409C;border-radius:4px 4px 0 0"></div></div><div class="fl" style="margin-top:14px"><div><div style="font-size:11px;color:#697386">Ingresos netos</div><b style="font:800 20px Manrope">$ 1.254.310</b></div><div style="text-align:right"><div style="font-size:11px;color:#697386">IVA ventas</div><b style="font:800 20px Manrope;color:#dc2626">$845.300</b></div></div></div><div class="pt-til" data-pop="1150" style="right:30px;top:74px"><svg viewBox="0 0 40 40"><path d="M9 21l7 7 15-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div id="pulso"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l15 8-6.5 1.8L8.6 18z" fill="#1E2D54" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+<div id="subt"></div>
+</div>
+<script>
+(() => {
+const INTRO = 2800, SALTO = 0;
+
+const T_END = 13500, ESPERA = 2300, VIS = [2000, 11800];
+const CAMINO = [[2000, 700, 470], [2700, "cIng"], [3100, "cIng"], [3600, 600, 380], [7400, 600, 380], [8000, "bVolver"], [8500, "bVolver"], [9100, "cIva"], [13500, "cIva"]];
+const CLICS = [2800, 8100, 9200];
+const SUBS = [[0, 2700, "Tus números, sin calculadora"], [2700, 8000, "Cuánto entró, día por día"], [8000, 99999, "Y el IVA de compras y ventas"]];
+const KPI = [4812640, 1254310, 312, 1386900];
+const ivaF = n => "$" + n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function escena(t) {
+  KPI.forEach((v, i) => { const k = eo(p(t, 250 + i * 140, 1700 + i * 140)); $("k" + i).textContent = t < 250 ? "—" : (i === 2 ? ent(v * k) : fmt(v * k)); });
+  $("cIng").className = "im-card" + (t > 2500 && t < 3000 ? " hov" : ""); $("cIva").className = "im-card" + (t > 8900 && t < 9400 ? " hov" : "");
+  const enIng = p(t, 3000, 3200) * (1 - p(t, 8200, 8400));
+  S($("vInf"), 1 - enIng); S($("vIng"), enIng);
+  document.querySelectorAll(".bar").forEach((b, i) => { const k = eo(p(t, 3300 + i * 60, 4300 + i * 60)); S(b, k > 0 ? 1 : 0, `scaleY(${k})`); });
+  const d = eo(p(t, 3400, 4600)); S($("dona"), d > 0 ? 1 : 0, `rotate(${-180 * (1 - d)}deg) scale(${.5 + .5 * d})`);
+  fondo($("velo"), [[9300, 0]], t);
+  modal($("mIva"), t, 9350);
+  $("ivaIn").textContent = t < 9700 ? "…" : ivaF(612480.2 * eo(p(t, 9700, 10700)));
+  $("ivaOut").textContent = t < 9800 ? "…" : ivaF(845300.75 * eo(p(t, 9800, 10800)));
+  pop($("tilde"), t, 11300);
+}
+
+const $ = id => document.getElementById(id);
+const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const p = (t, a, b) => cl((t - a) / (b - a));
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const back = x => { const c = 1.7, d = c + 1; return 1 + d * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const fmt = n => "$ " + n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const ent = n => Math.round(n).toLocaleString("es-AR");
+const S = (el, o, tr) => { el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; };
+const tipeo = (txt, t, a, b) => txt.slice(0, Math.round(txt.length * p(t, a, b)));
+const cursorTxt = (t, a, b) => (t > a && t < b && Math.floor(t / 380) % 2) ? "|" : "";
+// Entrada real de las ventanas de FIAS: fiasPopIn .22s cubic-bezier(.2,.8,.3,1) — escala .93 y 6 px
+const modal = (el, t, a, sale) => { const k = eo(p(t, a, a + 220)), o = sale ? 1 - p(t, sale, sale + 180) : 1; S(el, k * o, `translateY(${6 * (1 - k)}px) scale(${.93 + .07 * k})`); el.style.visibility = k * o > 0 ? "visible" : "hidden"; return k * o; };
+const fondo = (el, rangos, t) => { let o = 0; for (const [a, b] of rangos) o = Math.max(o, p(t, a, a + 200) * (b ? 1 - p(t, b, b + 180) : 1)); S(el, o); el.style.visibility = o > 0 ? "visible" : "hidden"; };
+const entra = (el, t, a, sale) => { const k = eo(p(t, a, a + 300)), o = sale ? 1 - p(t, sale, sale + 250) : 1; S(el, k * o, `translateY(${10 * (1 - k)}px)`); return k * o; };
+const pop = (el, t, a) => { const k = p(t, a, a + 450); S(el, k > 0 ? 1 : 0, `scale(${back(k)})`); };
+const stage = $("stage"); let K = 1, RUTA = [];
+const centro = (el, dx = 0, dy = 0) => { const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [(r.left - s.left + r.width / 2) / K + dx, (r.top - s.top + r.height / 2) / K + dy]; };
+function medir() { RUTA = CAMINO.map(c => typeof c[1] === "string" ? [c[0], ...centro($(c[1]), c[2] || 0, c[3] || 0)] : c); }
+function cursorEn(t) {
+  if (t <= RUTA[0][0]) return RUTA[0];
+  for (let i = 1; i < RUTA.length; i++) { const [t1, x1, y1] = RUTA[i], [t0, x0, y0] = RUTA[i - 1]; if (t <= t1) { const k = eio(p(t, t0, t1)); return [t, x0 + (x1 - x0) * k, y0 + (y1 - y0) * k]; } }
+  return RUTA[RUTA.length - 1];
+}
+let subActual = "";
+// Portada de apertura (anim_portadas.py): dura INTRO ms y después entra el programa
+const OFF = typeof INTRO === "number" ? INTRO : 0, SKIP = typeof SALTO === "number" ? SALTO : 0, FIN = OFF + T_END - SKIP;
+const PT = document.getElementById("portada");
+const ptEls = PT ? [...PT.querySelectorAll("[data-d],[data-pop]")] : [];
+ptEls.forEach(e => e.dataset.t0 = e.style.transform || "");
+function portada(tg) {
+  if (!PT) return;
+  ptEls.forEach(e => {
+    const pop = e.dataset.pop, d = +(pop || e.dataset.d), k = p(tg, d, d + (pop ? 550 : 450)), t0 = e.dataset.t0;
+    if (pop) S(e, k > 0 ? 1 : 0, `${t0} translateY(${22 * (1 - eo(k))}px) scale(${.86 + .14 * back(k)})`);
+    else S(e, eo(k), `${t0} translateY(${14 * (1 - eo(k))}px)`);
+  });
+  const out = p(tg, OFF - 450, OFF);
+  PT.style.opacity = 1 - out; PT.style.transform = `scale(${1 + .04 * out})`; PT.style.visibility = out >= 1 ? "hidden" : "visible";
+}
+function render(tg) {
+  portada(tg);
+  const t = Math.max(tg - OFF, 0) + SKIP, enProg = tg >= OFF - 150 ? 1 : 0;
+  escena(t);
+  const [, cx, cy] = cursorEn(t);
+  const vis = p(t, VIS[0], VIS[0] + 200) * (1 - p(t, VIS[1], VIS[1] + 300)) * enProg;
+  let esc = 1, pul = 0, pk = 0;
+  for (const c of CLICS) { const q = p(t, c, c + 450); if (q > 0 && q < 1) { pul = 1 - q; pk = q; esc = .82 + .18 * p(t, c + 60, c + 200); } }
+  S($("cursor"), vis, `translate(${cx}px,${cy}px) scale(${esc})`);
+  S($("pulso"), pul * vis, `translate(${cx}px,${cy}px) scale(${.4 + pk})`);
+  const s = SUBS.find(([a, b]) => t >= a && t < b);
+  if (s && s[2] !== subActual) { subActual = s[2]; $("subt").textContent = s[2]; }
+  const e = s ? (s[0] === 0 ? p(tg, OFF, OFF + 250) : p(t, s[0], s[0] + 220)) : 1;
+  S($("subt"), (PT ? enProg : 1) * (s && s[0] === 0 && !PT ? 1 : e), "translateX(-50%) translateY(" + 8 * (1 - e) + "px)");
+}
+function ajustar() { K = innerWidth / 960; stage.style.transform = `scale(${K})`; document.body.style.height = 540 * K + "px"; }
+addEventListener("resize", () => { ajustar(); medir(); }); ajustar();
+const TOTAL = FIN + 1500, reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let jugando = false, t0 = null, acum = 0, raf = 0;
+function paso(ahora) {
+  if (!jugando) return;
+  if (t0 === null) t0 = ahora - acum;
+  acum = (ahora - t0) % TOTAL; if (ahora - t0 >= TOTAL) t0 = ahora - acum;
+  render(Math.min(acum, FIN)); raf = requestAnimationFrame(paso);
+}
+// Botón de pausa / reproducir (el visitante manda: si pausó, la página no la reanuda sola)
+let pausadoPorUsuario = false, forzado = false;
+const IC_PAUSA = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>';
+const IC_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+const boton = document.createElement("button");
+boton.id = "pp"; boton.type = "button"; stage.appendChild(boton);
+function pintarBoton() { boton.innerHTML = jugando ? IC_PAUSA : IC_PLAY; boton.setAttribute("aria-label", jugando ? "Pausar animación" : "Reproducir animación"); boton.title = jugando ? "Pausar" : "Reproducir"; }
+function play() { if (jugando || (reducido && !forzado)) return; jugando = true; t0 = null; raf = requestAnimationFrame(paso); pintarBoton(); }
+function pausa() { jugando = false; cancelAnimationFrame(raf); pintarBoton(); }
+function alternar() { if (jugando) { pausadoPorUsuario = true; pausa(); } else { pausadoPorUsuario = false; forzado = true; play(); } }
+boton.addEventListener("click", e => { e.stopPropagation(); alternar(); });
+stage.addEventListener("click", alternar);
+addEventListener("keydown", e => { if (e.code === "Space" || e.key === "k") { e.preventDefault(); alternar(); } });
+pintarBoton();
+addEventListener("message", e => { const d = e.data || {}; if (d.fias === "play" && !pausadoPorUsuario) play(); if (d.fias === "pause") pausa(); });
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  if (typeof preparar === "function") preparar();
+  medir();
+  const q = new URLSearchParams(location.search);
+  if (q.has("t")) render(+q.get("t"));
+  else if (reducido) render(FIN);
+  else if (window.parent === window) play();
+  else render(PT ? 1700 : ESPERA);
+});
+
+})();
+</script>
+</body>
+</html>
