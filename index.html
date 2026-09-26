@@ -400,19 +400,17 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 .s-cat p{color:var(--s-slate);margin:12px 0 auto;line-height:1.5}
 .s-cat span{color:var(--s-azul);font-weight:700;margin-top:20px}
 /* bloques de demo */
-.s-demos{padding:24px 0 86px}
-.s-sq{padding:12px 0}
+.s-demos{padding:0}
+.s-sq{padding:24px 0}
 .s-split{display:grid;grid-template-columns:.85fr 1.4fr;gap:16px}
 .s-tx{background:var(--s-grad);color:#fff;border-radius:24px;padding:48px 40px;display:flex;flex-direction:column}
 .s-tx h3{font-family:Manrope,Inter,sans-serif;font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
-.s-tx p{color:#e8efff;font-size:18px;margin:14px 0 22px;line-height:1.5}
-.s-tx ul{list-style:none;display:grid;gap:10px;color:#f2f6ff;margin:0 0 auto;padding:0 0 30px}
-.s-tx .s-ok{color:#b9f5a7}
+.s-tx p{color:#c3d0e6;font-size:18px;margin:14px 0 22px;line-height:1.5}
+.s-tx ul{list-style:none;display:grid;gap:10px;color:#e4ebf7;margin:0 0 auto;padding:0 0 30px}
 .s-tx .s-btn{align-self:flex-start}
 .s-tx .s-kick{font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#d6e4ff;margin-bottom:10px}
 .s-vd{background:#eaf2ff;border-radius:24px;padding:36px;display:flex;align-items:center}
-.s-vd .demo-anim{width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;box-shadow:0 24px 50px -20px rgba(10,37,64,.4);background:#f4f7fc}
-.s-vd iframe{display:block;width:100%;height:100%;border:0}
+.s-vd iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px;box-shadow:0 24px 50px -20px rgba(10,37,64,.4)}
 /* módulos */
 .s-g4m{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--s-line);border:1px solid var(--s-line);border-radius:20px;overflow:hidden;margin-top:48px}
 .s-ms{background:#fff;padding:28px}
@@ -450,8 +448,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 .s-faq details{border-bottom:1px solid var(--s-line);padding:22px 0}
 .s-faq summary{font:700 20px Inter,sans-serif;color:var(--s-navy);list-style:none;display:flex;justify-content:space-between;gap:16px;cursor:pointer}
 .s-faq summary::-webkit-details-marker{display:none}
-.s-faq summary::after{content:"+";color:var(--s-azul);font-weight:800}
-.s-faq details[open] summary::after{content:"–"}
+.s-faq summary::after{content:"+"}
 .s-faq details p{color:var(--s-slate);margin-top:10px;line-height:1.6;font-size:16.5px}
 /* cierre */
 .s-fin{background:var(--s-grad);color:#fff;padding:110px 0}
@@ -476,37 +473,34 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
   <p class="s-sub rv d1">FIAS no se imaginó: se vivió, con cuatro años detrás del mostrador de una ferretería.</p>
   <div class="s-g4"><a class="s-cat" href="#demos"><h4>Vendé</h4><p>Ventas, presupuestos, devoluciones y cobro con Point o QR.</p><span>Ver cómo →</span></a><a class="s-cat" href="#magia"><h4>Controlá</h4><p>Stock real, fiados, listas y boletas del proveedor.</p><span>Ver cómo →</span></a><a class="s-cat" href="#demo-fiados"><h4>Cobrá</h4><p>Cuentas corrientes, entregas y cierre de caja.</p><span>Ver cómo →</span></a><a class="s-cat" href="#demo-numeros"><h4>Entendé</h4><p>Informes de ingresos, IVA y capital.</p><span>Ver cómo →</span></a></div>
 </div></section><div class="s-demos"><section class="s-sq" id="magia"><div class="s-w s-split">
-  <div class="s-tx rv"><div class="s-kick">Una lista de 1.500 productos. ¿Cuánto tardás vos?</div><h3>Listas de precios</h3><p>Remarcar precios a mano es el trabajo que nadie ve. FIAS lo hace en segundos, cuidando tus márgenes.</p><ul><li><span class="s-ok">✓</span>Subís el Excel, CSV o PDF del proveedor</li><li><span class="s-ok">✓</span>Te marca en colores qué cambió</li><li><span class="s-ok">✓</span>Cada precio mantiene su margen</li></ul>
+  <div class="s-tx rv"><h3>Listas de precios</h3><p>Remarcar precios a mano es el trabajo que nadie ve. FIAS lo hace en segundos, cuidando tus márgenes.</p><ul><li><span class="s-ok">✓</span>Subís el Excel, CSV o PDF del proveedor</li><li><span class="s-ok">✓</span>Te marca en colores qué cambió</li><li><span class="s-ok">✓</span>Cada precio mantiene su margen</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-listas"><div class="demo-anim"><iframe src="anim/listas.html" title="Animación: actualizar una lista de precios en FIAS" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-listas"><iframe src="anim/listas.html" title="Animación: actualizar una lista de precios en FIAS"></iframe></div>
 </div></section><section class="s-sq" id="boletas"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Boletas de compra</h3><p>La boleta del proveedor no se tipea. Se le saca una foto.</p><ul><li><span class="s-ok">✓</span>La lee producto por producto</li><li><span class="s-ok">✓</span>Actualiza costos y suma el stock</li><li><span class="s-ok">✓</span>Ajustes con palabras: «sumale 10% de flete»</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-boleta"><div class="demo-anim"><iframe src="anim/boleta.html" title="Animación: cargar una boleta de proveedor con una foto" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-boleta"><iframe src="anim/boleta.html" title="Animación: cargar una boleta de proveedor con una foto"></iframe></div>
 </div></section><section class="s-sq" id="demos"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Ventas</h3><p>Las ventas en 30 segundos.</p><ul><li><span class="s-ok">✓</span>Código y Enter, o lo buscás por nombre</li><li><span class="s-ok">✓</span>Efectivo, transferencia, Point o pago mixto</li><li><span class="s-ok">✓</span>Comprobante al instante</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-ventas"><div class="demo-anim"><iframe src="anim/ventas.html" title="Animación: una venta en FIAS" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-ventas"><iframe src="anim/ventas.html" title="Animación: una venta en FIAS"></iframe></div>
 </div></section><section class="s-sq" id="demo-fiados"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Fiados</h3><p>Fiados sin cuaderno: la deuda clara y el stock claro.</p><ul><li><span class="s-ok">✓</span>Cuenta corriente por cliente, con notas</li><li><span class="s-ok">✓</span>Entregas a cuenta y saldo a favor</li><li><span class="s-ok">✓</span>Stock real y fiado, por separado</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-fiados"><div class="demo-anim"><iframe src="anim/fiados.html" title="Animación: fiados sin cuaderno en FIAS" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-fiados"><iframe src="anim/fiados.html" title="Animación: fiados sin cuaderno en FIAS"></iframe></div>
 </div></section><section class="s-sq" id="demo-arca"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Facturación con ARCA</h3><p>Factura electrónica en dos clics, sin salir del mostrador.</p><ul><li><span class="s-ok">✓</span>Al vender o después, desde el comprobante</li><li><span class="s-ok">✓</span>CAE y QR impresos en la factura</li><li><span class="s-ok">✓</span>Notas de crédito cuando hacen falta</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-arca"><div class="demo-anim"><iframe src="anim/arca.html" title="Animación: facturación con ARCA en FIAS" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-arca"><iframe src="anim/arca.html" title="Animación: facturación con ARCA en FIAS"></iframe></div>
 </div></section><section class="s-sq" id="demo-caja"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Cierre de caja</h3><p>Cuánto entró y por dónde, sin calculadora ni sorpresas.</p><ul><li><span class="s-ok">✓</span>El efectivo que tiene que haber en el cajón</li><li><span class="s-ok">✓</span>Ventas, cobros, gastos y retiros</li><li><span class="s-ok">✓</span>Historial de cada cierre</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-caja"><div class="demo-anim"><iframe src="anim/caja.html" title="Animación: cierre de caja en FIAS" loading="lazy"></iframe></div></div>
+  <div class="s-vd" id="slot-caja"><iframe src="anim/caja.html" title="Animación: cierre de caja en FIAS"></iframe></div>
 </div></section><section class="s-sq" id="demo-numeros"><div class="s-w s-split">
   <div class="s-tx rv"><h3>Tus números</h3><p>Los informes que necesitás para decidir, al día.</p><ul><li><span class="s-ok">✓</span>Ingresos y ganancia del período</li><li><span class="s-ok">✓</span>IVA de compras y de ventas</li><li><span class="s-ok">✓</span>Clientes que más compran y capital</li></ul>
     <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></div>
-  <div class="s-vd" id="slot-numeros"><div class="demo-anim"><iframe src="anim/numeros.html" title="Animación: los informes de FIAS" loading="lazy"></iframe></div></div>
-</div></section></div><section class="s-sec" id="modulos" style="padding-top:40px"><div class="s-w">
-  <h2 class="rv">Cada dolor del mostrador, resuelto.</h2>
-  <div class="s-g4m"><div class="s-ms"><h4>Boletas con una foto</h4><p>Una foto y la mercadería queda en el stock. Los ajustes se piden con palabras.</p></div><div class="s-ms"><h4>Listas que se cargan solas</h4><p>Subí el archivo del proveedor y listo: precios al día, márgenes intactos.</p></div><div class="s-ms"><h4>Fiados sin cuaderno</h4><p>Cuenta corriente por cliente, entregas parciales, cobro en el Point.</p></div><div class="s-ms"><h4>Cierre de caja en un vistazo</h4><p>Cuánto entró y por dónde, sin calculadora.</p></div><div class="s-ms"><h4>El stock nunca miente</h4><p>Global, real y fiados por separado. Góndola en cero con fiado anotado: FIAS no pierde de vista esa plata.</p></div><div class="s-ms"><h4>Mercado Pago integrado</h4><p>El cobro va solo al Point o QR y la confirmación vuelve sola. Si el pago falla, la venta se anula.</p></div><div class="s-ms"><h4>Facturación con ARCA</h4><p>Factura en dos clics, con CAE y QR.</p></div><div class="s-ms"><h4>Se actualiza y se respalda solo</h4><p>Actualizaciones automáticas y backups que nadie puede borrar.</p></div></div>
-</div></section><section class="s-sq s-ag" id="agente" style="padding:24px 0 110px"><div class="s-w s-split">
+  <div class="s-vd" id="slot-numeros"><iframe src="anim/numeros.html" title="Animación: los informes de FIAS"></iframe></div>
+</div></section></div><section class="s-sq s-ag" id="agente"><div class="s-w s-split">
   <div class="s-tx rv"><div class="s-kick">Agente IA · disponible</div><h3>Un asistente que conoce todo tu negocio. Y lo maneja.</h3>
     <p>No es un chatbot: es tu empleado de confianza por WhatsApp. Sabe tus ventas, tu stock y tus fiados, y también ejecuta.</p>
     <div class="s-feat">
@@ -524,29 +518,31 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
       <div class="bub bot">González debe <b>$48.300</b>: 3 productos fiados, la última compra fue el 12/09. ¿Le mando el resumen de cuenta?<span class="hora">20:13</span></div>
     </div>
   </div></div>
+</div></section><section class="s-sec" id="modulos"><div class="s-w">
+  <h2 class="rv">Cada dolor del mostrador, resuelto.</h2>
+  <div class="s-g4m"><div class="s-ms"><h4>Boletas con una foto</h4><p>Una foto y la mercadería queda en el stock.</p></div><div class="s-ms"><h4>Listas que se cargan solas</h4><p>Precios al día, márgenes intactos.</p></div><div class="s-ms"><h4>Fiados sin cuaderno</h4><p>Cuenta corriente por cliente, entregas parciales, cobro en el Point.</p></div><div class="s-ms"><h4>Cierre de caja en un vistazo</h4><p>Cuánto entró y por dónde, sin calculadora.</p></div><div class="s-ms"><h4>El stock nunca miente</h4><p>Global, real y fiados por separado.</p></div><div class="s-ms"><h4>Mercado Pago integrado</h4><p>El cobro va solo al Point o QR y vuelve la confirmación.</p></div><div class="s-ms"><h4>Facturación con ARCA</h4><p>Factura en dos clics, con CAE y QR.</p></div><div class="s-ms"><h4>Se respalda solo</h4><p>Actualizaciones y backups automáticos que nadie puede borrar.</p></div></div>
 </div></section><section class="s-hist" id="historia"><div class="s-w">
   <blockquote>«Pasé cuatro años detrás del mostrador de nuestra ferretería. Ahí vi a mi papá dejar de 6 a 10 horas por día en tareas que una computadora resuelve en segundos. FIAS existe para devolverle esas horas a él y a cada comerciante.»</blockquote>
-  <cite><b>Theo Luciano Tejera</b>, fundador de FIAS · Ferretería Belgrano</cite>
+  <cite><b>Theo Luciano Tejera</b>, fundador de FIAS</cite>
 </div></section><section class="s-sec" id="precios" style="background:var(--s-bg2)"><div class="s-w">
   <h2 class="rv">Un programa. Tres niveles.</h2>
-  <p class="s-sub rv d1">El sistema base, tuyo por suscripción o para siempre. La IA, mensual y opcional.</p>
   <div class="s-g3">
   <div class="s-pl"><h4>FIAS Base</h4>
-  <div class="s-pr">$60.000<small> / mes</small></div><p class="s-md">Suscripción mensual</p>
+  <div class="s-pr">$60.000<small> por mes</small></div><p class="s-md">Suscripción mensual</p>
   <a class="s-btn s-btn-gr" href="https://web-production-2a1c5.up.railway.app/tienda/comprar/base_mensual">Suscribirme</a>
-  <ul><li><span class="s-ok">✓</span>Punto de venta completo</li><li><span class="s-ok">✓</span>Stock, fiados y comprobantes</li><li><span class="s-ok">✓</span>Cierre de caja e informes</li><li><span class="s-ok">✓</span>Mercado Pago (Point y QR)</li><li><span class="s-ok">✓</span>Backups y actualizaciones</li></ul>
+  <ul><li><span class="s-ok">✓</span>Punto de venta completo</li><li><span class="s-ok">✓</span>Stock, fiados y comprobantes</li><li><span class="s-ok">✓</span>Cierre de caja e informes</li><li><span class="s-ok">✓</span>Mercado Pago (Point y QR)</li></ul>
   <div class="s-cupo"></div><div class="s-regalo">🎁 Tu primera contratación incluye 15 días de FIAS Automatizado de regalo</div>
   <div class="s-alt">¿Lo querés para siempre? <b>Pago único $ 2.200.000</b>: licencia perpetua, en cuotas con tu tarjeta.<br><a href="https://web-production-2a1c5.up.railway.app/tienda/comprar/base_unico">Comprar de por vida →</a></div></div>
   <div class="s-pl s-st"><div class="s-rib">Recomendado</div><h4>FIAS Automatizado</h4>
-  <div class="s-pr">$175.000<small> / mes</small></div><p class="s-md">Suscripción mensual · programa incluido</p>
+  <div class="s-pr">$175.000<small> por mes</small></div><p class="s-md">Programa incluido</p>
   <a class="s-btn s-btn-az" href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier1_negocio">Comprar</a>
-  <ul><li><span class="s-ok">✓</span>Todo lo de FIAS Base</li><li><span class="s-ok">✓</span>Boletas de compra con una foto (IA)</li><li><span class="s-ok">✓</span>Listas de precios automáticas (IA)</li><li><span class="s-ok">✓</span>Órdenes en lenguaje natural</li><li><span class="s-ok">✓</span>Copia de seguridad en la nube</li></ul>
+  <ul><li><span class="s-ok">✓</span>Todo lo de FIAS Base</li><li><span class="s-ok">✓</span>Boletas con una foto (IA)</li><li><span class="s-ok">✓</span>Listas automáticas (IA)</li><li><span class="s-ok">✓</span>Órdenes en lenguaje natural</li></ul>
   <div class="s-cupo">Incluye por semana: 20 boletas por foto · 30 listas con IA</div><div class="s-regalo">🎁 Tu primera contratación incluye 15 días del Agente de regalo</div>
   <div class="s-alt">Negocio grande: <b>versión Empresa</b> con el triple de cupos, $ 325.000/mes.<br><a href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier1_empresa">Comprar Empresa →</a></div></div>
   <div class="s-pl"><h4>FIAS Agente</h4>
-  <div class="s-pr">$375.000<small> / mes</small></div><p class="s-md">Suscripción mensual · programa incluido</p>
+  <div class="s-pr">$375.000<small> por mes</small></div><p class="s-md">Programa incluido</p>
   <a class="s-btn s-btn-gr" href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier2_negocio">Comprar</a>
-  <ul><li><span class="s-ok">✓</span>Todo lo de FIAS Automatizado</li><li><span class="s-ok">✓</span>Tu negocio responde por WhatsApp</li><li><span class="s-ok">✓</span>Ventas, stock y fiados desde el chat</li><li><span class="s-ok">✓</span>Acciones con confirmación</li><li><span class="s-ok">✓</span>Acceso total, estés donde estés</li></ul>
+  <ul><li><span class="s-ok">✓</span>Todo lo de Automatizado</li><li><span class="s-ok">✓</span>Tu negocio responde por WhatsApp</li><li><span class="s-ok">✓</span>Ventas, stock y fiados desde el chat</li><li><span class="s-ok">✓</span>Acciones con confirmación</li></ul>
   <div class="s-cupo">Incluye por semana: 50 boletas · 40 listas · 200 consultas · 50 acciones</div>
   <div class="s-alt">Negocio grande: <b>versión Empresa</b> con el triple de cupos, $ 950.000/mes.<br><a href="https://web-production-2a1c5.up.railway.app/tienda/comprar/tier2_empresa">Comprar Empresa →</a></div></div>
   </div>
@@ -572,9 +568,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
     </div>
 </div></section><section class="s-fin" id="contacto"><div class="s-w">
   <h2 class="rv">Vos ponés el negocio. Que las horas las ponga FIAS.</h2>
-  <p>Contanos cómo trabajás hoy. Sin compromiso.</p>
-  <p style="margin-top:30px"><a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp →</a></p>
-  <p style="font-size:14px;color:#d6e4ff;margin-top:14px">Te respondemos por WhatsApp en horario comercial.</p>
+  <p style="margin-top:30px"><a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Quiero%20consultar%20sobre%20FIAS" target="_blank" rel="noopener">Consultá por WhatsApp</a></p>
 </div></section>
 <footer>
   <div class="foot">
@@ -636,7 +630,7 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 <script>
 /* Animaciones de producto: play cuando el espacio entra en pantalla, pausa cuando sale. */
 (function(){
-  var fr=document.querySelectorAll('.demo-anim iframe');
+  var fr=document.querySelectorAll('.s-vd iframe');
   if(!('IntersectionObserver' in window)){fr.forEach(function(f){f.addEventListener('load',function(){f.contentWindow.postMessage({fias:'play'},'*');});});return;}
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     var w=e.target.contentWindow; if(w) w.postMessage({fias:e.isIntersecting?'play':'pause'},'*');
