@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&display=swap');
 /* Base compartida de las animaciones de FIAS.
    Los estilos de la interfaz son los REALES del programa (static/styles.css y
    templates/base.html de FIAS 4.3.4), con los mismos nombres de clase.
@@ -98,3 +99,8 @@ html,body{background:var(--bg);overflow:hidden;font-family:Inter,system-ui,-appl
 #pp:focus-visible{outline:3px solid #5CB848;outline-offset:3px}
 #pp svg{width:26px;height:26px}
 #stage{cursor:pointer}
+
+/* Marca FIAS 28/10/2026 */
+.fias-wm{font-family:'Archivo',-apple-system,'Segoe UI',sans-serif;font-weight:900;letter-spacing:-.5px;color:#1f3870;background:linear-gradient(170deg,#3a5da3 0%,#1f3870 55%,#0f1b3d 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 2px rgba(15,27,61,.28))}
+.fias-wm sup{font-weight:600;font-size:.5em;margin-left:1px;color:#5b6577;-webkit-text-fill-color:#5b6577}
+.fias-wm-s{font-family:'Archivo',-apple-system,'Segoe UI',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:#5b6577}
