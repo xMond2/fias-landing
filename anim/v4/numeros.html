@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: informes y métricas en FIAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Manrope:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.ico{stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.scr{position:absolute;left:24px;right:24px;top:20px;bottom:20px;opacity:0;visibility:hidden}
+.pg{position:relative;margin-bottom:14px}
+.volver{position:absolute;right:0;top:2px;display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:12px;background:#fff;border:1px solid var(--linea);font-weight:800;font-size:14px;color:var(--txt)}
+.volver svg{width:15px;height:15px}
+/* Menú Informes */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);padding:12px 6px;margin-bottom:14px}
+.kpi{display:flex;align-items:center;gap:10px;padding:0 12px;border-right:1px solid var(--linea);min-width:0}
+.kpi:last-child{border-right:0}
+.kpi .ki{width:40px;height:40px;border-radius:12px;background:#eef3ff;color:#2a52be;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.kpi .ki svg{width:20px;height:20px}
+.kpi small{display:block;font-size:10.5px;color:var(--txt2);line-height:1.25}
+.kpi b{display:block;font-size:16.5px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.tarjetas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tj{display:flex;align-items:center;gap:16px;padding:0 20px;height:96px}
+.tj .ti{width:52px;height:52px;border-radius:14px;background:#eef3ff;color:#2a52be;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.tj .ti svg{width:26px;height:26px}
+.tj b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.tj small{display:block;font-size:12px;color:var(--txt2);margin-top:3px;line-height:1.3}
+.tj .fl{margin-left:auto;color:#2a52be;font-size:20px;font-weight:700}
+/* Métricas y Rentabilidad */
+.barra{display:flex;align-items:center;gap:12px;padding:8px 10px;margin-bottom:12px}
+.barra .fx{width:28px;height:28px;border:1px solid var(--linea);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt2)}
+.barra b{font-size:15px;font-weight:800}
+.tabs{margin-left:auto;display:flex;gap:6px}
+.tab{display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:10px;border:1px solid var(--linea);font-size:12px;font-weight:700;background:#fff;color:#334155}
+.tab svg{width:13px;height:13px}
+.tab.on{background:#2a52be;border-color:#2a52be;color:#fff}
+.cinco{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.mc{padding:12px 13px;height:94px;opacity:0;visibility:hidden}
+.mc .mt{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;color:var(--txt2);line-height:1.15;height:30px}
+.mc .mi{width:28px;height:28px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#eef3ff;color:#2a52be}
+.mc .mi svg{width:15px;height:15px}
+.mc .mi.n{background:#fdf3dc;color:#d97706}.mc .mi.v{background:#e7f8ee;color:#16a34a}.mc .mi.r{background:#fdecec;color:#e5484d}
+.mc b{display:block;font-size:22px;font-weight:900;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mc b.v{color:#16a34a}.mc b.r{color:#e5484d}
+.mc small{display:block;font-size:10px;color:var(--txt2);margin-top:2px;white-space:nowrap}
+.abajo{display:grid;grid-template-columns:1.42fr 1fr;gap:12px}
+.graf{padding:12px 16px 8px;height:290px}
+.graf h4,.ind h4{font-size:15px;font-weight:800}
+.graf p,.ind p{font-size:10.5px;color:var(--txt2);margin-top:2px;line-height:1.3}
+.graf p b{color:var(--txt)}
+.leyenda{display:flex;gap:14px;font-size:10.5px;color:var(--txt2);margin-top:5px}
+.leyenda i{display:inline-block;width:12px;height:2px;vertical-align:middle;margin-right:5px}
+.graf svg{display:block;width:100%;height:196px;margin-top:4px}
+.graf svg text{font:600 9px Inter,sans-serif;fill:#94a3b8}
+.graf svg text.et{font:800 10px Inter,sans-serif;fill:#1e2d54}
+.ind{padding:12px 14px;height:290px}
+.ir{display:flex;align-items:center;gap:10px;padding:5.5px 0;border-bottom:1px solid #eef2f7}
+.ir:last-child{border-bottom:0}
+.ir .ii{width:30px;height:30px;border-radius:9px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#eef3ff;color:#2a52be}
+.ir .ii svg{width:15px;height:15px}
+.ir .ii.v{background:#e7f8ee;color:#16a34a}.ir .ii.n{background:#fdf3dc;color:#d97706}.ir .ii.r{background:#fdecec;color:#e5484d}
+.ir b{display:block;font-size:12px;font-weight:800;line-height:1.2}
+.ir small{display:block;font-size:10px;color:var(--txt2)}
+.ir .vv{margin-left:auto;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ir .ch{width:24px;height:24px;border:1px solid var(--linea);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--txt2);flex:0 0 auto}
+.ind .ir{padding:6px 0}
+#sRen .ir{padding:10px 0}
+#gCubriste{left:120px;top:300px;transform-origin:0 100%}
+#gReal{transform-origin:50% 0}
+.aro{transition:none}
+.rt-i{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:#e8eef9;color:#3b5bab;font-size:9px;font-weight:800;margin-left:4px;flex:0 0 auto}
+.leyenda i.dash{height:0;background:none;border-top:2px dashed}
+#sIng .mi.n{background:#fff3e0;color:#ef8f1c}
+.ir .ii.g{background:#f1f4f9;color:#64748b}
+.fch em{font-style:normal}
+/* Ingresos y egresos (captura de Theo, 05/11/2026) */
+.fechas{display:flex;align-items:center;gap:8px;padding:7px 10px;margin-bottom:10px}
+.fch{display:flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--linea);border-radius:10px;font-size:12px;font-weight:800;color:var(--txt);font-variant-numeric:tabular-nums}
+.fch svg{width:13px;height:13px;color:#2a52be}
+.fechas i{width:8px;height:2px;background:#94a3b8;border-radius:1px}
+#sIng .pg{margin-bottom:10px}
+#sIng .cinco{margin-bottom:10px}
+#sIng .mc{height:88px;padding:9px 11px}
+#sIng .mc b{font-size:19px;margin-top:5px}
+#sIng .mc b.v{color:#16a34a}
+.flujo{padding:9px 13px 10px}
+.flujo .fc{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.flujo .fc .ti{width:32px;height:32px;border-radius:10px;background:#eef3ff;color:#2a52be;display:flex;align-items:center;justify-content:center}
+.flujo .fc .ti svg{width:17px;height:17px}
+.flujo h4{font-size:14px;font-weight:800;line-height:1.15}
+.flujo .fc p{font-size:10px;color:var(--txt2);margin-top:1px}
+.tb{border:1px solid #e8edf5;border-radius:10px;overflow:hidden}
+.fl-t{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr 1.25fr;align-items:center;height:30px;border-top:1px solid #eef2f7;font-size:11.5px;font-weight:600;color:#334155;font-variant-numeric:tabular-nums;opacity:0;visibility:hidden}
+.fl-t>span{text-align:center;white-space:nowrap}
+.fl-t>span+span{border-left:1px solid #dfe8f6;height:100%;display:flex;align-items:center;justify-content:center}
+.fl-t>.med{display:flex;align-items:center;gap:8px;padding-left:10px;font-weight:800;color:var(--txt);text-align:left}
+.fl-t .mi{width:23px;height:23px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.fl-t .mi svg{width:13px;height:13px}
+.fl-t .tt{font-weight:800;color:var(--txt)}
+.fl-t .me{color:#e5484d}
+.fl-t .na{color:#cbd5e1}
+.fl-t.cab{height:25px;border-top:0;background:#f8fafd;font-size:10.5px;font-weight:700;color:var(--txt2);opacity:1;visibility:visible}
+.fl-t.cab>.med{font-weight:700;color:var(--txt2)}
+.fl-t.tot{height:36px;background:#eff4fe;font-weight:800;color:var(--txt);border-top:1px solid #dfe8f6}
+.fl-t.tot .gr{font-size:16px;font-weight:900;color:#1d4fd7}
+</style>
+</head>
+<body data-anim="numeros">
+<div id="wrap"><div id="stage">
+  <div class="fx-fondo"></div><div class="fx-luz a"></div><div class="fx-luz b"></div><div class="fx-luz c"></div><div class="fx-grilla"></div>
+
+  <div id="cam">
+    <div class="win" id="win">
+      <div class="win-bar"><b>FIAS<sup>®</sup></b><div class="bt"><span>—</span><span>▢</span><span>✕</span></div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><div class="logo"><span class="f-fila"><img src="../logo_fias.png" alt="FIAS"><span class="fias-wm">FIAS<sup>®</sup></span></span><span class="fias-wm-s">Sistema de Gestión</span></div></div>
+          <nav class="nav">
+            <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Inicio</a>
+            <a><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Ventas</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.2c2.4-.2 4.4 1.3 5 4.3"/></svg>Fiados</a>
+            <a><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg>Comprobantes</a>
+            <a><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Productos</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Boletas de compra</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.3 0 1.2-1.3 2.1-3 2.1-1.3 0-2.4-.6-2.9-1.5M12 6v1.8M12 16.3V18"/></svg>Cierre de Caja</a>
+            <a class="on"><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg>Informes</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>Configuración</a>
+          </nav>
+          <div class="renov"><span class="ni"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span><div><b>Renovación</b><small>04/11/2027 · en 365 días</small></div></div><div class="copia"><span class="ni"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 8.6 4.8 4.8 0 0 1 17 18z"/></svg></span><div><b>Copia de seguridad</b><small>Próxima: mañana 06:31</small></div></div><div class="pie"><div class="av">A</div><div><b>admin</b><small>Administrador</small></div><span class="car"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></span></div>
+        </aside>
+
+        <main class="main" id="main">
+          <!-- Menú Informes (captura informes_01) -->
+          <div class="scr" id="sInf">
+            <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg></div>
+              <div><h2>Informes</h2><p>Ingresos, IVA, clientes, capital, métricas y rentabilidad.</p></div></div>
+            <div class="card kpis" id="kpis">
+              <div class="kpi"><div class="ki"><svg class="ico" viewBox="0 0 24 24"><path d="M15.5 7.5c-.6-1.2-2-1.9-3.5-1.9-2 0-3.5 1.1-3.5 2.6 0 3.6 7.2 1.9 7.2 5.4 0 1.5-1.6 2.6-3.7 2.6-1.6 0-3-.8-3.6-1.9M12 3.5v2.1M12 16.3v2.2"/></svg></div><div><small>Flujo de caja</small><b id="k1">$ 340.970,00</b><small>Lo que entró menos lo que salió, este mes</small></div></div>
+              <div class="kpi"><div class="ki"><svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18"/><circle cx="7.5" cy="7.5" r="2.2"/><circle cx="16.5" cy="16.5" r="2.2"/></svg></div><div><small>Utilidad neta</small><b id="k2">$ 145.330,00</b><small>Margen neto 26,5 % · este mes</small></div></div>
+              <div class="kpi"><div class="ki"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20c.7-3.6 3.2-5.6 6.5-5.6s5.8 2 6.5 5.6"/></svg></div><div><small>Clientes</small><b id="k3">5</b><small>Activos</small></div></div>
+              <div class="kpi"><div class="ki"><svg class="ico" viewBox="0 0 24 24"><path d="M15.5 7.5c-.6-1.2-2-1.9-3.5-1.9-2 0-3.5 1.1-3.5 2.6 0 3.6 7.2 1.9 7.2 5.4 0 1.5-1.6 2.6-3.7 2.6-1.6 0-3-.8-3.6-1.9M12 3.5v2.1M12 16.3v2.2"/></svg></div><div><small>Capital de fiados</small><b id="k4">$ 199.760,00</b><small>Actual</small></div></div>
+            </div>
+            <div class="tarjetas">
+              <div class="card tj" id="tIng"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M15.5 7.5c-.6-1.2-2-1.9-3.5-1.9-2 0-3.5 1.1-3.5 2.6 0 3.6 7.2 1.9 7.2 5.4 0 1.5-1.6 2.6-3.7 2.6-1.6 0-3-.8-3.6-1.9M12 3.5v2.1M12 16.3v2.2"/></svg></div><div><b>Ingresos y egresos</b><small>La plata que entró y salió de la caja, por período.</small></div><span class="fl">›</span></div>
+              <div class="card tj"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18"/><circle cx="7.5" cy="7.5" r="2.2"/><circle cx="16.5" cy="16.5" r="2.2"/></svg></div><div><b>IVA</b><small>Ingreso y egreso de IVA.</small></div><span class="fl">›</span></div>
+              <div class="card tj"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20c.7-3.6 3.2-5.6 6.5-5.6s5.8 2 6.5 5.6"/></svg></div><div><b>Clientes</b><small>Estadísticas y ajustes.</small></div><span class="fl">›</span></div>
+              <div class="card tj"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M15.5 7.5c-.6-1.2-2-1.9-3.5-1.9-2 0-3.5 1.1-3.5 2.6 0 3.6 7.2 1.9 7.2 5.4 0 1.5-1.6 2.6-3.7 2.6-1.6 0-3-.8-3.6-1.9M12 3.5v2.1M12 16.3v2.2"/></svg></div><div><b>Capital</b><small>Stock valorizado y fiados pendientes.</small></div><span class="fl">›</span></div>
+              <div class="card tj" id="tMet"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="m7 15 4-4 3 3 5-6"/></svg></div><div><b>Métricas</b><small>Resultado del mes, últimos 12 meses y gastos.</small></div><span class="fl">›</span></div>
+              <div class="card tj" id="tRen"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M3.5 12.5 11 5h8v8l-7.5 7.5z"/><circle cx="15" cy="9" r="1.3"/></svg></div><div><b>Rentabilidad</b><small>Lo que deja cada producto, con roturas y vencidos.</small></div><span class="fl">›</span></div>
+            </div>
+          </div>
+
+          <!-- Ingresos y egresos (diseño de la captura de Theo del 05/11/2026; números ficticios de Comercio Demo) -->
+          <div class="scr" id="sIng">
+            <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M15.5 7.5c-.6-1.2-2-1.9-3.5-1.9-2 0-3.5 1.1-3.5 2.6 0 3.6 7.2 1.9 7.2 5.4 0 1.5-1.6 2.6-3.7 2.6-1.6 0-3-.8-3.6-1.9M12 3.5v2.1M12 16.3v2.2"/></svg></div>
+              <div><h2>Ingresos y egresos</h2><p>La plata que entró y salió de la caja (criterio de lo cobrado), por período o turno.</p></div>
+              <div class="volver" id="bVolverI"><svg class="ico" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Volver</div></div>
+            <div class="card fechas"><span class="fch"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>01/11/2026</span><i></i><span class="fch"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>04/11/2026</span><span class="fch"><em>⏱</em>Turno</span></div>
+            <div class="cinco">
+              <div class="card mc" id="i1"><div class="mt"><span class="mi "><svg class="ico" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></span>Cobros de contado ›</div><b class="" id="i1v">$ 0,00</b><small>ver efectivo / transferencia</small></div>
+              <div class="card mc" id="i2"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20c.7-3.6 3.2-5.6 6.5-5.6s5.8 2 6.5 5.6"/></svg></span>Cobranzas de fiados ›</div><b class="" id="i2v">$ 0,00</b><small>ver efectivo / transferencia</small></div>
+              <div class="card mc" id="i3"><div class="mt"><span class="mi r"><svg class="ico" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8L4 8.5M4 4v4.5h4.5"/></svg></span>Devoluciones ›</div><b class="r" id="i3v">$ 0,00</b><small>ver detalle</small></div>
+              <div class="card mc" id="i4"><div class="mt"><span class="mi n"><svg class="ico" viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg></span>Salidas ›</div><b class="r" id="i4v">$ 0,00</b><small>ver detalle</small></div>
+              <div class="card mc" id="i5"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 7l11-3v3"/><path d="M16 13.5h.5"/></svg></span>Saldo inicial</div><b class="v" id="i5v">$ 0,00</b><small>cargado en Salidas</small></div>
+            </div>
+            <div class="card flujo">
+              <div class="fc"><div class="ti"><svg class="ico" viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg></div><div><h4>Flujo de caja del período</h4><p>Lo que entró por cada medio, menos devoluciones y salidas (sin el saldo inicial).</p></div></div>
+              <div class="tb">
+                <div class="fl-t cab"><span class="med">Medio</span><span>Cobrado de contado</span><span>Cobranza de fiados</span><span>Devoluciones</span><span>Salidas</span><span>Total</span></div>
+                <div class="fl-t" id="flr0"><span class="med"><span class="mi" style="background:#e8f0fd;color:#2f5fd0"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><circle cx="12" cy="12" r="2"/></svg></span>Efectivo</span><span>$ 68.640,00</span><span>$ 40.000,00</span><span><span class="na">—</span></span><span><b class="me" style="font-weight:600">− $ 8.500,00</b></span><span class="tt">$ 100.140,00</span></div>
+                <div class="fl-t" id="flr1"><span class="med"><span class="mi" style="background:#e7f6ef;color:#16a34a"><svg class="ico" viewBox="0 0 24 24"><path d="M4 9h13l-3-3M20 15H7l3 3"/></svg></span>Transferencia</span><span>$ 78.900,00</span><span><span class="na">—</span></span><span><span class="na">—</span></span><span><span class="na">—</span></span><span class="tt">$ 78.900,00</span></div>
+                <div class="fl-t" id="flr2"><span class="med"><span class="mi" style="background:#f6efdc;color:#a16207"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h6M7 14c1-1 2 1 3 0s2 1 3 0M16 14h2"/></svg></span>Cheque</span><span>$ 12.000,00</span><span><span class="na">—</span></span><span><span class="na">—</span></span><span><span class="na">—</span></span><span class="tt">$ 12.000,00</span></div>
+                <div class="fl-t" id="flr3"><span class="med"><span class="mi" style="background:#fdf3dc;color:#d97706"><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 10.5h17"/></svg></span>Débito</span><span>$ 70.200,00</span><span><span class="na">—</span></span><span><span class="na">—</span></span><span><span class="na">—</span></span><span class="tt">$ 70.200,00</span></div>
+                <div class="fl-t" id="flr4"><span class="med"><span class="mi" style="background:#efeafd;color:#7c5cd6"><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 10.5h17M7 14.5h4"/></svg></span>Crédito</span><span>$ 65.480,00</span><span><span class="na">—</span></span><span><span class="na">—</span></span><span><span class="na">—</span></span><span class="tt">$ 65.480,00</span></div>
+                <div class="fl-t" id="flr5"><span class="med"><span class="mi" style="background:#e0f5fa;color:#0891b2"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2z"/></svg></span>QR</span><span>$ 14.250,00</span><span><span class="na">—</span></span><span><span class="na">—</span></span><span><span class="na">—</span></span><span class="tt">$ 14.250,00</span></div>
+                <div class="fl-t tot" id="flT"><span class="med">Flujo de caja del período</span><span>$ 309.470,00</span><span>$ 40.000,00</span><span>—</span><span class="me">− $ 8.500,00</span><span class="gr" id="flG">$ 0,00</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Métricas (captura informes_03) -->
+          <div class="scr" id="sMet">
+            <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+              <div><h2>Métricas</h2><p>El resultado real de tu negocio, mes a mes.</p></div>
+              <div class="volver" id="bVolver"><svg class="ico" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Volver</div></div>
+            <div class="card barra"><span class="fx">‹</span><b>Noviembre 2026</b><span class="fx" style="opacity:.5">›</span>
+              <div class="tabs"><span class="tab on"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Mes</span><span class="tab"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="m7 15 4-4 3 3 5-6"/></svg>Últimos 12 meses</span><span class="tab"><svg class="ico" viewBox="0 0 24 24"><path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10"/></svg>Gastos</span></div></div>
+            <div class="cinco">
+              <div class="card mc" id="m1"><div class="mt"><span class="mi"><svg class="ico" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></span>Ventas ›</div><b id="v1">$ 549.230</b><small>sin datos de octubre</small></div>
+              <div class="card mc" id="m2"><div class="mt"><span class="mi n"><svg class="ico" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg></span>Costo de lo vendido ›</div><b class="r" id="v2">$ 395.400</b><small>lo que costó lo vendido</small></div>
+              <div class="card mc" id="m3"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><path d="m4 16 6-6 4 4 6-6M15 8h5v5"/></svg></span>Utilidad bruta ›</div><b class="v" id="v3">$ 153.830</b><small>margen bruto 28 %</small></div>
+              <div class="card mc" id="m4"><div class="mt"><span class="mi r"><svg class="ico" viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg></span>Gastos y mermas ›</div><b class="r" id="v4">$ 8.500</b><small>$9k + $0 de mermas</small></div>
+              <div class="card mc" id="m5"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><path d="m4 16 6-6 4 4 6-6M15 8h5v5"/></svg></span>Utilidad neta ›</div><b class="v" id="v5">$ 145.330</b><small>margen neto 26,5 %</small></div>
+            </div>
+            <div class="abajo">
+              <div class="card graf" id="grafM">
+                <h4>Curva de equilibrio</h4>
+                <p>Lo vendido contra lo que necesitás vender para pagar gastos y mermas con tu margen bruto de 28 %. Lo cubriste el <b>04/11</b>.</p>
+                <div class="leyenda"><span><i style="background:#2563eb"></i>Vendido acumulado</span><span><i class="dash" style="border-color:#2563eb"></i>Proyección</span><span><i class="dash" style="border-color:#475569"></i>Equilibrio $ 30.348</span></div>
+                <svg viewBox="0 0 460 196" id="svgM">
+                  <defs><clipPath id="clipP" clipPathUnits="userSpaceOnUse"><rect id="clipR" x="92" y="0" width="360" height="196"/></clipPath></defs>
+                  <g id="ejes"></g>
+                  <line id="lEq" x1="40" x2="420" y1="170" y2="170" stroke="#64748b" stroke-width="1.4" stroke-dasharray="5 4"/>
+                  <text x="424" y="173" class="et" style="font-size:9px" id="tEq">Equilibrio</text>
+                  <path id="lSol" d="" fill="none" stroke="#2563eb" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+                  <path id="lPro" d="" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5" clip-path="url(#clipP)"/>
+                  <circle id="d1" r="4" fill="#2563eb"/><text id="t1" class="et">$549k</text>
+                  <circle id="d2" r="4" fill="#2563eb"/><text id="t2" class="et">→ $4,1M</text>
+                </svg>
+              </div>
+              <div class="card ind">
+                <h4>Indicadores</h4><p>Tocá la flecha para ver el detalle.</p>
+                <div class="ir"><span class="ii"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3 19 6v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span><div><b>Margen de seguridad</b><small>colchón antes de perder</small></div><span class="vv">94,5 %</span></div>
+                <div class="ir"><span class="ii"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></span><div><b>Proyección del mes</b><small>utilidad neta ≈ $1,1M</small></div><span class="vv">$ 4.119.225</span></div>
+                <div class="ir"><span class="ii"><svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 10.5h17"/></svg></span><div><b>Ticket promedio</b><small>13 ventas y fiados</small></div><span class="vv">$ 42.248</span></div>
+                <div class="ir"><span class="ii v"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20c.7-3.6 3.2-5.6 6.5-5.6s5.8 2 6.5 5.6"/></svg></span><div><b>Fiado del mes</b><small>a crédito · cobrado $40k</small></div><span class="vv">$ 239.760</span><span class="ch">›</span></div>
+                <div class="ir"><span class="ii g"><svg class="ico" viewBox="0 0 24 24"><path d="M12 4 21 20H3z"/><path d="M12 10v4M12 17v.5"/></svg></span><div><b>Cuentas por cobrar</b><small>atrasado +30 días $0</small></div><span class="vv">$ 199.760</span><span class="ch">›</span></div>
+                <div class="ir"><span class="ii n"><svg class="ico" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg></span><div><b>Compras del mes</b><small>reponen stock, no son costo</small></div><span class="vv">$ 0</span><span class="ch">›</span></div>
+              </div>
+            </div>
+            <div class="globo v" id="gCubriste">Lo cubriste el 04/11<small>desde ahí, empezás a ganar</small></div>
+          </div>
+
+          <!-- Rentabilidad por producto (captura informes_04) -->
+          <div class="scr" id="sRen">
+            <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3.5 12.5 11 5h8v8l-7.5 7.5z"/><circle cx="15" cy="9" r="1.3"/></svg></div>
+              <div><h2>Rentabilidad por producto</h2><p>Lo que deja de verdad cada producto, descontando roturas y vencidos.</p></div>
+              <div class="volver"><svg class="ico" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Volver</div></div>
+            <div class="card barra"><b style="padding-left:6px">Histórico (desde 04/11/2026)</b>
+              <div class="tabs"><span class="tab on"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg>Histórico</span><span class="tab"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="m7 15 4-4 3 3 5-6"/></svg>Últimos 12 meses</span><span class="tab"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Por mes</span></div></div>
+            <div class="cinco">
+              <div class="card mc" id="r1"><div class="mt"><span class="mi"><svg class="ico" viewBox="0 0 24 24"><path d="m4 16 6-6 4 4 6-6M15 8h5v5"/></svg></span>Ganancia bruta<span class="rt-i">i</span></div><b id="w1">$ 153.830</b><small>lo que le ganaste vendiendo</small></div>
+              <div class="card mc" id="r2"><div class="mt"><span class="mi n"><svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg></span>Pérdidas<span class="rt-i">i</span> ›</div><b>$ 0</b><small>rotos $0 · vencidos $0</small></div>
+              <div class="card mc" id="r3"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><path d="m4 16 6-6 4 4 6-6M15 8h5v5"/></svg></span>Ganaste<span class="rt-i">i</span></div><b class="v" id="w3">$ 153.830</b><small>ganancia bruta − pérdidas</small></div>
+              <div class="card mc" id="r4"><div class="mt"><span class="mi v"><svg class="ico" viewBox="0 0 24 24"><path d="M3.5 12.5 11 5h8v8l-7.5 7.5z"/><circle cx="15" cy="9" r="1.3"/></svg></span>Margen real<span class="rt-i">i</span></div><b id="w4">38,9 %</b><small>sobre el costo</small></div>
+              <div class="card mc" id="r5"><div class="mt"><span class="mi r"><svg class="ico" viewBox="0 0 24 24"><path d="M12 4 21 20H3z"/><path d="M12 10v4M12 17v.5"/></svg></span>Oportunidad perdida<span class="rt-i">i</span></div><b>$ 0</b><small>lo perdido a precio de venta</small></div>
+            </div>
+            <div class="abajo">
+              <div class="card graf">
+                <h4>Margen bruto contra margen real</h4>
+                <p>Sobre el costo, como cargás tus productos. La distancia entre las dos líneas es lo que se va en roturas y vencidos.</p>
+                <div class="leyenda"><span><i style="background:#2563eb"></i>Margen bruto</span><span><i style="background:#D97706"></i>Margen real (después de mermas)</span></div>
+                <svg viewBox="0 0 460 196" id="svgR"><g id="ejesR"></g>
+                  <circle id="pB" cx="250" cy="0" r="5" fill="#2563eb"/><circle id="pR" cx="250" cy="0" r="3.6" fill="#D97706"/>
+                  <g id="pLab"><text x="262" y="0" class="et" id="lb1">Bruto 38,9 %</text><text x="262" y="0" class="et" id="lb2">Real 38,9 %</text></g>
+                </svg>
+              </div>
+              <div class="card ind">
+                <h4>Productos</h4><p>Elegí qué lista querés ver.</p>
+                <div class="ir"><span class="ii"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg></span><div><b>Cuánto ganaste con cada producto</b><small>de más a menos ganancia, en plata</small></div><span class="vv">20</span><span class="ch">›</span></div>
+                <div class="ir"><span class="ii r"><svg class="ico" viewBox="0 0 24 24"><path d="M12 4 21 20H3z"/><path d="M12 10v4M12 17v.5"/></svg></span><div><b>Dan pérdida</b><small>de mayor a menor pérdida</small></div><span class="vv">0</span><span class="ch">›</span></div>
+                <div class="ir"><span class="ii n"><svg class="ico" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg></span><div><b>Mucha merma</b><small>más del 5 %, de mayor a menor</small></div><span class="vv">0</span><span class="ch">›</span></div>
+                <div class="ir"><span class="ii"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/></svg></span><div><b>Por familia</b><small>de más a menos ganancia</small></div><span class="vv">7</span><span class="ch">›</span></div>
+              </div>
+            </div>
+            <div class="globo v" id="gReal">Margen real 38,9 %<small>sin roturas ni vencidos, no perdés margen</small></div>
+          </div>
+          <div class="aro" id="aro"></div>
+        </main>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2.5v17l4.6-4.3 3 6.6 3-1.4-3-6.4h6.2z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <div id="pulso"></div>
+  </div>
+
+  <div class="portada" id="portada">
+    <div class="t-kick" id="pk"><span class="n">#9</span>Informes</div>
+    <div class="t-h" id="ph">Cuánto ganaste,</div>
+    <div class="t-s" id="ps">de verdad.</div>
+  </div>
+  <div class="cierre" id="cierre">
+    <div class="marca" id="cm"><svg width="58" height="58" viewBox="0 0 64 64"><path d="M32 6 56 19v26L32 58 8 45V19z" fill="url(#cb)"/><path d="M32 6 56 19 32 32 8 19z" fill="#5b86e0" opacity=".55"/><path d="M19 31l10 10 22-24" fill="none" stroke="url(#cv)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="text-align:left"><b>FIAS®</b><i>SISTEMA DE GESTIÓN</i></div></div>
+    <div class="t-h" id="ch">Sabés si ganaste.</div>
+    <div class="t-s" id="cs">Y cuánto.</div>
+  </div>
+  <div id="capa"></div><div id="subt"></div>
+  <div class="fx-grano"></div><div class="fx-vin"></div>
+</div></div>
+
+<script src="motor.js"></script><script src="escenas.js"></script>
+<script>
+// Números de las capturas informes_01, 03 y 04 (Comercio Demo, noviembre 2026, antes de la venta V-00000009):
+// ventas 549.230 − costo 395.400 = utilidad bruta 153.830 (28 %); − gastos 8.500 − mermas 0 = utilidad neta 145.330 (26,5 %).
+// Ingresos y egresos (criterio de lo cobrado): contado 309.470 + fiados 40.000 − salidas 8.500 = flujo 340.970, igual al indicador del menú.
+// Margen real 153.830 / 395.400 = 38,9 % sobre el costo. Equilibrio 8.500 / 0,28 ≈ 30.348.
+const DUR = 29600, FOTO = 17200;
+
+// Curva de equilibrio: eje x días 1 a 30, eje y $0 a $6M
+const X = d => 40 + (d - 1) / 29 * 380, Y = v => 172 - v / 6e6 * 160;
+(function ejes() {
+  let g = "";
+  for (const v of [0, 2e6, 4e6, 6e6]) g += `<line x1="40" x2="420" y1="${Y(v)}" y2="${Y(v)}" stroke="#eef2f7"/><text x="34" y="${Y(v) + 3}" text-anchor="end">$${v / 1e6 ? v / 1e6 + "M" : "0"}</text>`;
+  for (const d of [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 30]) g += `<text x="${X(d)}" y="189" text-anchor="middle">${d}</text>`;
+  $("ejes").innerHTML = g;
+  $("lEq").setAttribute("y1", Y(30348)); $("lEq").setAttribute("y2", Y(30348)); $("tEq").setAttribute("y", Y(30348) + 3);
+  $("lSol").setAttribute("d", `M${X(1)} ${Y(0)} L${X(3)} ${Y(0)} L${X(4)} ${Y(549230)}`);
+  $("lPro").setAttribute("d", `M${X(4)} ${Y(549230)} L${X(30)} ${Y(4119225)}`);
+  $("d1").setAttribute("cx", X(4)); $("d1").setAttribute("cy", Y(549230)); $("t1").setAttribute("x", X(4) + 8); $("t1").setAttribute("y", Y(549230) + 12);
+  $("d2").setAttribute("cx", X(30)); $("d2").setAttribute("cy", Y(4119225)); $("t2").setAttribute("x", X(30) - 50); $("t2").setAttribute("y", Y(4119225) - 9);
+  // Rentabilidad: eje 32,5 % a 45 %, un solo mes (Nov)
+  const YR = v => 172 - (v - 32.5) / 12.5 * 160; let r = "";
+  for (const v of [32.5, 35, 37.5, 40, 42.5, 45]) r += `<line x1="40" x2="420" y1="${YR(v)}" y2="${YR(v)}" stroke="#eef2f7"/><text x="34" y="${YR(v) + 3}" text-anchor="end">${String(v).replace(".", ",")} %</text>`;
+  r += `<text x="250" y="189" text-anchor="middle">Nov</text>`;
+  $("ejesR").innerHTML = r;
+  for (const id of ["pB", "pR"]) $(id).setAttribute("cy", YR(38.9));
+  $("lb1").setAttribute("y", YR(38.9) - 2); $("lb2").setAttribute("y", YR(38.9) + 11);
+})();
+const largoSol = $("lSol").getTotalLength();
+$("lSol").style.strokeDasharray = largoSol;
+
+// Cámara: [ms, x, y, zoom]
+const CAM = [[0, 640, 380, 1], [3600, 640, 380, 1], [4400, 740, 250, 1.3], [5700, 740, 250, 1.3], [6300, 640, 380, 1],
+  [6900, 640, 380, 1], [7400, 745, 262, 1.2], [8600, 745, 262, 1.2], [9100, 745, 450, 1.2], [10700, 745, 450, 1.2], [11100, 640, 380, 1],
+  [12500, 640, 380, 1], [13100, 745, 300, 1.25], [14900, 745, 300, 1.25], [15600, 585, 465, 1.3], [18100, 585, 465, 1.3], [18700, 640, 380, 1],
+  [20200, 640, 380, 1], [20800, 760, 300, 1.25], [22500, 760, 300, 1.25], [23100, 610, 425, 1.22], [25000, 610, 425, 1.22], [25600, 640, 380, 1]];
+const CAMINO = [
+  [3300, 760, 640], [4800, 820, 420], [6200, "tIng", -60, 6], [7500, 640, 330], [9400, 900, 500], [10700, 880, 648],
+  [11100, "bVolverI", -8, 2], [11800, "tMet", -60, 6], [13000, 860, 520], [15200, 900, 600], [18200, 980, 400],
+  [18900, "bVolver", -8, 2], [19600, "tRen", -60, 6], [21100, 880, 460], [23200, 980, 520], [25100, 1000, 560]];
+const CLICS = [6300, 11200, 11900, 19000, 19700];
+const VIS = [3300, 25200];
+const SUBS = [
+  [3600, 6100, "La plata que entró y la que <em>ganaste</em>"],
+  [7000, 8800, "El fiado cuenta <em>cuando lo cobrás</em>"],
+  [8950, 11000, "Cada peso, por <em>medio de pago</em>"],
+  [12600, 15200, "Ventas menos costos: <em>lo que te queda</em>"],
+  [15600, 18200, "El día que la cruzás, <em>empezás a ganar</em>"],
+  [20300, 22500, "Lo que te deja <em>cada producto</em>"],
+  [22700, 25100, "Descontando roturas y <em>vencidos</em>"],
+];
+
+function rel(el, base) { let x = 0, y = 0, e = el; while (e && e !== base) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return [x, y, el.offsetWidth, el.offsetHeight]; }
+function aro(t, partes) {
+  const a = $("aro"); let o = 0, box = null;
+  for (const [el, d, h] of partes) { const k = p(t, d, d + 300) * (1 - p(t, h, h + 250)); if (k > 0) { o = k; box = el; } }
+  if (!box) { S(a, 0); return; }
+  const [x, y, w, h] = rel(box, $("main"));
+  a.style.left = (x - 5) + "px"; a.style.top = (y - 5) + "px"; a.style.width = (w + 10) + "px"; a.style.height = (h + 10) + "px";
+  S(a, o);
+}
+// Pantalla visible entre a y b (fundido corto)
+const pant = (el, t, tramos) => { let o = 0; for (const [a, b] of tramos) o = Math.max(o, p(t, a, a + 250) * (b ? 1 - p(t, b, b + 200) : 1)); S(el, o, `translateY(${6 * (1 - o)}px)`); };
+const cuenta = (el, t, a, v, f) => { el.textContent = f(v * eo(p(t, a, a + 900))); };
+const pesos0 = n => plata(n), pesos2 = n => plata(n) + ",00";
+
+function ESCENA(t) {
+  // Portada
+  const out = p(t, 2200, 2700);
+  fade($("pk"), t, 150); fade($("ph"), t, 400, 0, 24); fade($("ps"), t, 800, 0, 24);
+  $("portada").style.opacity = 1 - out; $("portada").style.transform = `scale(${1 + .06 * out})`; $("portada").style.visibility = out >= 1 ? "hidden" : "visible";
+  const w = eo(p(t, 2300, 3300)), wo = 1 - p(t, 25500, 26000);
+  S($("win"), w * wo, `translateY(${90 * (1 - w)}px) scale(${.9 + .1 * w}) perspective(1600px) rotateX(${10 * (1 - w)}deg)`);
+
+  // Pantallas: Informes → Ingresos y egresos → (Volver) Informes → Métricas → (Volver) Informes → Rentabilidad
+  pant($("sInf"), t, [[0, 6450], [11300, 12050], [19100, 19850]]);
+  pant($("sIng"), t, [[6650, 11150]]);
+  pant($("sMet"), t, [[12250, 18950]]);
+  pant($("sRen"), t, [[20050, 0]]);
+
+  // Informes: los 4 indicadores cuentan
+  cuenta($("k1"), t, 3500, 340970, pesos2); cuenta($("k2"), t, 3600, 145330, pesos2);
+  cuenta($("k3"), t, 3700, 5, num); cuenta($("k4"), t, 3800, 199760, pesos2);
+
+  // Ingresos y egresos: las cinco tarjetas, después la tabla renglón por renglón y el flujo
+  [309470, 40000, 0, 8500, 50000].forEach((v, i) => {
+    const a = 6900 + i * 180; fade($("i" + (i + 1)), t, a, 0, 12); cuenta($("i" + (i + 1) + "v"), t, a, v, pesos2);
+  });
+  for (let i = 0; i < 6; i++) fade($("flr" + i), t, 8800 + i * 130, 0, 8, 240);
+  fade($("flT"), t, 9650, 0, 8, 260); cuenta($("flG"), t, 9750, 340970, pesos2);
+
+  // Métricas: las cinco tarjetas, una por una
+  [549230, 395400, 153830, 8500, 145330].forEach((v, i) => {
+    const a = 12500 + i * 280; fade($("m" + (i + 1)), t, a, 0, 12); cuenta($("v" + (i + 1)), t, a, v, pesos0);
+  });
+  // Curva de equilibrio: equilibrio, lo vendido y la proyección que se dibuja
+  S($("lEq"), p(t, 15500, 15800)); S($("tEq"), p(t, 15500, 15800));
+  $("lSol").style.strokeDashoffset = largoSol * (1 - eio(p(t, 15800, 16400)));
+  S($("d1"), p(t, 16350, 16450)); S($("t1"), p(t, 16350, 16550));
+  const kp = eio(p(t, 16500, 17600));
+  $("clipR").setAttribute("width", 360 * kp);
+  S($("d2"), p(t, 17550, 17650)); S($("t2"), p(t, 17550, 17750));
+  const [gx, gy] = (() => { const [sx, sy] = rel($("svgM"), $("sMet")), k = $("svgM").clientWidth / 460; return [sx + (X(4) + 12) * k, sy + Y(549230) * k - 70]; })();
+  $("gCubriste").style.left = gx + "px"; $("gCubriste").style.top = gy + "px";
+  pop($("gCubriste"), t, 16550, 18500);
+
+  // Rentabilidad
+  ["w1", null, "w3"].forEach((id, i) => { if (id) cuenta($(id), t, 20150 + i * 260, 153830, pesos0); });
+  for (let i = 1; i <= 5; i++) fade($("r" + i), t, 20150 + (i - 1) * 260, 0, 12);
+  $("w4").textContent = (38.9 * eo(p(t, 20930, 21830))).toFixed(1).replace(".", ",") + " %";
+  const [rx, ry, rw, rh] = rel($("r4"), $("sRen"));
+  $("gReal").style.left = (rx + rw / 2 - $("gReal").offsetWidth / 2) + "px"; $("gReal").style.top = (ry + rh + 10) + "px";
+  pop($("gReal"), t, 21300, 22600);
+  S($("pB"), p(t, 23000, 23200)); S($("pR"), p(t, 23200, 23400)); S($("pLab"), p(t, 23300, 23600));
+  aro(t, [[$("kpis"), 4500, 5800], [$("tIng"), 5900, 6400], [$("i2"), 7500, 8650], [$("tMet"), 11500, 12000], [$("tRen"), 19300, 19800], [$("r2"), 22800, 24900]]);
+
+  // Cierre
+  const c = p(t, 25800, 26300) * (1 - p(t, 29000, 29500));
+  S($("cierre"), c);
+  fade($("cm"), t, 25900); fade($("ch"), t, 26200, 0, 24); fade($("cs"), t, 26700, 0, 24);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: cierre de caja en FIAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Manrope:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.ico{stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pg{position:relative}
+.pg .ic svg{stroke-width:1.9}
+.pg .rep{position:absolute;right:0;top:4px;display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;background:#fff;border:1px solid var(--linea);font-weight:800;font-size:13px;color:var(--txt)}
+.pg .rep svg{width:14px;height:14px}
+.estado{display:flex;align-items:center;gap:10px;padding:12px 16px;margin-bottom:14px}
+.estado .pt{width:16px;height:16px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 5px #e7f6ef;flex:0 0 auto}
+.estado b{display:block;color:#15803d;font-size:16px;font-weight:800}
+.estado small{display:block;font-size:11px;color:#64748b;line-height:1.3}
+.estado .acc{margin-left:auto;display:flex;gap:7px}
+.estado .btn{padding:9px 12px;font-size:12px}
+.estado .btn svg{width:14px;height:14px}
+.btn.verde{background:#16a34a;border-color:#16a34a;color:#fff}
+.btn.amar{background:#fdf0cf;border-color:#fdf0cf;color:#d97706}
+.btn.rojo{background:#dc2626;border-color:#dc2626;color:#fff}
+.grid{display:grid;grid-template-columns:268px 1fr 238px;gap:14px;height:362px}
+.azul{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#2f5fd0,#1F409C);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 12px 30px rgba(30,41,59,.12)}
+.azul .bi{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.azul .bi svg{width:26px;height:26px}
+.azul p{font-size:15px;font-weight:500;opacity:.95}
+.azul b{display:block;font:900 36px/1.15 Inter,sans-serif;letter-spacing:-.03em;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.azul small{font-size:12.5px;opacity:.9}
+.azul .ola{position:absolute;left:0;bottom:0;width:100%;height:80px;opacity:.55}
+.res{padding:16px 18px}
+.res h4,.dis h4{font-size:15.5px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em;color:#1e2d54}
+.fila{display:flex;align-items:center;gap:11px;padding:7px 6px;margin:0 -6px;border-radius:11px;position:relative}
+.fila .fi{width:32px;height:32px;border-radius:9px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#e8f0fd;color:#2f5fd0}
+.fila .fi svg{width:16px;height:16px}
+.fila .fi.v{background:#e7f6ef;color:#16a34a}.fila .fi.r{background:#fdecec;color:#e5484d}
+.fila span{font-size:13.5px;font-weight:500;line-height:1.2;color:#243244}
+.fila b{margin-left:auto;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fila b.v{color:#16a34a}.fila b.r{color:#e5484d}
+.sep{height:1px;background:var(--linea);margin:6px 0}
+#fVentas{background:rgba(220,252,231,0)}
+.dis{padding:16px 18px;display:flex;flex-direction:column}
+.dis .ani{position:relative;width:150px;height:150px;margin:8px auto 0}
+.dis .ani svg{width:150px;height:150px;transform:rotate(-90deg)}
+.dis .ani div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dis .ani small{font-size:10.5px;color:#94a3b8}
+.dis .ani b{font-size:13px;font-weight:800;color:#1e2d54;font-variant-numeric:tabular-nums}
+.ley{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.ley div{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#475569}
+.ley i{width:9px;height:9px;border-radius:50%}
+.ley b{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums}
+/* Venta que entra */
+#gVenta{left:2px;top:150px;display:flex;align-items:center;gap:12px;opacity:0;visibility:hidden;transform-origin:50% 100%}
+#gVenta .vi{width:40px;height:40px;border-radius:12px;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center}
+#gVenta .vi svg{width:22px;height:22px}
+/* Ventana «Cerrar caja (retirar)» */
+#mCerrar{left:320px;top:86px;width:460px}
+#mCerrar .mh{padding:16px 20px}
+#mCerrar .mh h3,#mOk .mh h3{color:#214172;font-size:19px;font-weight:900}
+#mCerrar .mh .x,#mOk .mh .x{width:32px;height:32px;border-radius:50%;background:#eef5fb;display:flex;align-items:center;justify-content:center;color:#2a4d85;font-size:14px}
+#mCerrar .cb{padding:14px 20px 12px}
+#mCerrar .rr{display:flex;justify-content:space-between;align-items:flex-end;font-size:14.5px}
+#mCerrar .rr b{font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;margin-top:16px}
+#mCerrar .lb{font-weight:800;font-size:15px;margin:12px 0 5px}
+#mCerrar .inp{width:228px;height:40px;border:1px solid var(--linea);border-radius:11px;display:flex;align-items:center;padding:0 13px;font-size:14px;font-variant-numeric:tabular-nums}
+#mCerrar .inp.foco{border-color:#2a52be;box-shadow:0 0 0 3px rgba(42,82,190,.16)}
+#mCerrar .sep{margin:12px 0}
+#mCerrar .nota{font-size:11.5px;color:var(--txt2);margin-top:10px;line-height:1.35;padding:3px 5px;margin-left:-5px;margin-right:-5px;border-radius:8px}
+#mCerrar .mf{display:flex;justify-content:flex-end;gap:9px;padding:14px 20px;border-top:1px solid var(--linea)}
+#mCerrar .mf .btn{padding:10px 17px;font-size:13.5px}
+#bRetirar{background:#ef4444;border-color:#ef4444;color:#fff}
+#qBox{border-radius:10px;padding:4px 6px;margin:0 -6px}
+#qBox .rr{align-items:center}#qBox .rr b{margin-top:0}
+/* Ventana «Cierre registrado» (caja.html:372, sin ancho: la tarjeta común de los modales) */
+#mOk{left:155px;top:186px;width:790px}
+#mOk .mh{padding:16px 20px}
+#mOk .ob{padding:18px}
+.alerta{position:relative;border-radius:16px;padding:16px 20px 16px 56px;border:1.5px solid #bfe8cf;background:#f0faf4;color:#166534;font-size:14.5px;line-height:1.55}
+.alerta b{font-weight:800}
+.alerta svg{position:absolute;left:18px;top:50%;margin-top:-13px;width:26px;height:26px;fill:none;stroke:#1a9d5a;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#mOk .of{display:flex;justify-content:flex-end;padding:13px 18px;border-top:1px solid #edf4fa}
+#mOk .of .btn{padding:10px 22px;font-size:14px}
+</style>
+</head>
+<body data-anim="caja">
+<div id="wrap"><div id="stage">
+  <div class="fx-fondo"></div><div class="fx-luz a"></div><div class="fx-luz b"></div><div class="fx-luz c"></div><div class="fx-grilla"></div>
+
+  <div id="cam">
+    <div class="win" id="win">
+      <div class="win-bar"><b>FIAS<sup>®</sup></b><div class="bt"><span>—</span><span>▢</span><span>✕</span></div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><div class="logo"><span class="f-fila"><img src="../logo_fias.png" alt="FIAS"><span class="fias-wm">FIAS<sup>®</sup></span></span><span class="fias-wm-s">Sistema de Gestión</span></div></div>
+          <nav class="nav">
+            <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Inicio</a>
+            <a><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Ventas</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.2c2.4-.2 4.4 1.3 5 4.3"/></svg>Fiados</a>
+            <a><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg>Comprobantes</a>
+            <a><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Productos</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Boletas de compra</a>
+            <a class="on" id="navCaja"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.3 0 1.2-1.3 2.1-3 2.1-1.3 0-2.4-.6-2.9-1.5M12 6v1.8M12 16.3V18"/></svg>Cierre de Caja</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg>Informes</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>Configuración</a>
+          </nav>
+          <div class="renov"><span class="ni"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span><div><b>Renovación</b><small>04/11/2027 · en 365 días</small></div></div><div class="copia"><span class="ni"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 8.6 4.8 4.8 0 0 1 17 18z"/></svg></span><div><b>Copia de seguridad</b><small>Próxima: mañana 06:31</small></div></div><div class="pie"><div class="av">A</div><div><b>admin</b><small>Administrador</small></div><span class="car"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></span></div>
+        </aside>
+
+        <main class="main" id="main">
+          <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div><h2>Cierre de caja</h2><p>Efectivo real en la caja.</p></div>
+            <div class="rep"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>Ver reporte de ingresos</div></div>
+
+          <div class="card estado" id="barra">
+            <div class="pt"></div>
+            <div><b>Caja abierta</b><small>Abierta por admin</small><small>04/11/2026 - 06:32 hs</small></div>
+            <div class="acc">
+              <div class="btn"><svg class="ico" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Historial</div>
+              <div class="btn verde"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Agregar saldo</div>
+              <div class="btn amar"><svg class="ico" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Registrar salida</div>
+              <div class="btn rojo" id="bCerrar"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Cerrar caja (retirar)</div>
+            </div>
+          </div>
+
+          <div class="grid" id="grilla">
+            <div class="azul" id="azul">
+              <div class="bi"><svg class="ico" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div>
+              <p>Efectivo actual en caja</p>
+              <b id="efectivo">$ 150.140,00</b>
+              <small>Saldo disponible para retiros</small>
+              <svg class="ola" viewBox="0 0 400 80" preserveAspectRatio="none"><path d="M0,50 C40,30 80,60 120,45 C160,30 200,55 240,42 C280,30 320,58 360,44 C380,38 400,48 400,48 L400,80 L0,80 Z" fill="rgba(255,255,255,.16)"/><path d="M0,58 C40,42 80,68 120,54 C160,42 200,64 240,52 C280,42 320,66 360,54 L400,56 L400,80 L0,80 Z" fill="rgba(255,255,255,.10)"/></svg>
+            </div>
+
+            <div class="card res" id="res">
+              <h4>Resumen de movimientos</h4>
+              <div id="gIng">
+                <div class="fila" id="fVentas"><div class="fi"><svg class="ico" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><span>Ventas en efectivo</span><b class="v" id="vVentas">$ 68.640,00</b></div>
+                <div class="fila"><div class="fi"><svg class="ico" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span>Cobros de fiado (efectivo)</span><b class="v">$ 40.000,00</b></div>
+                <div class="fila"><div class="fi v"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><span>Saldo agregado</span><b class="v">$ 50.000,00</b></div>
+              </div>
+              <div class="sep"></div>
+              <div id="gEgr">
+                <div class="fila"><div class="fi r"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div><span>Salidas (gastos)</span><b class="r">$ 8.500,00</b></div>
+                <div class="fila"><div class="fi r"><svg class="ico" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span>Devoluciones</span><b class="r">$ 0,00</b></div>
+                <div class="fila" id="fRet"><div class="fi r"><svg class="ico" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div><span>Retirado (cierres)</span><b class="r" id="vRet">$ 0,00</b></div>
+              </div>
+            </div>
+
+            <div class="card dis">
+              <h4>Distribución de movimientos</h4>
+              <div class="ani">
+                <svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="58.5" fill="none" stroke="#eef2f7" stroke-width="19"/>
+                  <circle id="arcI" cx="75" cy="75" r="58.5" fill="none" stroke="#16a34a" stroke-width="19" stroke-dasharray="0 368"/>
+                  <circle id="arcE" cx="75" cy="75" r="58.5" fill="none" stroke="#ef4444" stroke-width="19" stroke-dasharray="0 368"/></svg>
+                <div><small>Total ingresos</small><b id="vTot">$ 158.640,00</b></div>
+              </div>
+              <div class="ley">
+                <div><i style="background:#16a34a"></i>Ingresos<b id="vIng" style="color:#16a34a">$ 158.640,00</b></div>
+                <div><i style="background:#ef4444"></i>Egresos<b id="vEgr" style="color:#ef4444">$ 8.500,00</b></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="aro" id="aro"></div>
+          <div class="globo v" id="gVenta"><div class="vi"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></div><div>Venta V-00000009<small>Efectivo · $ 30.180,00</small></div></div>
+        </main>
+      </div>
+
+      <div class="velo" id="velo"></div>
+      <div class="modal" id="mCerrar">
+        <div class="mh"><h3>Cerrar caja (retirar)</h3><span class="x">✕</span></div>
+        <div class="cb">
+          <div class="rr"><span>Efectivo en la caja</span><b>$ 180.320,00</b></div>
+          <div class="lb">¿Cuánto retirás?</div>
+          <div class="inp" id="inp">0</div>
+          <div class="sep"></div>
+          <div id="qBox"><div class="rr"><span>Queda en la caja</span><b id="queda">$ 180.320,00</b></div></div>
+          <div class="nota" id="notaC">El cierre solo resta lo que retirás. La caja sigue abierta con el saldo restante.</div>
+        </div>
+        <div class="mf"><div class="btn">Cancelar</div><div class="btn" id="bRetirar">Retirar</div></div>
+      </div>
+      <div class="modal" id="mOk">
+        <div class="mh"><h3>Cierre registrado</h3><span class="x">✕</span></div>
+        <div class="ob"><div class="alerta"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12.2 11 14.7 15.6 9.8"/></svg>Retiraste <b>$ 130.320,00</b>. Quedan <b>$ 50.000,00</b> en la caja.</div></div>
+        <div class="of"><div class="btn pri" id="bOk">OK</div></div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2.5v17l4.6-4.3 3 6.6 3-1.4-3-6.4h6.2z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <div id="pulso"></div>
+  </div>
+
+  <div class="portada" id="portada">
+    <div class="t-kick" id="pk"><span class="n">#8</span>Caja</div>
+    <div class="t-h" id="ph">El cajón,</div>
+    <div class="t-s" id="ps">lo que tiene que haber.</div>
+  </div>
+  <div class="cierre" id="cierre">
+    <div class="marca" id="cm"><svg width="58" height="58" viewBox="0 0 64 64"><path d="M32 6 56 19v26L32 58 8 45V19z" fill="url(#cb)"/><path d="M32 6 56 19 32 32 8 19z" fill="#5b86e0" opacity=".55"/><path d="M19 31l10 10 22-24" fill="none" stroke="url(#cv)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="text-align:left"><b>FIAS®</b><i>SISTEMA DE GESTIÓN</i></div></div>
+    <div class="t-h" id="ch">Lo que tiene que haber.</div>
+    <div class="t-s" id="cs">Todos los días.</div>
+  </div>
+  <div id="capa"></div><div id="subt"></div>
+  <div class="fx-grano"></div><div class="fx-vin"></div>
+</div></div>
+
+<script src="motor.js"></script><script src="escenas.js"></script>
+<script>
+// Día de caja de ejemplo (BASE, sección F): apertura 50.000 + ventas 68.640 + cobros 40.000 − salida 8.500 = 150.140.
+// Entra la venta V-00000009 en efectivo (30.180): 180.320. Se retiran 130.320 y quedan 50.000.
+const pesos = n => plata(n) + ",00";
+const FIN = 21300, DUR = FIN + 4100, FOTO = 20000;
+// Cámara: [ms, x, y, zoom] — (x, y) es el punto del escenario que queda al centro
+const CAM = [[0, 640, 380, 1], [3500, 640, 380, 1], [4500, 600, 390, 1.24], [8200, 600, 390, 1.24], [9000, 790, 435, 1.16], [11400, 790, 435, 1.16],
+  [12000, 640, 380, 1], [12700, 640, 330, 1.28], [16400, 640, 330, 1.28], [16900, 640, 365, 1.12], [18900, 640, 365, 1.12], [19500, 620, 400, 1.14]];
+const CAMINO = [
+  [3300, 760, 640], [6000, 900, 600], [7100, "navCaja", 8, 10], [8150, "navCaja", 8, 10], [8800, 1000, 560], [11500, "bCerrar", -10, 4], [12800, "inp", -40, 4], [14400, "inp", 40, 10],
+  [16200, "bRetirar", -6, 2], [17400, "bRetirar", 40, 60], [18700, "bOk", 8, 8]];
+const CLICS = [7200, 11600, 12900, 16400, 18800];
+const VIS = [3300, 19000];
+const SUBS = [
+  [3500, 5900, "Lo que tiene que haber <em>en el cajón</em>"],
+  [6100, 8400, "Entra una venta y <em>se suma sola</em>"],
+  [8800, 10100, "Suma <em>ventas, cobros y saldo agregado</em>"],
+  [10100, 11500, "Resta <em>salidas, devoluciones y retiros</em>"],
+  [12300, 14500, "Al cerrar, decís <em>cuánto retirás</em>"],
+  [14700, 16300, "Y queda el <em>cambio</em> para mañana"],
+  [16650, 18700, "El cierre <em>queda registrado</em>"],
+  [19150, 21300, "La caja sigue abierta con <em>lo que quedó</em>"],
+];
+
+// Posición de un elemento dentro de otro (sin transformaciones)
+function rel(el, base) { let x = 0, y = 0, e = el; while (e && e !== base) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return [x, y, el.offsetWidth, el.offsetHeight]; }
+function aro(t, partes) {
+  const a = $("aro"); let o = 0, box = null;
+  for (const [el, d, h] of partes) { const k = p(t, d, d + 300) * (1 - p(t, h, h + 250)); if (k > 0) { o = k; box = el; } }
+  if (!box) { S(a, 0); return; }
+  const [x, y, w, h] = rel(box, $("main"));
+  a.style.left = (x - 6) + "px"; a.style.top = (y - 5) + "px"; a.style.width = (w + 12) + "px"; a.style.height = (h + 10) + "px";
+  S(a, o);
+}
+function anillo(ing, egr) {
+  const C = 2 * Math.PI * 58.5, tot = ing + egr, li = C * ing / tot, le = C * egr / tot;
+  $("arcI").setAttribute("stroke-dasharray", `${li} ${C}`);
+  $("arcE").setAttribute("stroke-dasharray", `${le} ${C}`);
+  $("arcE").setAttribute("stroke-dashoffset", -li);
+}
+
+function ESCENA(t) {
+  // Portada
+  const out = p(t, 2200, 2700);
+  fade($("pk"), t, 150); fade($("ph"), t, 400, 0, 24); fade($("ps"), t, 800, 0, 24);
+  $("portada").style.opacity = 1 - out; $("portada").style.transform = `scale(${1 + .06 * out})`; $("portada").style.visibility = out >= 1 ? "hidden" : "visible";
+  // La ventana sube desde el fondo
+  const w = eo(p(t, 2300, 3300)), wo = 1 - p(t, FIN, FIN + 500);
+  S($("win"), w * wo, `translateY(${90 * (1 - w)}px) scale(${.9 + .1 * w}) perspective(1600px) rotateX(${10 * (1 - w)}deg)`);
+
+  // La pantalla no se refresca sola: los números cambian al volver a cargar la caja (cargar())
+  const carga = a => p(t, a, a + 90) * (1 - p(t, a + 130, a + 260));
+  const rec = 1 - Math.max(carga(7200), carga(18900));
+  $("barra").style.opacity = rec; $("grilla").style.opacity = rec;
+
+  // Entra la venta V-00000009: al recargar, 180.320 en la caja
+  pop($("gVenta"), t, 6100, 8300);
+  const venta = t >= 7290, retiro = t >= 18990;
+  const vEf = 68640 + (venta ? 30180 : 0), ing = vEf + 40000 + 50000, ret = retiro ? 130320 : 0, egr = 8500 + ret;
+  $("efectivo").textContent = pesos(ing - egr);
+  $("vVentas").textContent = pesos(vEf);
+  $("vTot").textContent = pesos(ing); $("vIng").textContent = pesos(ing);
+  $("vRet").textContent = pesos(ret); $("vEgr").textContent = pesos(egr);
+  anillo(ing, egr);
+  $("fVentas").style.background = `rgba(220,252,231,${p(t, 7400, 7700) * (1 - p(t, 8300, 8700))})`;
+  const lat = Math.max(Math.sin(p(t, 7350, 8000) * Math.PI), Math.sin(p(t, 19100, 19750) * Math.PI));
+  $("efectivo").style.transform = `scale(${1 + .06 * lat})`;
+
+  // Resumen: lo que suma y lo que resta. Después del cierre, el retiro
+  aro(t, [[$("gIng"), 8900, 10050], [$("gEgr"), 10200, 11400], [$("fRet"), 19200, FIN + 1000]]);
+
+  // Cerrar caja (retirar)
+  const m = modal($("mCerrar"), t, 11750, 16450);
+  const m2 = modal($("mOk"), t, 16620, 18850);
+  S($("velo"), Math.max(m, m2));
+  const tec = "130320", esc = t < 13100 ? "" : tipeo(tec, t, 13100, 14000);
+  $("inp").textContent = (esc || (t < 13100 ? "0" : "")) + caret(t, 12950, 14300);
+  $("inp").classList.toggle("foco", t > 12900 && t < 16300);
+  $("queda").textContent = pesos(180320 - (+esc || 0));
+  $("qBox").style.background = `rgba(220,252,231,${p(t, 14000, 14300) * (1 - p(t, 16100, 16350))})`;
+  $("notaC").style.background = `rgba(219,234,254,${p(t, 14900, 15200) * (1 - p(t, 16100, 16350))})`;
+
+  // Cierre
+  const c = p(t, FIN + 300, FIN + 800) * (1 - p(t, FIN + 3500, FIN + 4000));
+  S($("cierre"), c);
+  fade($("cm"), t, FIN + 400); fade($("ch"), t, FIN + 700, 0, 24); fade($("cs"), t, FIN + 1200, 0, 24);
+}
+</script>
+</body>
+</html>

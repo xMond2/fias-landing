@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: los tutoriales de FIAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Manrope:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.main{position:relative}
+.vista{position:absolute;left:24px;right:24px;top:20px;bottom:12px;opacity:0;visibility:hidden}
+/* Configuración (configuracion.html, cfg2-card) */
+.cfg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cfg .card{display:flex;align-items:center;gap:14px;padding:16px 16px;height:96px}
+.cfg .ci{width:50px;height:50px;border-radius:14px;background:#eef3fb;color:var(--azul);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cfg .ci svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cfg b{display:block;font-size:17px;font-weight:800;color:#1f3a63}.cfg small{font-size:12px;color:var(--txt2)}
+.cfg .ch{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;color:var(--azul);font-size:14px;flex:0 0 auto}
+/* Productos (productos.html) */
+.pc-f{display:flex;gap:8px;margin-bottom:10px}
+.pc{flex:1 1 0;min-width:0;background:#fff;border:1px solid #e8edf5;border-radius:14px;padding:11px 9px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(30,41,59,.04)}
+.pc-ic{position:relative;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.pc-ic svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pc-ic.blue{background:#eaf1fd;color:#2f5fd0}.pc-ic.red{background:#fdeaea;color:#e53e3e}.pc-ic.amber{background:#fdf3e3;color:#c07c12}.pc-ic.solid{background:linear-gradient(180deg,#2f5fd0,#1F409C);color:#fff}
+.pc-b{position:absolute;top:-3px;right:-3px;min-width:14px;height:14px;border-radius:999px;background:#e53e3e;color:#fff;font-size:10px;font-weight:800;line-height:12px;text-align:center;border:1px solid #fff}.pc-b.amber{background:#e0a12a}
+.pc-t{font-size:10.5px;color:#64748b;font-weight:600;line-height:1.2}.pc-t.s{font-size:11.5px;color:#1e2d54;font-weight:800}
+.pc-n{font-size:18px;font-weight:800;color:#1e2d54;line-height:1.15}
+.pc-s{font-size:10.5px;font-weight:700}.pc-s.blue{color:#2f5fd0}.pc-s.red{color:#e53e3e}.pc-s.amber{color:#c07c12}
+.pc-d{font-size:10px;color:#94a3b8;line-height:1.2}
+.pf{background:#fff;border:1px solid #e8edf5;border-radius:14px;padding:9px 12px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-end;box-shadow:0 2px 10px rgba(30,41,59,.04)}
+.pf label{display:block;font-size:10px;color:#64748b;font-weight:700;margin-bottom:3px}
+.pf .sel{height:34px;border:1px solid #e2e8f0;border-radius:10px;padding:0 9px;display:flex;align-items:center;font-size:12px;background:#fff;white-space:nowrap}
+.pf .bus{flex:1;height:34px;border:1.5px solid #2f5fd0;border-radius:10px;background:#f7faff;display:flex;align-items:center;gap:8px;padding:0 10px;font-size:12px;color:#8a97ab;white-space:nowrap;overflow:hidden}
+.pf .bus svg{width:15px;height:15px;stroke:#2f5fd0;stroke-width:2;fill:none;stroke-linecap:round;flex:0 0 auto}
+.ptab{background:#fff;border:1px solid #e8edf5;border-radius:14px;padding:5px 5px 7px;box-shadow:0 2px 10px rgba(30,41,59,.04)}
+table.pr{width:100%;border-collapse:separate;border-spacing:0;font-size:10.5px}
+table.pr th{background:#fbfcfe;color:#475569;font-weight:600;font-size:10px;padding:6px 2px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;text-align:center;white-space:nowrap}
+table.pr td{height:32px;padding:0 2px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;text-align:center;white-space:nowrap;color:#334155;font-variant-numeric:tabular-nums}
+table.pr th:last-child,table.pr td:last-child{border-right:none}
+.pager{display:flex;align-items:center;justify-content:space-between;padding:7px 7px 0;font-size:11px;color:#64748b}
+.pgn{display:flex;gap:4px}.pgb{min-width:25px;height:25px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;color:#475569;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.pgb.off{opacity:.4}.pgb.on{background:#2f5fd0;color:#fff;border-color:#2f5fd0;font-weight:800}
+/* Ajustes de sistema (openConfigGlobal) */
+#mAj{left:270px;top:12px;width:560px;height:576px;display:flex;flex-direction:column;overflow:hidden}
+.aj-h{display:flex;align-items:center;gap:13px;padding:14px 18px 11px;border-bottom:1px solid var(--linea);position:relative;background:#fff;z-index:1}
+.aj-h .ci{width:46px;height:46px;border-radius:50%;background:#e6efff;color:var(--azul);display:flex;align-items:center;justify-content:center}
+.aj-h .ci svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.aj-h b{font-size:19px;font-weight:800;color:#1e2d54}
+.aj-h .x{margin-left:auto;width:30px;height:30px;border-radius:50%;background:#eef2f9;display:flex;align-items:center;justify-content:center;font-size:13px;color:#1f3a63}
+.aj-b{flex:1;min-height:0;overflow:hidden;padding:0 18px}
+.aj-sub{color:#64748b;font-size:12px;margin:9px 0 10px 59px}
+.ajc{border-radius:14px;padding:13px 15px;margin-bottom:11px;border:1px solid rgba(31,64,156,.07)}
+.ajc.azul{background:#f0f5ff}.ajc.verde{background:#eefaf2}
+.ajc.tut{background:#eef4ff;border-left:4px solid #2f5fd0}.ajc.ia{background:#fff7ed;border-left:4px solid #f59e0b}
+.aj-t{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.aj-t span{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 36px}
+.aj-t svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.aj-t b{font-size:16px;font-weight:800;color:#12233f}
+.aj-r{display:flex;gap:11px;align-items:flex-start}
+.sw{flex:0 0 auto;width:34px;height:19px;border-radius:999px;background:#cbd5e1;position:relative;margin-top:1px}.sw:after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff}
+.aj-r b{display:block;font-size:12.5px;color:#1e293b}.aj-m{font-size:11.5px;line-height:1.45;color:#64748b}
+.aj-s{border-top:1px dashed #d5ddeb;margin:10px 0}
+.aj-l{font-weight:700;font-size:12px;color:#1e293b;display:block;margin-bottom:5px}
+.aj-i{height:32px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;display:flex;align-items:center;padding:0 11px;font-size:12px;color:#334155;position:relative}
+.aj-i i{position:absolute;right:11px;font-style:normal;color:#8a97ab;font-size:11.5px}
+.aj-p{display:flex;justify-content:flex-end;gap:9px;padding:10px 18px;border-top:1px solid var(--linea);background:#fff;position:relative}
+.ajc .btn{padding:7px 13px;font-size:12px;margin-top:8px}
+/* Listado de tutoriales (abrirTutoriales) */
+#mTut{left:280px;top:12px;width:540px;height:576px;display:flex;flex-direction:column;overflow:hidden}
+#mTut .mh{gap:12px;justify-content:flex-start;background:#fff;position:relative;z-index:1;padding:12px 18px}
+#mTut .mh .ic{width:40px;height:40px;border-radius:12px;background:#e8f0fd;color:#1F409C;display:flex;align-items:center;justify-content:center}
+#mTut .mh .ic svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#mTut .mh h3{font-size:18px;color:#1f3a63}#mTut .mh small{display:block;font-size:11.5px;color:var(--txt2);font-weight:700}
+#mTut .mh .x{margin-left:auto;width:30px;height:30px;border-radius:50%;background:#eef2f9;display:flex;align-items:center;justify-content:center;font-size:12px;color:#1f3a63;font-weight:900}
+.tl-b{flex:1;min-height:0;overflow:hidden;padding:0 18px}
+#lista{padding-top:11px;will-change:transform}
+.intro{font-size:12.5px;color:#64748b;line-height:1.4;margin-bottom:6px}
+.intro b{color:#334155}
+.rama{font-size:11.5px;font-weight:800;letter-spacing:.3px;color:#1F409C;margin:11px 0 7px}
+.tr{display:flex;align-items:center;gap:11px;border:1px solid #dbe4f3;border-radius:13px;padding:9px 11px;margin-bottom:8px;background:#fff}
+.tr>div:nth-child(2){flex:1;min-width:0}
+.tr .pl{width:38px;height:38px;border-radius:10px;background:#e8f0fd;color:#1F409C;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:17px;font-weight:800}
+.tr .pl svg{width:16px;height:16px;fill:currentColor}
+.tr b{display:block;font-size:13.5px;font-weight:800;color:#12233f}.tr small{display:block;font-size:11px;color:#64748b;line-height:1.3}
+.tr .btn{flex:0 0 auto;padding:7px 12px;font-size:12px}
+.tr.done{background:#f0fdf4;border-color:#bbf7d0}
+.tr.done .pl{background:#dcfce7;color:#15803d}
+#hechos{margin:12px 0 12px;font-size:12px;color:#64748b}
+.tl-f{display:flex;justify-content:flex-end;padding:10px 18px;border-top:1px solid var(--linea);background:#fff;position:relative}
+/* Imprimir etiquetas (abrirEtiquetas, productos.html) */
+#mEti{left:204px;top:44px;width:692px;height:512px;display:flex;flex-direction:column;overflow:hidden}
+#mEti .mh{padding:11px 18px;justify-content:flex-start;gap:10px}
+#mEti .ic{width:36px;height:36px;border-radius:11px;background:#e9f0ff;color:#2563eb;display:flex;align-items:center;justify-content:center}
+#mEti .ic svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#mEti h3{font-size:18px;color:#1f3a63}
+#mEti .x{margin-left:auto;width:30px;height:30px;border-radius:50%;background:#eef2f9;display:flex;align-items:center;justify-content:center;font-size:12px;color:#1f3a63;font-weight:900}
+.et-b{flex:1;min-height:0;padding:13px 18px 10px;display:flex;flex-direction:column}
+.et-f{display:flex;gap:8px;align-items:center}
+.et-q{flex:1;height:36px;border:1.5px solid #2f5fd0;border-radius:11px;box-shadow:0 0 0 3px rgba(31,64,156,.12);display:flex;align-items:center;padding:0 12px;font-size:12.5px;color:#64748b;white-space:nowrap}
+.et-f .btn{padding:8px 11px;font-size:12px;color:#1e2d54}
+.et-t{flex:1;min-height:0;margin-top:10px;border:1px solid #e8edf5;border-radius:12px;overflow:hidden}
+.et-t table{width:100%;border-collapse:collapse;font-size:12.5px}
+.et-t th{background:#f5f7fa;text-align:left;padding:7px 10px}
+.et-nt{margin-top:8px;font-size:11px;color:#64748b}
+.et-p{display:flex;justify-content:flex-end;gap:8px;padding:10px 18px;border-top:1px solid var(--linea)}
+/* El tutorial en marcha (fias_tour.js): oscuro, anillo que late y cartel */
+.oscuro{position:absolute;inset:0;z-index:12;background:rgba(10,20,45,.62);opacity:0;visibility:hidden}
+.spot{position:absolute;z-index:12;border-radius:12px;opacity:0;visibility:hidden;box-shadow:0 0 0 3px #3b82f6,0 0 0 7px rgba(59,130,246,.35),0 0 0 2400px rgba(10,20,45,.58)}
+.spot.libre{box-shadow:0 0 0 3px #3b82f6,0 0 0 7px rgba(59,130,246,.35),0 0 0 2400px rgba(10,20,45,.36)}
+.spot i{position:absolute;inset:-6px;border-radius:16px;border:3px solid #60a5fa}
+.tc{position:absolute;z-index:14;width:316px;background:#fff;border-radius:16px;padding:13px 15px 12px;color:#1e2d54;box-shadow:0 18px 50px rgba(10,20,45,.35);opacity:0;visibility:hidden}
+.tc.cen{width:372px}
+.tc .fl{position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
+.tc-t{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px}
+.tc-et{font-size:11.5px;font-weight:800;color:#2f5fd0;background:#eaf0fd;border-radius:999px;padding:3px 10px}
+.tc-x{color:#94a3b8;font-size:19px;line-height:1}
+.tc h4{font-size:16px;font-weight:800;line-height:1.25;margin:2px 0 5px}
+.tc p{font-size:13px;color:#475569;line-height:1.45}
+.tc p b{color:#1e2d54}
+.tc p kbd{display:inline-block;min-width:20px;text-align:center;padding:0 5px;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;background:#f8fafc;font:700 11px/1.4 Inter,sans-serif;color:#1e2d54}
+.tc .nt{display:block;margin-top:7px;padding:7px 9px;border-radius:10px;background:#f1f5ff;color:#334e8a;font-size:12px}
+.tc-bar{height:5px;background:#eef2f7;border-radius:99px;margin:10px 0 9px;overflow:hidden}.tc-bar i{display:block;height:100%;background:linear-gradient(90deg,#2f5fd0,#60a5fa);border-radius:99px}
+.tc-b{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tc-b .r{display:flex;gap:7px;margin-left:auto}
+.ftb{border:1px solid #dbe3ef;background:#fff;color:#334155;font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:10px;white-space:nowrap}
+.ftb.pri{background:#1F409C;border-color:#1F409C;color:#fff}
+.hint{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#2f5fd0;font-weight:700;white-space:nowrap}
+.hint i{width:8px;height:8px;border-radius:50%;background:#3b82f6}
+.tc .fies{font-size:32px;line-height:1;margin-bottom:5px}
+</style>
+</head>
+<body data-anim="recorrido">
+<div id="wrap"><div id="stage">
+  <div class="fx-fondo"></div><div class="fx-luz a"></div><div class="fx-luz b"></div><div class="fx-luz c"></div><div class="fx-grilla"></div>
+
+  <div id="cam">
+    <div class="win" id="win">
+      <div class="win-bar"><b>FIAS<sup>®</sup></b><div class="bt"><span>—</span><span>▢</span><span>✕</span></div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><div class="logo"><span class="f-fila"><img src="../logo_fias.png" alt="FIAS"><span class="fias-wm">FIAS<sup>®</sup></span></span><span class="fias-wm-s">Sistema de Gestión</span></div></div>
+          <nav class="nav">
+            <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Inicio</a>
+            <a id="nVentas"><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Ventas</a>
+            <a id="nFiados"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.2c2.4-.2 4.4 1.3 5 4.3"/></svg>Fiados</a>
+            <a><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg>Comprobantes</a>
+            <a id="nProd"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Productos</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Boletas de compra</a>
+            <a id="nCaja"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.3 0 1.2-1.3 2.1-3 2.1-1.3 0-2.4-.6-2.9-1.5M12 6v1.8M12 16.3V18"/></svg>Cierre de Caja</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg>Informes</a>
+            <a id="nCfg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>Configuración</a>
+          </nav>
+          <div class="renov"><span class="ni"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span><div><b>Renovación</b><small>04/11/2027 · en 365 días</small></div></div><div class="copia"><span class="ni"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 8.6 4.8 4.8 0 0 1 17 18z"/></svg></span><div><b>Copia de seguridad</b><small>Próxima: mañana 06:31</small></div></div><div class="pie"><div class="av">A</div><div><b>admin</b><small>Administrador</small></div><span class="car"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></span></div>
+        </aside>
+
+        <main class="main" id="main">
+          <div class="vista" id="vCfg">
+          <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg></div>
+            <div><h2>Configuración</h2><p>Usuarios, proveedores, impresiones, copias de seguridad y ajustes del sistema.</p></div></div>
+          <div class="cfg">
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-3.8 3.6-6 7-6s6.2 2.2 7 6"/></svg></div><div><b>Usuarios</b><small>Gestión de usuarios y permisos.</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><path d="M2.5 6h11v9h-11zM13.5 9h4l3 3v3h-7"/><circle cx="6.5" cy="17" r="1.7"/><circle cx="16.5" cy="17" r="1.7"/></svg></div><div><b>Proveedores</b><small>Proveedores y familias.</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg></div><div><b>Impresiones</b><small>Diseño de comprobantes.</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="5" rx="1.5"/><path d="M5 9v10h14V9M10 13h4"/></svg></div><div><b>Backup</b><small>Exportar, importar y restablecer.</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></div><div><b>ARCA / Facturación</b><small>Perfiles fiscales, certificados y pu…</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10.5h18"/></svg></div><div><b>Mercado Pago</b><small>QR, débito, crédito y cuotas (Point).</small></div><span class="ch">›</span></div>
+            <div class="card" id="bAjus"><div class="ci"><svg viewBox="0 0 24 24"><path d="M6 4v16M12 4v16M18 4v16"/><path d="M4 9h4M10 15h4M16 8h4"/></svg></div><div><b>Ajustes de sistema</b><small>Dólar, licencia y balanzas.</small></div><span class="ch">›</span></div>
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4h-4"/></svg></div><div><b>Actualizaciones</b><small>Buscar e instalar nuevas versiones.</small></div><span class="ch">›</span></div>
+          </div>
+          </div>
+
+          <div class="vista" id="vProd">
+          <div class="pg" style="margin-bottom:10px"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+            <div><h2>Productos</h2><p>Gestioná y controlá tu stock, precios, márgenes y vencimientos.</p></div></div>
+          <div class="pc-f">
+            <div class="pc"><div class="pc-ic blue"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><div><div class="pc-t">Total de productos</div><div class="pc-n">20</div><div class="pc-s blue">Activos</div></div></div>
+            <div class="pc"><div class="pc-ic red"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="pc-b">−</span></div><div><div class="pc-t">Productos faltantes</div><div class="pc-n">0</div><div class="pc-s red">Sin stock</div></div></div>
+            <div class="pc"><div class="pc-ic amber"><svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="pc-b amber">!</span></div><div><div class="pc-t">Productos fallados</div><div class="pc-n">0</div><div class="pc-s amber">Apartados</div></div></div>
+            <div class="pc"><div class="pc-ic solid"><svg viewBox="0 0 24 24" style="stroke-width:2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div><div class="pc-t s">Agregar nuevo</div><div class="pc-d">Nuevo producto</div></div></div>
+            <div class="pc"><div class="pc-ic blue"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div><div class="pc-t s">Subir lista de precios</div><div class="pc-d">Actualizar precios</div></div></div>
+            <div class="pc" id="bEtiq"><div class="pc-ic blue"><svg viewBox="0 0 24 24"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div><div><div class="pc-t s">Imprimir etiquetas</div><div class="pc-d">Precios de góndola</div></div></div>
+          </div>
+          <div class="pf"><div><label>Proveedor</label><div class="sel">Todos los proveedores</div></div><div><label>Familia</label><div class="sel">Todas las familias</div></div><div><label>Ordenar por</label><div class="sel">Código</div></div>
+            <div class="bus"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar por código, nombre o código de proveedor…</div></div>
+          <div class="ptab"><table class="pr"><thead><tr><th>Código</th><th>Nombre</th><th>Proveedor</th><th>Costo</th><th>Margen</th><th>Precio 1</th><th>Stock global</th><th>Stock real</th><th>Stock fiado</th><th>Últ. cambio precio</th></tr></thead><tbody id="cProd"></tbody></table>
+            <div class="pager"><span>Mostrando 1 a 7 de 20 productos</span><div class="pgn"><span class="pgb off">«</span><span class="pgb off">‹</span><span class="pgb on">1</span><span class="pgb">2</span><span class="pgb">3</span><span class="pgb">›</span><span class="pgb">»</span></div></div></div>
+          </div>
+        </main>
+      </div>
+
+      <div class="velo" id="velo"></div>
+      <!-- Ajustes de sistema -->
+      <div class="modal" id="mAj">
+        <div class="aj-h"><span class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg></span><b>Ajustes de sistema</b><span class="x">✕</span></div>
+        <div class="aj-b"><div id="ajS">
+          <div class="aj-sub">Configurá las opciones generales del sistema.</div>
+          <div class="ajc azul"><div class="aj-t"><span style="background:#d9f2df;color:#1d9e50"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></span><b>Dólar</b></div>
+            <div class="aj-r"><span class="sw"></span><span><b>Activar precio dólar</b><span class="aj-m">Habilita el manejo de precios en USD.</span></span></div><div class="aj-s"></div>
+            <span class="aj-l">Cotización ($ por USD)</span><div class="aj-i" style="width:150px">0</div><div class="aj-m" style="margin-top:6px">Al guardar con dólar activado, todos los productos con precio en USD se recalculan.</div></div>
+          <div class="ajc verde"><div class="aj-t"><span style="background:#d9f2df;color:#1d9e50"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></span><b>Licencia FIAS</b></div>
+            <span class="aj-l">Clave de licencia</span><div class="aj-i">••••••••<i>(activa)</i></div><div class="aj-m" style="margin-top:6px">Solo actualizá si querés cambiar la clave actual.<br>Dejá vacío para mantener la actual.</div></div>
+          <div class="ajc tut" id="cTut"><div class="aj-t"><span style="background:#dbe7ff;color:#1F409C"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span><b>Tutoriales</b></div>
+            <div class="aj-m">Aprendé a usar FIAS paso a paso: el programa te marca qué tocar y avanza cuando lo hacés.</div><div class="btn pri" id="bVer">Ver tutoriales</div></div>
+          <div class="ajc ia"><div class="aj-t"><span style="background:#ffedd5;color:#c2410c"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg></span><b>Consumo de IA</b></div>
+            <div class="aj-m">Cuánto usaste este mes de la IA de tu plan (una sola barra en %), cuándo se renueva y la compra de recargas con Mercado Pago (QR) o transferencia.</div></div>
+        </div></div>
+        <div class="aj-p"><div class="btn">Cancelar</div><div class="btn pri">Guardar</div></div>
+      </div>
+
+      <div class="velo" id="velo2" style="z-index:11"></div>
+      <!-- Listado de tutoriales: se abre arriba de Ajustes de sistema -->
+      <div class="modal" id="mTut" style="z-index:11">
+        <div class="mh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z"/><path d="M6.5 11.5V16c1.5 1.4 3.4 2 5.5 2s4-.6 5.5-2v-4.5"/></svg></span><div><h3>Tutoriales</h3><small>Aprendé FIAS paso a paso</small></div><span class="x">✖</span></div>
+        <div class="tl-b"><div id="lista"></div></div>
+        <div class="tl-f"><div class="btn pri">Cerrar</div></div>
+      </div>
+
+      <!-- Imprimir etiquetas -->
+      <div class="modal" id="mEti">
+        <div class="mh"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><h3>Imprimir etiquetas</h3><span class="x">✖</span></div>
+        <div class="et-b" id="etB">
+          <div class="et-f"><div class="et-q">Buscá un producto o escaneá su código…</div><div class="btn">Cambiaron de precio hoy</div><div class="btn">Últimos 7 días</div></div>
+          <div class="et-t"><table><thead><tr><th>Producto</th><th>Precio</th><th>Copias</th><th></th></tr></thead></table></div>
+          <div class="et-nt">El diseño (cuántas por fila, código de barras, etc.) se elige en Configuración → Impresiones → Etiquetas.</div>
+        </div>
+        <div class="et-p" id="etP"><div class="btn" id="eCan">Cancelar</div><div class="btn">Vaciar lista</div><div class="btn pri">Imprimir</div></div>
+      </div>
+
+      <!-- Tutorial «Etiquetas de góndola», los 4 pasos consecutivos (fias_tours.js, T.registrar("etiquetas")) -->
+      <div class="oscuro" id="oscuro"></div>
+      <div class="spot" id="sP"><i></i></div>
+      <div class="spot" id="sE"><i></i></div>
+      <div class="spot libre" id="sM"><i></i></div>
+      <div class="spot libre" id="sF"><i></i></div>
+      <div class="tc" id="tc1"><span class="fl"></span><div class="tc-t"><span class="tc-et">Etiquetas de góndola · 1 de 4</span><span class="tc-x">×</span></div>
+        <h4>Entrá a Productos</h4><p>En el menú de la izquierda, tocá <b>Productos</b>.</p>
+        <div class="tc-bar"><i style="width:25%"></i></div><div class="tc-b"><span class="hint"><i></i>Tocá lo que está marcado</span></div></div>
+      <div class="tc" id="tc2"><span class="fl"></span><div class="tc-t"><span class="tc-et">Etiquetas de góndola · 2 de 4</span><span class="tc-x">×</span></div>
+        <h4>Imprimir etiquetas</h4><p>Tocá <b>Imprimir etiquetas</b>.</p>
+        <div class="tc-bar"><i style="width:50%"></i></div><div class="tc-b"><span class="hint"><i></i>Tocá lo que está marcado</span><div class="r"><span class="ftb">← Atrás</span></div></div></div>
+      <div class="tc" id="tc3"><div class="tc-t"><span class="tc-et">Etiquetas de góndola · 3 de 4</span><span class="tc-x">×</span></div>
+        <h4>Elegí los productos</h4><p>Buscá por código o nombre (o escaneá; <kbd>Enter</kbd> agrega) o tocá <b>Cambiaron de precio hoy</b> / <b>Últimos 7 días</b>. Poné las <b>copias</b> de cada uno y tocá <b>Imprimir</b>.<span class="nt">El diseño (cuántas por fila, código de barras…) se elige en <b>Configuración → Impresiones → Etiquetas</b>. Ideal después de subir una lista de precios.</span></p>
+        <div class="tc-bar"><i style="width:75%"></i></div><div class="tc-b"><div class="r"><span class="ftb">← Atrás</span><span class="ftb pri" id="e3">Entendido →</span></div></div></div>
+      <div class="tc" id="tc4"><span class="fl"></span><div class="tc-t"><span class="tc-et">Etiquetas de góndola · 4 de 4</span><span class="tc-x">×</span></div>
+        <h4>Cerrala</h4><p>Si no vas a imprimir ahora, cerrá la ventana.</p>
+        <div class="tc-bar"><i style="width:100%"></i></div><div class="tc-b"><span class="hint"><i></i>Esperando que la cierres…</span><div class="r"><span class="ftb">← Atrás</span></div></div></div>
+      <div class="tc cen" id="tcF">
+        <div class="fies">🎉</div>
+        <h4>¡Listo!</h4>
+        <p>Las etiquetas salen con el diseño de <b>Configuración → Impresiones</b>.</p>
+        <div class="tc-bar"><i style="width:100%"></i></div>
+        <div class="tc-b"><div class="r"><span class="ftb" id="bTerm">Terminar</span><span class="ftb pri">Siguiente: Listas de precios →</span></div></div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2.5v17l4.6-4.3 3 6.6 3-1.4-3-6.4h6.2z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <div id="pulso"></div>
+  </div>
+
+  <div class="portada" id="portada">
+    <div class="t-kick" id="pk"><span class="n">#1</span>Recorrido</div>
+    <div class="t-h" id="ph">FIAS te enseña</div>
+    <div class="t-s" id="ps">a usar FIAS.</div>
+  </div>
+  <div class="cierre" id="cierre">
+    <div class="marca" id="cm"><svg width="58" height="58" viewBox="0 0 64 64"><path d="M32 6 56 19v26L32 58 8 45V19z" fill="url(#cb)"/><path d="M32 6 56 19 32 32 8 19z" fill="#5b86e0" opacity=".55"/><path d="M19 31l10 10 22-24" fill="none" stroke="url(#cv)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="text-align:left"><b>FIAS®</b><i>SISTEMA DE GESTIÓN</i></div></div>
+    <div class="t-h" id="ch">Aprendés usándolo.</div>
+    <div class="t-s" id="cs">En tu propio programa.</div>
+  </div>
+  <div id="capa"></div><div id="subt"></div>
+  <div class="fx-grano"></div><div class="fx-vin"></div>
+</div></div>
+
+<script src="motor.js"></script><script src="escenas.js"></script>
+<script>
+// Los 25 tutoriales, en el orden de la lista (fias_tours.js): [rama, título, descripción, pasos, minutos]
+const TUT = [
+  ["Primeros pasos", "Conocé FIAS", "Un recorrido por el menú: para qué sirve cada sección.", 12, 2],
+  ["Punto de venta", "Tu primera venta", "Vender, ver el comprobante y seguirle el rastro: Comprobantes, stock del producto y caja.", 31, 6],
+  ["Punto de venta", "Vender con el teclado", "Los atajos: cargar, buscar, cobrar y moverte por las ventanas sin el mouse.", 10, 3],
+  ["Punto de venta", "Pago mixto", "Cobrar una parte en efectivo y otra por transferencia, y dónde se ve cada parte.", 19, 4],
+  ["Punto de venta", "Devolución en el mostrador", "Marcar un producto como devuelto, devolver la plata y ver cómo vuelve el stock.", 26, 4],
+  ["Punto de venta", "Presupuesto", "Armar un presupuesto para un cliente: no toca el stock ni la caja.", 8, 2],
+  ["Fiados", "Tu primer fiado", "Fiar a un cliente y ver su cuenta, el stock fiado del producto y el comprobante en Comprobantes.", 34, 6],
+  ["Fiados", "Cobrar una entrega y dar de baja", "Registrar un pago a cuenta, el saldo a favor, dar de baja productos y dónde queda cada cosa.", 21, 6],
+  ["Fiados", "Morosidad y herramientas de la cuenta", "Cuándo un cliente es moroso, recargos, baja automática, resumen, actualizar precios y recarga manual.", 11, 5],
+  ["Productos", "La ficha del producto", "Cada parte de la ficha: códigos, precios y márgenes, stock, historial de precios, mercadería fallada, historial de stock y vencimientos.", 26, 7],
+  ["Productos", "Dar de alta un producto", "Crear un producto nuevo: código, nombre, costo, margen y precio, stock.", 10, 4],
+  ["Productos", "Etiquetas de góndola", "Imprimir etiquetas con el precio de los productos.", 4, 2],
+  ["Productos", "Listas de precios", "Subir la lista de un proveedor, márgenes por proveedor, recarga manual y reglas.", 8, 3],
+  ["Productos", "Faltantes y pedidos de compra", "Ver lo que falta, armar el pedido al proveedor y dónde queda.", 6, 3],
+  ["Boletas de compra", "Boletas de compra", "Cargar una compra (a mano o con IA): suma stock, actualiza costos y queda para el IVA.", 7, 3],
+  ["Comprobantes", "Comprobantes", "Qué hay en cada una de las 11 categorías, los filtros, el buscador y cómo reimprimir.", 17, 5],
+  ["Caja", "Cierre de caja", "El efectivo que tiene que haber, saldo agregado, salidas, historial y el cierre.", 9, 4],
+  ["Informes", "Informes: cómo leerlos", "Las dos maneras de mirar la plata (cobrado y devengado), los números del mes y cada sección.", 13, 4],
+  ["Informes", "Ingresos y egresos", "Cada tarjeta, el flujo por medio de pago, los turnos, y por qué no coincide con la caja ni con Métricas.", 15, 6],
+  ["Informes", "Métricas", "El resultado del negocio: ventas, costo de lo vendido, utilidad, gastos, equilibrio, 12 meses y gastos.", 17, 7],
+  ["Informes", "Rentabilidad por producto", "Ganancia bruta, pérdidas por roturas y vencidos, margen real y las listas de productos.", 11, 4],
+  ["Informes", "IVA, Capital y Clientes", "El IVA de compras y ventas, cuánto vale tu stock y lo que te deben, y las estadísticas de clientes.", 10, 5],
+  ["Configuración", "Configuración", "Usuarios y permisos, proveedores, impresiones, backup, ARCA, Mercado Pago y ajustes de sistema.", 10, 3],
+  ["Configuración", "Usuarios y permisos", "Crear usuarios, roles, qué puede hacer cada uno y el historial de cambios.", 9, 4],
+  ["Configuración", "Ajustes de sistema", "Cada ajuste: dólar, licencia, IA, redondeo, facturación, balanzas, multi-puesto, atajos, caja por perfil y agente.", 15, 5],
+];
+const iE = TUT.findIndex(x => x[1] === "Etiquetas de góndola");
+let _r = "";
+$("lista").innerHTML = `<div class="intro">Tocá <b>Empezar</b>: FIAS te lleva a la pantalla, oscurece todo y te marca qué tocar. Avanza solo cuando lo hacés. Podés salir cuando quieras.</div>`
+  + TUT.map(([r, t, d, n, m], i) => (r !== _r ? `<div class="rama">${(_r = r).toUpperCase()}</div>` : "") + `<div class="tr" id="tr${i}"><div class="pl" id="tpl${i}"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div><b>${t}</b><small>${d} · ${n} pasos · ${m} min</small></div><div class="btn pri" id="eb${i}">Empezar</div></div>`).join("")
+  + `<div id="hechos">0 de 25 hechos.</div>`;
+// Productos (BASE, sección F; mismo aspecto que la captura productos_01)
+const PR = [["1001", "Martillo carpintero 27 mm mango fibra", "Ferrosur", 9800, 45, 14210, 11, 0], ["1002", "Destornillador Phillips PH2 x 100 mm", "Ferrosur", 2600, 50, 3900, 28, 0],
+  ["1003", 'Pinza universal 8" aislada', "Ferrosur", 8900, 45, 12900, 11, 1], ["1004", "Cinta métrica 5 m x 19 mm", "Ferrosur", 4300, 50, 6450, 24, 0],
+  ["1005", 'Llave ajustable 10" cromada', "Ferrosur", 11200, 45, 16240, 8, 1], ["1006", "Taladro percutor 13 mm 650 W", "Distribuidora Norte", 52000, 35, 70200, 4, 0],
+  ["1007", "Amoladora angular 115 mm 850 W", "Distribuidora Norte", 48500, 35, 65480, 3, 0]];
+$("cProd").innerHTML = PR.map(([c, n, pv, co, mg, pr, sr, sf]) => `<tr><td>${c}</td><td>${n}</td><td>${pv}</td><td>$ ${co.toFixed(2)}</td><td>${mg.toFixed(2)} %</td><td>$ ${pr.toFixed(2)}</td><td>${sr + sf}</td><td>${sr}</td><td>${sf}</td><td style="font-size:10.5px;color:#555">-</td></tr>`).join("");
+
+const FIN = 24600, DUR = FIN + 4100, FOTO = 9000;
+// Momentos clave de la escena
+const T = { aj: 4200, ver: 5350, emp: 7800, p1: 8300, prod: 9800, p2: 10500, eti: 12100, p3: 12700, ent: 14600, can: 15900, fin: 16200, term: 17700, cfg: 18350, aj2: 19000, ver2: 19800 };
+const cVer = [5250, "bVer", 0, 0], cEmp = [7700, "eb" + iE, 0, 0], cVer2 = [19700, "bVer", 0, 0], cHe = [23100, "hechos", -152, 6];
+const CAM = [[0, 640, 380, 1], [3700, 640, 380, 1], [4300, 640, 380, 1], [4700, 640, 400, 1.06], [5500, 640, 400, 1.06], [5900, 640, 380, 1.1], [7900, 640, 380, 1.1],
+  [8350, 400, 340, 1.4], [9800, 400, 340, 1.4], [10300, 830, 300, 1.32], [12100, 830, 300, 1.32], [12500, 640, 380, 1.12], [14450, 640, 380, 1.12], [14850, 640, 440, 1.12], [15950, 640, 440, 1.12], [16300, 640, 370, 1.3], [17750, 640, 370, 1.3],
+  [18200, 640, 380, 1], [19900, 640, 380, 1], [20300, 640, 380, 1.1], [21000, 640, 380, 1.3], [22000, 640, 380, 1.3], [22900, 520, 490, 1.45], [24600, 520, 490, 1.45]];
+const CAMINO = [[3300, 760, 640], [4100, "bAjus"], [4400, "bAjus", 40, 40], cVer, [5700, "bVer", 90, 60], [6400, 1000, 300], [7300, 1000, 300], cEmp, [8200, 1050, 330], [9200, 1000, 300], [9700, "nProd", 20, 3],
+  [10100, "nProd", 60, 40], [11900, "bEtiq"], [12300, "bEtiq", 0, 30], [14300, "e3"], [14700, "e3", 20, 20], [15800, "eCan"], [16100, "eCan", -30, -30], [17600, "bTerm"], [17900, "bTerm", -20, -30], [18250, "nCfg", 20, 3],
+  [18450, "nCfg", 60, 30], [18900, "bAjus"], [19200, "bAjus", 40, 40], cVer2, [20200, "bVer", 90, 60], [21000, 1120, 300], [22900, 1120, 300], cHe, [24300, "hechos", -152, 6]];
+const CLICS = [T.aj, T.ver, T.emp, T.prod, T.eti, T.ent, T.can, T.term, T.cfg, T.aj2, T.ver2];
+const VIS = [3300, 24500];
+const SUBS = [
+  [3400, 5350, "Entrás por <em>Ajustes de sistema</em>"],
+  [5500, 7950, "<em>25 tutoriales</em> adentro del programa"],
+  [8200, 10000, "Oscurece todo y te marca <em>qué tocar</em>"],
+  [10300, 12250, "Y avanza cuando <em>vos</em> lo hacés"],
+  [12500, 16000, "Te explica <em>cada paso</em>, en la pantalla"],
+  [16250, 17900, "Al final, te propone <em>el siguiente</em>"],
+  [18100, 20200, "Volvés a la lista <em>cuando quieras</em>"],
+  [20400, 24550, "Y anota lo que <em>ya aprendiste</em>"],
+];
+function rel(el) { let x = 0, y = 0, e = el; const w = $("win"); while (e && e !== w) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return [x, y, el.offsetWidth, el.offsetHeight]; }
+// Colocación del cartel: misma lógica que colocar() de fias_tour.js (abajo → arriba → costados → adentro)
+function colocar(tc, el, pad = 6) {
+  const W = 1100, H = 600, [ex, ey, ew, eh] = rel(el), x1 = ex - pad, y1 = ey - pad, x2 = ex + ew + pad, y2 = ey + eh + pad, gap = 16, c = $(tc), cw = c.offsetWidth, ch = c.offsetHeight;
+  let left, top, lado;
+  if (H - y2 > ch + gap + 8) { lado = "abajo"; top = y2 + gap; left = (x1 + x2) / 2 - cw / 2; }
+  else if (y1 > ch + gap + 8) { lado = "arriba"; top = y1 - gap - ch; left = (x1 + x2) / 2 - cw / 2; }
+  else { lado = "dentro"; left = x2 - cw - 12; top = y2 - ch - 12; }
+  left = Math.min(Math.max(10, left), W - cw - 10); top = Math.min(Math.max(10, top), H - ch - 10);
+  c.style.left = left + "px"; c.style.top = top + "px";
+  const a = c.querySelector(".fl");
+  if (a) { const ax = Math.min(Math.max(18, (x1 + x2) / 2 - 7 - left), cw - 32); a.style.left = ax + "px"; a.style[lado === "abajo" ? "top" : "bottom"] = "-7px"; }
+  return [x1, y1, x2, y2];
+}
+const marco = (sp, [x1, y1, x2, y2]) => Object.assign($(sp).style, { left: x1 + "px", top: y1 + "px", width: (x2 - x1) + "px", height: (y2 - y1) + "px" });
+let SA = 0, S1 = 0, S2 = 0, S3 = 0;
+function ubicar() {
+  marco("sP", colocar("tc1", $("nProd")));
+  marco("sE", colocar("tc2", $("bEtiq")));
+  marco("sM", colocar("tc3", $("etB")));
+  marco("sF", colocar("tc4", $("etP")));
+  const f = $("tcF"); f.style.left = (550 - f.offsetWidth / 2) + "px"; f.style.top = (300 - f.offsetHeight / 2) + "px";
+  // Cuánto se scrollea cada ventana (el motor mide sin transformaciones: se descuenta en el recorrido del cursor)
+  const vb = $("mAj").querySelector(".aj-b").offsetHeight;
+  SA = Math.max(0, $("cTut").offsetTop + $("cTut").offsetHeight + 12 - vb - $("ajS").offsetTop);
+  const tl = $("mTut").querySelector(".tl-b"), lh = tl.offsetHeight, l = $("lista");
+  S1 = Math.max(0, $("tr" + iE).offsetTop - l.offsetTop - 150);
+  S2 = Math.max(0, l.scrollHeight - lh);
+  S3 = S2;
+  cVer[3] = -SA; cVer2[3] = -SA; cEmp[3] = -S1; cHe[3] = 6 - S3;
+  CAMINO[CAMINO.length - 1][3] = 6 - S3;
+}
+ubicar();
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(ubicar);
+
+function ESCENA(t) {
+  // Portada
+  const out = p(t, 2200, 2700);
+  fade($("pk"), t, 150); fade($("ph"), t, 400, 0, 24); fade($("ps"), t, 800, 0, 24);
+  $("portada").style.opacity = 1 - out; $("portada").style.transform = `scale(${1 + .06 * out})`; $("portada").style.visibility = out >= 1 ? "hidden" : "visible";
+  const w = eo(p(t, 2300, 3300)), wo = 1 - p(t, FIN, FIN + 600);
+  S($("win"), w * wo, `translateY(${90 * (1 - w)}px) scale(${.9 + .1 * w}) perspective(1600px) rotateX(${10 * (1 - w)}deg)`);
+
+  // Pantalla de fondo: Configuración → (tocó Productos) Productos → (tocó Configuración) Configuración
+  const enProd = t >= T.prod + 150 && t < T.cfg + 120;
+  S($("vCfg"), enProd ? 0 : 1); S($("vProd"), enProd ? 1 : 0);
+  $("nCfg").classList.toggle("on", !enProd); $("nProd").classList.toggle("on", enProd);
+
+  // Ajustes de sistema y la lista arriba: primero para empezar, después para volver
+  const vuelta = t >= T.term;
+  const m1 = vuelta ? modal($("mAj"), t, T.aj2 + 120, FIN + 400) : modal($("mAj"), t, T.aj + 120, T.emp + 120);
+  const m2 = vuelta ? modal($("mTut"), t, T.ver2 + 120, FIN + 400) : modal($("mTut"), t, T.ver + 120, T.emp + 120);
+  S($("velo"), m1); S($("velo2"), m2);
+  const sa = vuelta ? eio(p(t, T.aj2 + 250, T.aj2 + 600)) : eio(p(t, T.aj + 350, T.aj + 750));
+  $("ajS").style.transform = `translateY(${-SA * sa}px)`;
+  const sl = vuelta ? S1 * eio(p(t, 20300, 21100)) + (S3 - S1) * eio(p(t, 22000, 22900)) : S1 * eio(p(t, 6300, 7400));
+  $("lista").style.transform = `translateY(${-sl}px)`;
+  // Tutorial hecho: se guarda al llegar al cartel final; en la lista se ve al volver
+  const hecho = t >= T.fin;
+  $("tr" + iE).classList.toggle("done", hecho);
+  $("tpl" + iE).innerHTML = hecho ? "✓" : '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  $("eb" + iE).textContent = hecho ? "Repetir" : "Empezar";
+  $("hechos").textContent = (hecho ? 1 : 0) + " de 25 hechos.";
+
+  // Imprimir etiquetas
+  S($("velo"), Math.max(m1, modal($("mEti"), t, T.eti + 130, T.can + 100)));
+
+  // Pasos: entre uno y otro la capa se oculta (ocultar() de fias_tour.js)
+  const paso = (sp, tc, a, b) => { const k = p(t, a, a + 220) * (1 - p(t, b, b + 150)); if (sp) { S($(sp), k); const q = ((t - a) % 1400) / 1400, ani = $(sp).firstElementChild; S(ani, k > 0 && t >= a ? .9 * (1 - q) : 0, `scale(${1 + .12 * q})`); } modal($(tc), t, a, b); };
+  paso("sP", "tc1", T.p1, T.prod);
+  paso("sE", "tc2", T.p2, T.eti);
+  paso("sM", "tc3", T.p3, T.ent);
+  paso("sF", "tc4", T.ent + 120, T.can);
+  S($("oscuro"), p(t, T.fin, T.fin + 220) * (1 - p(t, T.term, T.term + 180)));
+  modal($("tcF"), t, T.fin, T.term);
+  const dot = .25 + .75 * Math.abs(Math.cos(t / 1000 * Math.PI));
+  document.querySelectorAll(".hint i").forEach(e => e.style.opacity = dot);
+
+  // Cierre
+  const c = p(t, FIN + 500, FIN + 1000) * (1 - p(t, DUR - 600, DUR - 100));
+  S($("cierre"), c);
+  fade($("cm"), t, FIN + 600); fade($("ch"), t, FIN + 900, 0, 24); fade($("cs"), t, FIN + 1400, 0, 24);
+}
+</script>
+</body>
+</html>

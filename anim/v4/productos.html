@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: productos y stock en FIAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Manrope:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:10px}
+.cards .card{display:flex;align-items:center;gap:8px;padding:9px 9px;min-width:0}
+.cards .ci{position:relative;width:32px;height:32px;border-radius:10px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#eaf1fd;color:#2f5fd0}
+.cards .ci svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cards .ci.r{background:#fdeaea;color:#e53e3e}.cards .ci.a{background:#fdf3e3;color:#c07c12}.cards .ci.b{background:linear-gradient(180deg,#2f5fd0,#1F409C);color:#fff}
+.cards .bd{position:absolute;top:-3px;right:-3px;min-width:14px;height:14px;padding:0 2px;border-radius:999px;background:#e53e3e;color:#fff;font-size:9.5px;font-weight:800;line-height:11px;text-align:center;border:1.5px solid #fff}
+.cards .bd.a{background:#e0a12a}
+.cards small{display:block;font-size:9.5px;font-weight:600;color:#64748b;line-height:1.15}
+.cards b{display:block;font-size:19px;font-weight:900;line-height:1.05}
+.cards em{display:block;font-style:normal;font-size:9.5px;font-weight:700}
+.cards .acc b{font-size:11.5px;line-height:1.15}.cards .acc small{color:#94a3b8}
+.filtros{display:flex;gap:9px;margin-bottom:10px;padding:9px 10px;align-items:flex-end}
+.filtros .campo .in{height:30px;font-size:12px;font-weight:500}
+.campo .in.sel{position:relative;padding-right:22px}
+.campo .in.sel::after{content:"";position:absolute;right:9px;top:50%;width:6px;height:6px;margin-top:-5px;border-right:1.6px solid #64748b;border-bottom:1.6px solid #64748b;transform:rotate(45deg)}
+.busca{flex:1;min-width:0}.busca .in{border:1.5px solid #2f5fd0;background:#f7faff;color:#94a3b8}
+.busca .in svg{width:15px;height:15px;stroke:#2f5fd0;stroke-width:2;fill:none;margin-right:7px;flex:0 0 auto}
+/* Tabla (.tbl-rev de styles.css). El color de las filas va en el texto: el fondo blanco de .tbl-rev le gana a .row-danger */
+.tabla{padding:6px 6px 8px}
+table.t{table-layout:fixed}
+table.t th{background:#fbfcfe;color:#475569;font-weight:600;font-size:10.5px;letter-spacing:0;text-transform:none;text-align:center;padding:7px 3px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;white-space:nowrap;overflow:hidden}
+table.t td{height:33px;padding:2px 3px;text-align:center;font-size:11px;color:#334155;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7;overflow:hidden;text-overflow:ellipsis}
+table.t th:last-child,table.t td:last-child{border-right:none}
+table.t td.fe{font-size:10.5px;color:#555}
+tr.fila{transition:none}
+tr.falta td{color:#e03e3e}tr.pedido td{color:#b7860b}
+.pager{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 0;font-size:11px;color:#64748b}
+.pgs{display:flex;align-items:center;gap:4px}
+.pgs span{min-width:24px;height:24px;border:1px solid #e2e8f0;border-radius:7px;background:#fff;color:#475569;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.pgs span.act{background:#2f5fd0;color:#fff;border-color:#2f5fd0;font-weight:800}.pgs span.off{opacity:.4}
+#gG{border-top:5px solid #3b82f6}#gR{border-top:5px solid #22c55e}#gF{border-top:5px solid #f59e0b}
+td.st{font-weight:800}
+/* Ficha del producto (openProductModal): medidas compactas para que entre en la ventana */
+#mNuevo{left:130px;top:12px;width:800px;height:576px;display:flex;flex-direction:column}
+#mNuevo .mh{padding:10px 18px}
+#mNuevo .mh h3{display:flex;align-items:center;gap:10px;font-size:16px}
+#mNuevo .mh .ic{width:30px;height:30px;border-radius:9px;background:#e9f0ff;color:#2563eb;display:flex;align-items:center;justify-content:center}
+#mNuevo .mh .ic svg{width:17px;height:17px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mb{flex:1;min-height:0;overflow:hidden;position:relative;padding:0 16px}
+#mScroll{padding-top:10px}
+.sec{border:1px solid #e8edf5;background:#f8fafc;border-radius:12px;padding:9px 12px;margin-bottom:9px}
+.sec h4{font-size:11px;font-weight:800;letter-spacing:.03em;color:#1F409C;margin-bottom:7px}
+.g{display:grid;gap:8px;margin-bottom:7px}
+.g:last-child{margin-bottom:0}
+#mNuevo .campo{gap:3px;min-width:0}
+#mNuevo .campo label{font-size:9.5px;font-weight:700;letter-spacing:.03em;color:#64748b;white-space:nowrap}
+#mNuevo .campo .in{height:30px;border-radius:9px;font-size:12px;font-weight:500;padding:0 9px}
+.ph{color:#94a3b8}
+.gh{display:inline-flex;align-items:center;justify-content:center;height:30px;padding:0 11px;border:1px solid var(--linea);border-radius:9px;background:#fff;color:#1e2d54;font-size:11.5px;font-weight:700;white-space:nowrap;justify-self:start}
+.iva{display:flex;align-items:flex-end;gap:16px;margin:0}
+.sw{display:inline-flex;align-items:center;gap:8px;height:30px;font-size:12px;font-weight:600;color:#334155}
+.sw i{width:36px;height:20px;border-radius:999px;background:#cbd5e1;position:relative}
+.sw i::after{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+table.pr{width:100%;border-collapse:collapse;margin-top:7px;table-layout:fixed}
+table.pr th{font-size:9.5px;font-weight:700;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.03em;padding:2px 5px}
+table.pr td{padding:2px 5px;vertical-align:middle}
+table.pr td.ln{font-weight:800;color:#1F409C;font-size:12.5px}
+table.pr .in{height:30px;border:1px solid var(--linea);border-radius:9px;background:#fff;padding:0 9px;display:flex;align-items:center;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden}
+.in.foco{border-color:#2a52be;box-shadow:0 0 0 3px rgba(42,82,190,.16)}
+.pe{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:9px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.pe.rp{background:#eaf1fd;color:#1F409C;border:1px solid #cfe0fa}.pe.rm{background:#e7f6fb;color:#0e7490;border:1px solid #c3e7f2;margin-left:4px}
+#mNuevo .in.vivo{background:#ecfdf3;border-color:#86efac;color:#166534}
+.hist{display:flex;gap:6px;margin-top:8px}
+.hist .gh{height:28px;font-size:11.5px;padding:0 10px}
+.vh{display:flex;align-items:center;justify-content:space-between}.vh h4{margin:0}
+.vh>div{display:flex;gap:7px}
+.vbt{display:inline-flex;align-items:center;height:26px;padding:0 13px;border-radius:8px;background:#28a745;border:1px solid #28a745;color:#fff;font-size:11.5px;font-weight:600}
+.vh .gh{height:26px;border-radius:8px;opacity:.6}
+#vBox{margin-top:8px;opacity:.35}
+#vBox .mini{font-size:10.5px;color:#94a3b8;margin-top:6px}#vBox .mini b{color:#94a3b8}
+.mf{display:flex;justify-content:flex-end;gap:9px;padding:9px 16px;border-top:1px solid #edf4fa}
+</style>
+</head>
+<body data-anim="productos">
+<div id="wrap"><div id="stage">
+  <div class="fx-fondo"></div><div class="fx-luz a"></div><div class="fx-luz b"></div><div class="fx-luz c"></div><div class="fx-grilla"></div>
+
+  <div id="cam">
+    <div class="win" id="win">
+      <div class="win-bar"><b>FIAS<sup>®</sup></b><div class="bt"><span>—</span><span>▢</span><span>✕</span></div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><div class="logo"><span class="f-fila"><img src="../logo_fias.png" alt="FIAS"><span class="fias-wm">FIAS<sup>®</sup></span></span><span class="fias-wm-s">Sistema de Gestión</span></div></div>
+          <nav class="nav">
+            <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Inicio</a>
+            <a><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Ventas</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.2c2.4-.2 4.4 1.3 5 4.3"/></svg>Fiados</a>
+            <a><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg>Comprobantes</a>
+            <a class="on"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Productos</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Boletas de compra</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.3 0 1.2-1.3 2.1-3 2.1-1.3 0-2.4-.6-2.9-1.5M12 6v1.8M12 16.3V18"/></svg>Cierre de Caja</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg>Informes</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>Configuración</a>
+          </nav>
+          <div class="renov"><span class="ni"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span><div><b>Renovación</b><small>04/11/2027 · en 365 días</small></div></div><div class="copia"><span class="ni"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 8.6 4.8 4.8 0 0 1 17 18z"/></svg></span><div><b>Copia de seguridad</b><small>Próxima: mañana 06:31</small></div></div><div class="pie"><div class="av">A</div><div><b>admin</b><small>Administrador</small></div><span class="car"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></span></div>
+        </aside>
+
+        <main class="main" id="main">
+          <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+            <div><h2>Productos</h2><p>Gestioná y controlá tu stock, precios, márgenes y vencimientos.</p></div></div>
+
+          <div class="cards">
+            <div class="card"><div class="ci"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><div><small>Total de productos</small><b id="total">20</b><em style="color:#2f5fd0">Activos</em></div></div>
+            <div class="card" id="cFalta"><div class="ci r"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="bd">−</span></div><div><small>Productos faltantes</small><b id="falta">2</b><em style="color:#e53e3e">Sin stock</em></div></div>
+            <div class="card"><div class="ci a"><svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="bd a">!</span></div><div><small>Productos fallados</small><b>0</b><em style="color:#c07c12">Apartados</em></div></div>
+            <div class="card acc" id="cAgregar"><div class="ci b"><svg viewBox="0 0 24 24" style="stroke-width:2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div><b>Agregar nuevo</b><small>Nuevo producto</small></div></div>
+            <div class="card acc"><div class="ci"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div><b>Subir lista de precios</b><small>Actualizar precios</small></div></div>
+            <div class="card acc"><div class="ci"><svg viewBox="0 0 24 24"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div><div><b>Imprimir etiquetas</b><small>Precios de góndola</small></div></div>
+          </div>
+
+          <div class="card filtros">
+            <div class="campo"><label>Proveedor</label><div class="in sel" style="width:162px">Todos los proveedores</div></div>
+            <div class="campo"><label>Familia</label><div class="in sel" style="width:142px">Todas las familias</div></div>
+            <div class="campo"><label>Ordenar por</label><div class="in sel" style="width:84px">Código</div></div>
+            <div class="campo busca"><div class="in" id="busca"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span id="buscaTxt">Buscar por código, nombre o código de proveedor…</span></div></div>
+          </div>
+
+          <div class="card tabla" id="tcard">
+            <table class="t" id="tabla">
+              <colgroup><col style="width:46px"><col><col style="width:110px"><col style="width:76px"><col style="width:62px"><col style="width:76px"><col style="width:70px"><col style="width:58px"><col style="width:64px"><col style="width:96px"></colgroup>
+              <thead><tr><th>Código</th><th>Nombre</th><th>Proveedor</th><th>Costo</th><th>Margen</th><th>Precio 1</th><th id="hG">Stock global</th><th id="hR">Stock real</th><th id="hF">Stock fiado</th><th title="Última vez que se modificó el precio del producto">Últ. cambio precio</th></tr></thead>
+              <tbody id="cuerpo"></tbody>
+            </table>
+            <div class="pager"><span id="pInfo"></span><div class="pgs" id="pNums"></div></div>
+          </div>
+
+          <div class="globo" id="gG" style="left:520px;top:200px">Stock global<small>todo lo que es tuyo</small></div>
+          <div class="globo v" id="gR" style="left:560px;top:200px">Stock real<small>lo que está en el local</small></div>
+          <div class="globo r" id="gF" style="left:600px;top:200px">Stock fiado<small>se lo llevaron sin pagar</small></div>
+        </main>
+      </div>
+
+      <div class="velo" id="velo"></div>
+      <div class="modal" id="mNuevo">
+        <div class="mh"><h3><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span id="mTit">Nuevo producto</span></h3><span class="x">✕</span></div>
+        <div class="mb"><div id="mScroll">
+          <div class="sec"><h4>DATOS DEL PRODUCTO</h4>
+            <div class="g" style="grid-template-columns:118px 118px 168px 118px auto">
+              <div class="campo"><label>CÓD. INTERNO</label><div class="in" id="vCod"></div></div>
+              <div class="campo"><label>CÓD. PROVEEDOR</label><div class="in"></div></div>
+              <div class="campo"><label>CÓD. BARRAS (EAN)</label><div class="in ph">Tocá y escaneá…</div></div>
+              <div class="campo"><label>CÓD. BALANZA</label><div class="in ph">N° o ticket</div></div>
+              <div class="campo"><label>&nbsp;</label><div class="gh">Códigos disponibles</div></div>
+            </div>
+            <div class="g" style="grid-template-columns:1fr 1fr">
+              <div class="campo"><label>NOMBRE</label><div class="in" id="vNom" style="height:46px"></div></div>
+              <div class="campo"><label>DATOS</label><div class="in ph" style="height:46px">Notas, medidas, equivalencias...</div></div>
+            </div>
+            <div class="g" style="grid-template-columns:1fr 1fr">
+              <div class="campo"><label>PROVEEDOR</label><div class="in sel" id="vProv">-- Sin proveedor --</div></div>
+              <div class="campo"><label>FAMILIA</label><div class="in sel" id="vFam">-- Sin familia --</div></div>
+            </div>
+            <div class="g"><div class="gh">Nuevo proveedor</div></div>
+            <div class="g" style="grid-template-columns:1fr 168px 118px">
+              <div class="campo"><label>UBICACIÓN</label><div class="in"></div></div>
+              <div class="campo"><label>UNIDAD DE MEDIDA</label><div class="in sel">unidades</div></div>
+              <div class="campo"><label>UNID./PAQUETE</label><div class="in">1</div></div>
+            </div>
+            <div class="iva">
+              <div class="campo" style="width:84px"><label>IVA %</label><div class="in">21</div></div>
+              <span class="sw"><i></i>Aplicar IVA al costo</span>
+            </div>
+          </div>
+          <div class="sec" id="sPrecios"><h4>COSTO Y PRECIOS</h4>
+            <div class="campo" style="width:168px"><label>COSTO $</label><div class="in" id="vCosto">0.00</div></div>
+            <table class="pr">
+              <thead><tr><th style="width:30px"></th><th>Nombre de la lista</th><th style="width:96px">Margen %</th><th style="width:124px">Precio $</th><th style="width:186px"></th></tr></thead>
+              <tbody>
+                <tr><td class="ln">1</td><td><div class="in">Precio 1</div></td><td><div class="in" id="vM1">0.00</div></td><td><div class="in" id="vP1">0.00</div></td><td><span class="pe rp">↻ Precio</span><span class="pe rm">↻ Margen</span></td></tr>
+                <tr><td class="ln">2</td><td><div class="in">Precio 2</div></td><td><div class="in" id="vM2">0.00</div></td><td><div class="in" id="vP2">0.00</div></td><td><span class="pe rp">↻ Precio</span><span class="pe rm">↻ Margen</span></td></tr>
+                <tr><td class="ln">3</td><td><div class="in">Precio 3</div></td><td><div class="in" id="vM3">0.00</div></td><td><div class="in" id="vP3">0.00</div></td><td><span class="pe rp">↻ Precio</span><span class="pe rm">↻ Margen</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sec"><h4>STOCK</h4>
+            <div class="g" style="grid-template-columns:repeat(4,118px)">
+              <div class="campo"><label>STOCK GLOBAL</label><div class="in" id="vG">0</div></div>
+              <div class="campo"><label>STOCK REAL</label><div class="in" id="vR">0</div></div>
+              <div class="campo"><label>STOCK FIADO</label><div class="in" id="vF">0</div></div>
+              <div class="campo"><label>STOCK MÍNIMO</label><div class="in" id="vMin">0</div></div>
+            </div>
+            <div class="hist" id="vHist"><span class="gh" id="bHist">📋 Historial de precios</span><span class="gh">⚠️ Mercadería fallada</span><span class="gh">📊 Historial de stock</span></div>
+          </div>
+          <div class="sec"><div class="vh"><h4>VENCIMIENTO</h4><div><span class="vbt">Habilitar</span><span class="gh">Detalles</span></div></div>
+            <div id="vBox">
+              <div class="g" style="grid-template-columns:repeat(3,168px);margin:0">
+                <div class="campo"><label>FECHA INGRESO</label><div class="in">04/11/2026</div></div>
+                <div class="campo"><label>VENCE EN</label><div style="display:flex;gap:6px"><div class="in" style="flex:1">0</div><div class="in sel" style="width:84px">meses</div></div></div>
+                <div class="campo"><label>VENCE PRONTO (DÍAS)</label><div class="in">0</div></div>
+              </div>
+              <div class="mini"><b>Regla:</b> solo se crea tanda nueva cuando aumentás el stock global y tocás Guardar. Devoluciones/cancelaciones vuelven a la tanda original consumida.</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="mf"><div class="btn">Cancelar</div><div class="btn pri" id="bGuardar">Guardar</div></div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2.5v17l4.6-4.3 3 6.6 3-1.4-3-6.4h6.2z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <div id="pulso"></div>
+  </div>
+
+  <div class="portada" id="portada">
+    <div class="t-kick" id="pk"><span class="n">#3</span>Productos</div>
+    <div class="t-h" id="ph">Tu catálogo,</div>
+    <div class="t-s" id="ps">con los tres stocks.</div>
+  </div>
+  <div class="cierre" id="cierre">
+    <div class="marca" id="cm"><svg width="58" height="58" viewBox="0 0 64 64"><path d="M32 6 56 19v26L32 58 8 45V19z" fill="url(#cb)"/><path d="M32 6 56 19 32 32 8 19z" fill="#5b86e0" opacity=".55"/><path d="M19 31l10 10 22-24" fill="none" stroke="url(#cv)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="text-align:left"><b>FIAS®</b><i>SISTEMA DE GESTIÓN</i></div></div>
+    <div class="t-h" id="ch">Sabés qué tenés.</div>
+    <div class="t-s" id="cs">Y dónde está.</div>
+  </div>
+  <div id="capa"></div><div id="subt"></div>
+  <div class="fx-grano"></div><div class="fx-vin"></div>
+</div></div>
+
+<script src="motor.js"></script><script src="escenas.js"></script>
+<script>
+// Datos ficticios (BASE_PROGRAMA_PARA_ANIMACIONES.md, sección F). Formato de precios del programa: «$ 14210.00»
+// [código, nombre, proveedor, costo, margen, precio 1, stock real, fiado, últ. cambio, clase de la fila]
+const P = [
+  [1001, "Martillo carpintero 27 mm mango fibra", "Ferrosur", 9800, 45, 14210, 11, 0, "2026-10-06", ""],
+  [1002, "Destornillador Phillips PH2 x 100 mm", "Ferrosur", 2600, 50, 3900, 28, 0, "2026-10-06", ""],
+  [1003, "Pinza universal 8\" aislada", "Ferrosur", 8900, 45, 12900, 11, 1, "2026-10-06", "pedido"],
+  [1004, "Cinta métrica 5 m x 19 mm", "Ferrosur", 4300, 50, 6450, 24, 0, "2026-10-06", ""],
+  [1005, "Llave ajustable 10\" cromada", "Ferrosur", 11200, 45, 16240, 8, 1, "2026-10-06", ""],
+  [1006, "Taladro percutor 13 mm 650 W", "Distribuidora Norte", 52000, 35, 70200, 4, 0, "2026-10-20", "falta"],
+  [1015, "Llave de paso 1/2\" esférica", "Ferrosur", 6200, 45, 8990, 16, 0, "2026-10-06", ""],
+  [1021, "Llave de paso 3/4\" esférica", "Ferrosur", 8400, 45, 12180, 12, 0, "2026-11-04", ""],
+];
+const f2 = n => "$ " + n.toFixed(2);
+$("cuerpo").innerHTML = P.map(([c, n, pr, co, m, pv, r, fi, u, cl]) =>
+  `<tr class="fila ${cl}" id="r${c}"><td>${c}</td><td class="nom">${n}</td><td>${pr}</td><td>${f2(co)}</td><td>${m.toFixed(2)} %</td><td>${f2(pv)}</td><td class="st" id="g${c}">${r + fi}</td><td class="st" id="re${c}">${r}</td><td class="st" id="fi${c}">${fi}</td><td class="fe">${u}</td></tr>`).join("");
+
+const FIN = 22800, DUR = FIN + 4100, FOTO = 18200;
+const S1 = 356, S2 = 440;   // scroll de la ficha: costo y stock, y vencimiento
+// Cámara: [ms, x, y, zoom] — (x, y) es el punto del escenario que queda al centro
+const CAM = [[0, 640, 380, 1], [4700, 640, 380, 1], [5200, 650, 348, 1.16], [6000, 650, 348, 1.16], [6450, 640, 380, 1], [6900, 640, 330, 1.12], [14600, 640, 330, 1.12], [15100, 640, 380, 1],
+  [16000, 640, 380, 1], [16500, 790, 470, 1.42], [19900, 790, 470, 1.42], [20500, 640, 410, 1.26], [FIN, 640, 410, 1.26]];
+const CAMINO = [
+  [3300, 700, 600], [4900, "cFalta"], [5900, "cFalta", 0, 30], [6250, "cAgregar"], [6950, "vCod"], [7500, "vNom", -60], [8800, "vProv", -80],
+  [9950, "vCosto", 0, -S1], [10450, "vM1", 0, -S1], [10850, "vM2", 0, -S1], [11250, "vM3", 0, -S1], [12100, "vG", 0, -S1], [14500, "bGuardar"],
+  [15150, "busca", -120], [16400, "re1005", 0, 14 - 132], [19950, "re1005", 0, 4 - 132], [21000, "bHist", 40, 4 - S1], [FIN, "bHist", 40, 4 - S1]];
+const CLICS = [6300, 8850, 12150, 14560, 15200, 19980];
+const VIS = [3300, 22500];
+const SUBS = [
+  [3000, 4700, "Todo tu catálogo: costo, margen y precio"],
+  [4800, 6200, "Lo que falta, <em>te lo marca en rojo</em>"],
+  [6500, 9300, "Cargás el producto <em>una sola vez</em>"],
+  [9500, 12000, "Ponés el margen y FIAS <em>calcula el precio</em>"],
+  [12100, 13300, "El stock real <em>se actualiza solo</em>"],
+  [13400, 14450, "Vencimientos, <em>si los usás</em>"],
+  [14900, 16300, "Y ya aparece en la lista"],
+  [16500, 19800, "Tres stocks: el global, el real y el <em>fiado</em>"],
+  [20500, 22800, "Y cada cambio queda <em>en el historial</em>"],
+];
+const COSTO = 8400, M = [["45", 10450, 10650], ["30", 10850, 11050], ["25", 11250, 11450]];
+const EDIT = { cos: "11200.00", m: ["45.00", "30.00", "25.00"], pr: ["16240.00", "14560.00", "14000.00"] };
+let pgAct = "";
+function paginador(n, filtrado) {
+  const clave = n + "/" + filtrado;
+  if (clave === pgAct) return;
+  pgAct = clave;
+  $("pInfo").textContent = `Mostrando 1 a ${filtrado ? 3 : 6} de ${n} productos`;
+  const nums = (filtrado ? [1] : [1, 2, 3, 4]).map(i => `<span class="${i === 1 ? "act" : ""}">${i}</span>`).join("");
+  $("pNums").innerHTML = `<span class="off">«</span><span class="off">‹</span>${nums}<span${filtrado ? ' class="off"' : ""}>›</span><span${filtrado ? ' class="off"' : ""}>»</span>`;
+}
+
+function ESCENA(t) {
+  // Portada
+  const out = p(t, 2200, 2700);
+  fade($("pk"), t, 150); fade($("ph"), t, 400, 0, 24); fade($("ps"), t, 800, 0, 24);
+  $("portada").style.opacity = 1 - out; $("portada").style.transform = `scale(${1 + .06 * out})`; $("portada").style.visibility = out >= 1 ? "hidden" : "visible";
+  // La ventana sube desde el fondo
+  const w = eo(p(t, 2300, 3300)), wo = 1 - p(t, FIN, FIN + 600);
+  S($("win"), w * wo, `translateY(${90 * (1 - w)}px) scale(${.9 + .1 * w}) perspective(1600px) rotateX(${10 * (1 - w)}deg)`);
+  // Ficha: primero «Nuevo producto»; al final, la ficha de la 1005 ya guardada
+  const ed = t >= 20050;
+  const m = modal($("mNuevo"), t, ed ? 20150 : 6450, ed ? 0 : 14650);
+  S($("velo"), m);
+  $("mTit").textContent = ed ? "Editar producto #5" : "Nuevo producto";
+  $("vHist").style.display = ed ? "" : "none";
+  $("vCod").textContent = ed ? "1005" : tipeo("1021", t, 6950, 7250) + caret(t, 6900, 7350);
+  $("vNom").textContent = ed ? 'Llave ajustable 10" cromada' : tipeo("Llave de paso 3/4\" esférica", t, 7500, 8500) + caret(t, 7450, 8600);
+  $("vProv").textContent = ed || t > 8950 ? "Ferrosur" : "-- Sin proveedor --";
+  $("vFam").textContent = ed ? "Herramientas" : t > 9150 ? "Sanitarios" : "-- Sin familia --";
+  $("mScroll").style.transform = `translateY(${ed ? -S1 : -(S1 * eio(p(t, 9300, 9800)) + (S2 - S1) * eio(p(t, 13150, 13550)))}px)`;
+  // Precios: el costo recalcula las tres listas y cada margen recalcula su precio mientras se escribe
+  const co = tipeo("8400", t, 9950, 10250);
+  $("vCosto").textContent = ed ? EDIT.cos : t < 9950 ? "0.00" : co + caret(t, 9900, 10350);
+  $("vCosto").classList.toggle("foco", !ed && t > 9900 && t < 10350);
+  M.forEach(([v, a, b], i) => {
+    const n = i + 1, tx = tipeo(v, t, a, b), base = co ? +co : 0;
+    $("vM" + n).textContent = ed ? EDIT.m[i] : t < a ? "0.00" : tx + caret(t, a - 50, b + 150);
+    $("vM" + n).classList.toggle("foco", !ed && t > a - 50 && t < b + 150);
+    const pr = tx ? COSTO * (1 + +tx / 100) : base;
+    $("vP" + n).textContent = ed ? EDIT.pr[i] : pr.toFixed(2);
+    $("vP" + n).classList.toggle("vivo", !ed && t >= a && t < b + 700);
+  });
+  // Stock: se carga el global; el real está bloqueado y cambia solo
+  const sg = tipeo("12", t, 12200, 12400);
+  $("vG").textContent = ed ? "9" : t < 12200 ? "0" : sg + caret(t, 12150, 12600);
+  $("vG").classList.toggle("foco", !ed && t > 12150 && t < 12700);
+  $("vR").textContent = ed ? "8" : sg || "0";
+  $("vR").classList.toggle("vivo", !ed && t >= 12200 && t < 13100);
+  $("vF").textContent = ed ? "1" : "0";
+  // Buscador y filas
+  const filtrado = t >= 15900, ent = eo(p(t, 15900, 16250));
+  const n = filtrado ? 3 : t > 14700 ? 21 : 20;
+  $("total").textContent = n; $("falta").textContent = filtrado ? 0 : 2;
+  paginador(n, filtrado);
+  const q = tipeo("llave", t, 15300, 15750);
+  $("buscaTxt").textContent = q ? q + caret(t, 15250, 16100) : "Buscar por código, nombre o código de proveedor…";
+  $("busca").style.color = q ? "var(--txt)" : "";
+  // Antes de buscar: 1001 a 1006. Al buscar «llave»: 1005, 1015 y la nueva 1021
+  for (const [c, nom] of P) {
+    const el = $("r" + c), es = /llave/i.test(nom), antes = c <= 1006;
+    el.style.display = (filtrado ? es : antes) ? "" : "none";
+    el.style.opacity = filtrado ? ent : 1;
+  }
+  // Los tres stocks: resaltado de columnas y globos
+  const col = p(t, 16500, 16800) * (1 - p(t, 19700, 20000));
+  for (const c of [1005, 1015, 1021]) {
+    $("g" + c).style.background = `rgba(219,234,254,${col})`;
+    $("re" + c).style.background = `rgba(220,252,231,${col})`;
+    $("fi" + c).style.background = `rgba(255,237,213,${col})`;
+  }
+  globo($("gG"), t, 16700, -1);
+  globo($("gR"), t, 17400, 0);
+  globo($("gF"), t, 18100, 1);
+  // Cierre
+  const c = p(t, FIN + 500, FIN + 1000) * (1 - p(t, FIN + 3700, FIN + 4200));
+  S($("cierre"), c);
+  fade($("cm"), t, FIN + 600); fade($("ch"), t, FIN + 900, 0, 24); fade($("cs"), t, FIN + 1400, 0, 24);
+}
+// Los tres globos van en fila debajo de la tabla, pegados a la derecha (bajo las columnas de stock).
+// Cada uno lleva el color de su columna resaltada.
+function globo(el, t, a, i) {
+  const main = $("main"), tabla = $("tcard"), g = ["gG", "gR", "gF"].map($);
+  let y = 0, e = tabla; while (e && e !== main) { y += e.offsetTop; e = e.offsetParent; }
+  let der = main.offsetWidth - 10;
+  for (let j = 2; j > i + 1; j--) der -= g[j].offsetWidth + 12;
+  pop(el, t, a, 19600);
+  el.style.left = (der - el.offsetWidth) + "px";
+  el.style.top = (y + tabla.offsetHeight + 14) + "px";
+  el.style.transformOrigin = "50% 0";
+}
+</script>
+</body>
+</html>

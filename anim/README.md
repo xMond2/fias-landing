@@ -1,5 +1,7 @@
 # Animaciones de producto
 
+**Desde el 05/11/2026 la web usa `anim/v4/`:** 9 animaciones con portada y final por tema, revisadas contra el código de FIAS 5.2.1. Comparten `v4/estilo.css`, `v4/motor.js` y `v4/escenas.js`. En `escenas.js`, `FIN` tiene que coincidir con el último ms de la escena de cada archivo. Los ids `pl*`, `fl*`, `a*` y `b*` están reservados para la portada y el final. Lo que sigue describe las versiones anteriores, que quedan en `anim/` sin uso.
+
 Cada espacio de la web muestra un `iframe` con una de estas animaciones: HTML, CSS y JS, sin video ni librerías.
 
 | Archivo | Espacio en index.html | Loop |

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animación: facturar sin entrar a ARCA, con FIAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Manrope:wght@700;800&family=Inter:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.i{width:17px;height:17px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.pg{margin-bottom:12px}
+.pg .ic svg{stroke-width:1.9}
+/* Filtros (comprobantes.html: prod-filters, pf-row, pf-search) */
+.filtros{position:relative;z-index:3;padding:11px 14px;margin-bottom:11px}
+.filtros .f1{display:flex;gap:10px;align-items:flex-end;margin-bottom:9px}
+.filtros .campo label{font-size:11px;letter-spacing:0;color:#64748b;font-weight:700}
+.filtros .campo .in{height:34px;font-size:12.5px;font-weight:500}
+.sel{position:relative;width:150px;justify-content:space-between}
+.sel svg{width:13px;height:13px;stroke:#64748b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sel.foco{border-color:#2f5fd0;box-shadow:0 0 0 3px rgba(31,64,156,.12)}
+.par{display:flex;align-items:center;gap:8px}
+.fdate{height:34px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e3eaf4;border-radius:10px;padding:0 11px;font-size:12.5px;font-weight:700}
+.fdate svg{width:15px;height:15px;color:#1F409C;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.par .guion{color:#8a97ad;font-weight:700}
+/* Lista nativa del select de Categoría, con las 11 opciones reales */
+#lCat{position:absolute;left:14px;top:58px;width:200px;padding:4px 0;background:#fff;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 12px 28px rgba(15,23,42,.22);font-size:12.5px;opacity:0;visibility:hidden}
+#lCat div{height:21px;display:flex;align-items:center;padding:0 12px;color:#1e293b}
+#lCat div.on{background:#2f5fd0;color:#fff}
+.busca{height:36px;border:1px solid #e2e8f0;border-radius:10px;display:flex;align-items:center;gap:9px;padding:0 10px;font-size:12.5px;color:#94a3b8}
+.busca .i{width:16px;height:16px}
+.busca kbd{margin-left:auto;font:600 10px Inter,sans-serif;color:#94a3b8;background:#f1f5f9;border-radius:5px;padding:3px 7px}
+/* Tabla (styles.css: tbl-rev) y paginador (prod-pager) */
+.tabla{padding:6px 6px 0}
+.tw{position:relative}
+#tVentas{position:absolute;left:0;top:0;background:#fff;opacity:0;visibility:hidden}
+table.t th{background:#fbfcfe;color:#475569;font-weight:600;font-size:12px;letter-spacing:0;text-transform:none;text-align:center;padding:6px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7}
+table.t td{height:37px;text-align:center;padding:4px 6px;color:#334155;font-size:12px;border-bottom:1px solid #eef2f7;border-right:1px solid #eef2f7}
+table.t th:last-child,table.t td:last-child{border-right:none}
+td.cat{color:#15803d !important;font-weight:800}
+.xs{display:inline-flex;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;border:1px solid transparent}
+.xs.gh{background:#fff;border-color:#e2e8f0;color:#334155}
+.xs.pr{background:linear-gradient(180deg,#2a52be 0%,#1F409C 100%);color:#fff;box-shadow:0 4px 10px rgba(31,64,156,.28);margin-left:4px}
+tr.hov td{background:#f8fafc}
+.pag{display:flex;align-items:center;justify-content:space-between;padding:8px 8px;font-size:11.5px;color:#64748b}
+.pag .nums{display:flex;gap:5px}
+.pag .nums span{min-width:27px;height:27px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;color:#475569;display:flex;align-items:center;justify-content:center;font-size:12px;opacity:.4}
+.pag .nums span.a{background:#2f5fd0;border-color:#2f5fd0;color:#fff;font-weight:800;opacity:1}
+.mh .x{width:30px;height:30px;border-radius:50%;background:#eef5fb;display:flex;align-items:center;justify-content:center;font-size:13px;color:#2a4d85}
+.mh h3{color:#214172;font-weight:900}
+
+/* Factura de venta (captura facturacion_01) */
+#mFac{left:290px;top:62px;width:520px;z-index:12}
+#mFac .mh{padding:12px 18px}
+#mFac .mh h3{font-size:17px}
+.fb{padding:12px 18px 4px}
+.det{border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;padding:0 0 6px;margin-bottom:10px;font-size:11px}
+.det .dh{display:flex;justify-content:space-between;padding:8px 12px;font-weight:800;color:#1e2d54;font-size:11.5px}
+.det .dh span{font-weight:600;color:#5e6f96}
+.det table{width:100%;border-collapse:collapse;background:#fff}
+.det th{font-weight:800;padding:3px 8px;text-align:left;font-size:10.5px}
+.det td{padding:2px 8px;font-variant-numeric:tabular-nums}
+.det .r{text-align:right}
+.det .tt{text-align:right;padding:6px 12px 0;font-weight:900;font-size:14px;color:#111827;border-top:1px solid #e2e8f0;margin-top:4px}
+.fl{font-size:13px;font-weight:800;color:#1e2d54;margin-bottom:4px}
+.fin{height:34px;border:1px solid var(--linea);border-radius:10px;display:flex;align-items:center;padding:0 12px;font-size:12.5px;margin-bottom:9px}
+.fin.ph{color:#94a3b8}
+.letra{display:flex;align-items:center;gap:12px;border:1px solid #dbe5f3;background:#f5f8fd;border-radius:11px;padding:9px 12px;margin-bottom:6px}
+.letra .lc{width:40px;height:40px;border:2.5px solid #1e2d54;border-radius:8px;display:flex;align-items:center;justify-content:center;font:900 22px Inter,sans-serif;color:#1e2d54}
+.letra b{display:block;font-size:13px;color:#1e2d54}.letra span{font-size:12px;color:#5e6f96}
+.fpie{display:flex;justify-content:flex-end;gap:9px;padding:11px 18px;border-top:1px solid var(--linea)}
+
+/* Visor real de comprobantes (base.html: openInternalDocumentPreview, doc-preview-big) */
+#mDoc{left:20px;top:10px;width:1060px;height:580px;z-index:12;display:flex;flex-direction:column;overflow:hidden}
+#mDoc .mh{padding:11px 18px}
+#mDoc .mh h3{font-size:18px}
+.dw{position:relative;flex:1;min-height:0;margin:12px 18px;background:#5b6068;border-radius:14px;overflow:hidden}
+.dpie{display:flex;align-items:center;gap:14px;padding:10px 18px;border-top:1px solid #edf4fa}
+.dpie .btn{gap:9px;border-radius:14px;padding:11px 21px;font-size:14.5px;line-height:1;border-color:#e3eaf4;color:#1e2d54}
+.dpie .btn svg{width:18px;height:18px;color:#2563eb;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dpie .btn:first-child{margin-right:auto}
+.dpie .btn:first-child svg{color:#42506b;stroke-width:2.2}
+.dpie .btn.pri{color:#fff}.dpie .btn.pri svg{color:#fff}
+/* Hoja A4: mismas medidas y reglas de print_factura.html, escalada como en la vista en pantalla */
+#hoja{position:absolute;left:18px;top:0;width:794px;height:1123px;background:#fff;padding:34px 36px;box-shadow:0 8px 30px rgba(0,0,0,.35);display:flex;flex-direction:column;transform-origin:0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#111}
+#hoja .marco{border:1.6px solid #111;flex:1 1 auto;display:flex;flex-direction:column}
+#hoja .cabecera{display:flex;position:relative;border-bottom:1.6px solid #111}
+#hoja .cab-mitad{flex:1;padding:14px 16px 12px}
+#hoja .cab-mitad.izq{border-right:1.6px solid #111}
+#hoja .letra-caja{position:absolute;left:50%;top:0;transform:translateX(-50%);width:54px;height:58px;border:1.6px solid #111;border-top:none;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#hoja .letra-caja .l{font-size:32px;font-weight:800;line-height:1}
+#hoja .letra-caja .c{font-size:8.5px;margin-top:2px}
+#hoja .razon{font-size:21px;font-weight:800}
+#hoja .datos-emisor{margin-top:8px;line-height:1.55;font-size:12px}
+#hoja .doc-titulo{font-size:19px;font-weight:800;text-align:right}
+#hoja .doc-nro{font-size:14px;font-weight:700;text-align:right;margin-top:2px}
+#hoja .doc-datos{margin-top:8px;line-height:1.6;font-size:12px;text-align:right}
+#hoja .receptor{display:flex;gap:24px;padding:9px 16px;border-bottom:1.6px solid #111;font-size:12.5px;line-height:1.6}
+#hoja table{width:100%;border-collapse:collapse}
+#hoja th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1.2px solid #111;padding:7px 8px;background:#f7f7f7}
+#hoja td{padding:6px 8px;border-bottom:1px solid #ddd;font-size:12.5px}
+#hoja .r{text-align:right}
+#hoja .espaciador{flex:1 1 auto}
+#hoja .totales{display:flex;justify-content:flex-end;padding:10px 16px 14px;border-top:1.6px solid #111}
+#hoja .totales table{width:300px}
+#hoja .totales td{border:none;padding:3px 8px;font-size:13px}
+#hoja .totales .total-final td{font-size:17px;font-weight:800;border-top:1.6px solid #111;padding-top:7px}
+#hoja .pie{display:flex;align-items:center;gap:18px;border-top:1.6px solid #111;padding:12px 16px;margin:0;background:none;border-radius:0}
+#qr{width:92px;height:92px;flex:0 0 auto;display:grid;grid-template-columns:repeat(21,1fr);background:#fff}
+#qr i{display:block}#qr i.n{background:#111}
+#hoja .cae{font-size:12.5px;line-height:1.7}
+#hoja .cae b{font-size:14px}
+/* Marca de ejemplo: va sobre el visor, así se ve con la hoja en cualquier posición */
+.sello{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-50%) rotate(-18deg);font:900 92px Archivo,Inter,sans-serif;letter-spacing:.08em;color:rgba(220,38,38,.16);border:8px solid rgba(220,38,38,.16);border-radius:18px;padding:0 26px;pointer-events:none;white-space:nowrap}
+.etq{position:absolute;right:10px;top:10px;z-index:3;background:#dc2626;color:#fff;font:800 12px Inter,sans-serif;letter-spacing:.12em;padding:6px 11px;border-radius:8px;box-shadow:0 6px 14px rgba(0,0,0,.25)}
+</style>
+</head>
+<body data-anim="arca">
+<div id="wrap"><div id="stage">
+  <div class="fx-fondo"></div><div class="fx-luz a"></div><div class="fx-luz b"></div><div class="fx-luz c"></div><div class="fx-grilla"></div>
+
+  <div id="cam">
+    <div class="win" id="win">
+      <div class="win-bar"><b>FIAS<sup>®</sup></b><div class="bt"><span>—</span><span>▢</span><span>✕</span></div></div>
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><div class="logo"><span class="f-fila"><img src="../logo_fias.png" alt="FIAS"><span class="fias-wm">FIAS<sup>®</sup></span></span><span class="fias-wm-s">Sistema de Gestión</span></div></div>
+          <nav class="nav">
+            <a><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Inicio</a>
+            <a><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Ventas</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.2c2.4-.2 4.4 1.3 5 4.3"/></svg>Fiados</a>
+            <a class="on"><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14h10v6H7z"/></svg>Comprobantes</a>
+            <a><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Productos</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Boletas de compra</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.3 0 1.2-1.3 2.1-3 2.1-1.3 0-2.4-.6-2.9-1.5M12 6v1.8M12 16.3V18"/></svg>Cierre de Caja</a>
+            <a><svg viewBox="0 0 24 24"><path d="M6 20V11M12 20V5M18 20v-6"/></svg>Informes</a>
+            <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>Configuración</a>
+          </nav>
+          <div class="renov"><span class="ni"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span><div><b>Renovación</b><small>04/11/2027 · en 365 días</small></div></div><div class="copia"><span class="ni"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 8.6 4.8 4.8 0 0 1 17 18z"/></svg></span><div><b>Copia de seguridad</b><small>Próxima: mañana 06:31</small></div></div><div class="pie"><div class="av">A</div><div><b>admin</b><small>Administrador</small></div><span class="car"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></span></div>
+        </aside>
+
+
+        <main class="main" id="main">
+          <div class="pg"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
+            <div><h2>Comprobantes</h2><p>Ventas, fiados, pagos de fiados, devoluciones y salidas.</p></div></div>
+
+          <div class="card filtros">
+            <div class="f1">
+              <div class="campo"><label>Categoría</label><div class="in sel" id="sCat"><span id="sCatT">Todos</span><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+              <div class="campo" id="wrapMedio" style="display:none"><label>Medio de pago</label><div class="in sel">Todos<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+              <div class="campo"><label>Período</label><div class="par"><div class="fdate"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>04/11/2026</div><span class="guion">–</span><div class="fdate"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>04/11/2026</div></div></div>
+            </div>
+            <div class="busca"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar por N°, cliente, producto, nota o descripción…<kbd>Enter</kbd></div>
+            <div id="lCat"><div>Todos</div><div id="optV">Ventas</div><div>Fiados</div><div>Pagos de fiados</div><div>Dado de baja</div><div>Devoluciones</div><div>Salidas</div><div>Pedidos de compra</div><div>Resúmenes de cuenta</div><div>Modificación de fiados</div><div>Facturación</div></div>
+          </div>
+
+          <div class="card tabla">
+            <div class="tw">
+              <table class="t" id="tTodos">
+                <thead><tr><th>Fecha</th><th>Categoría</th><th>Referencia</th><th>Detalle</th><th>Monto</th><th></th></tr></thead>
+                <tbody id="cuerpo"></tbody>
+              </table>
+              <table class="t" id="tVentas">
+                <thead><tr><th>Fecha</th><th>N°</th><th>Medio</th><th>Fact.</th><th>Nota</th><th>Total</th><th></th></tr></thead>
+                <tbody id="cuerpoV"></tbody>
+              </table>
+            </div>
+            <div class="pag"><div>Mostrando 1 a 7 de 7 comprobantes</div><div class="nums"><span>«</span><span>‹</span><span class="a">1</span><span>›</span><span>»</span></div></div>
+          </div>
+        </main>
+      </div>
+
+      <div class="velo" id="velo"></div>
+
+      <div class="modal" id="mFac">
+        <div class="mh"><h3>Factura de venta</h3><span class="x">✕</span></div>
+        <div class="fb">
+          <div class="det"><div class="dh">Detalle que va en la factura<span>Contado (efectivo)</span></div>
+            <table><thead><tr><th>Código</th><th>Producto</th><th class="r">Cant.</th><th class="r">P. unit.</th><th class="r">Total</th></tr></thead>
+              <tbody><tr><td>1001</td><td>Martillo carpintero 27 mm mango fibra</td><td class="r">2</td><td class="r">$ 14.210,00</td><td class="r">$ 28.420,00</td></tr>
+              <tr><td>1012</td><td>Cinta aisladora 20 m negra</td><td class="r">1</td><td class="r">$ 1.760,00</td><td class="r">$ 1.760,00</td></tr></tbody></table>
+            <div class="tt">Total $ 30.180,00</div></div>
+          <div class="fl">Buscar cliente guardado</div><div class="fin ph">Escribí el nombre, DNI o CUIT…</div>
+          <div class="fl">Cliente</div><div class="fin" id="fCli">Consumidor final (sin identificar)</div>
+          <div class="letra" id="fLetra"><span class="lc">C</span><div><b>Se va a emitir: Factura C</b><span>Sos monotributista: siempre factura C.</span></div></div>
+        </div>
+        <div class="fpie"><div class="btn">Cancelar</div><div class="btn pri" id="bEmit">Emitir factura</div></div>
+      </div>
+
+      <div class="modal" id="mDoc">
+        <div class="mh"><h3>Factura C 0001-00000001</h3><span class="x">✕</span></div>
+        <div class="dw">
+          <span class="etq">EJEMPLO</span>
+          <div class="sello" id="sello">EJEMPLO</div>
+          <div id="hoja"><div class="marco">
+            <div class="cabecera">
+              <div class="letra-caja"><span class="l">C</span><span class="c">COD. 11</span></div>
+              <div class="cab-mitad izq"><div class="razon">Comercio Demo</div><div class="datos-emisor">Av. Siempre Viva 742, Córdoba<br><b>CUIT:</b> 20-12345678-6<br><b>Condición frente al IVA:</b> Responsable Monotributo<br><b>Ingresos Brutos:</b> 280-123456-7<br><b>Inicio de actividades:</b> 01/03/2020</div></div>
+              <div class="cab-mitad"><div class="doc-titulo">FACTURA C</div><div class="doc-nro">N° 0001-00000001</div><div class="doc-datos"><b>Fecha de emisión:</b> 2026-11-04<br><b>Punto de venta:</b> 0001</div></div>
+            </div>
+            <div class="receptor"><div style="flex:1"><b>Cliente:</b> Consumidor Final</div><div style="text-align:right"><b>Forma de pago:</b> Contado (efectivo)<br><b>Condición frente al IVA:</b> Consumidor Final</div></div>
+            <table><thead><tr><th style="width:90px">Código</th><th>Descripción</th><th class="r" style="width:60px">Cant.</th><th class="r" style="width:95px">P. unitario</th><th class="r" style="width:100px">Importe</th></tr></thead>
+              <tbody><tr><td>1001</td><td>Martillo carpintero 27 mm mango fibra</td><td class="r">2</td><td class="r">$ 14210.00</td><td class="r">$ 28420.00</td></tr>
+              <tr><td>1012</td><td>Cinta aisladora 20 m negra</td><td class="r">1</td><td class="r">$ 1760.00</td><td class="r">$ 1760.00</td></tr></tbody></table>
+            <div class="espaciador"></div>
+            <div class="totales"><table><tr class="total-final"><td>TOTAL</td><td class="r">$ 30180.00</td></tr></table></div>
+            <div class="pie"><div id="qr"></div><div class="cae"><b>CAE: 00000000000000</b><br>Vencimiento CAE: 14/11/2026<br>Comprobante autorizado por ARCA</div></div>
+          </div></div>
+        </div>
+        <div class="dpie">
+          <div class="btn"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Cerrar</div>
+          <div class="btn"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Compartir</div>
+          <div class="btn pri"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir</div>
+        </div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2.5v17l4.6-4.3 3 6.6 3-1.4-3-6.4h6.2z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <div id="pulso"></div>
+  </div>
+
+  <div class="portada" id="portada">
+    <div class="t-kick" id="pk"><span class="n">#7</span>Facturación ARCA</div>
+    <div class="t-h" id="ph">Facturás</div>
+    <div class="t-s" id="ps">sin entrar a ARCA.</div>
+  </div>
+  <div class="cierre" id="cierre">
+    <div class="marca" id="cm"><svg width="58" height="58" viewBox="0 0 64 64"><path d="M32 6 56 19v26L32 58 8 45V19z" fill="url(#cb)"/><path d="M32 6 56 19 32 32 8 19z" fill="#5b86e0" opacity=".55"/><path d="M19 31l10 10 22-24" fill="none" stroke="url(#cv)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="text-align:left"><b>FIAS®</b><i>SISTEMA DE GESTIÓN</i></div></div>
+    <div class="t-h" id="ch">Vendés y facturás.</div>
+    <div class="t-s" id="cs">Desde el mismo lugar.</div>
+  </div>
+  <div id="capa"></div><div id="subt"></div>
+  <div class="fx-grano"></div><div class="fx-vin"></div>
+</div></div>
+
+<script src="motor.js"></script><script src="escenas.js"></script>
+<script>
+// Datos ficticios (BASE, sección F y capturas comprobantes_01/02). Venta de prueba V-00000009 por $ 30.180.
+// La más nueva va primera (comprobantes.html:470; sales_ops: ORDER BY fecha DESC).
+const V = [[9, "Efectivo", "30.180"], [8, "Crédito", "65.480"], [7, "Efectivo", "17.980"], [6, "QR", "14.250"], [5, "Efectivo", "12.440"], [4, "Transferencia", "90.900"], [3, "Débito", "70.200"]];
+const hora = n => `04/11/2026 06:${26 + n * 2}`;
+$("cuerpo").innerHTML = V.map(([n, d, m]) => `<tr><td>${hora(n)}</td><td class="cat">Venta</td><td>V-0000000${n}</td><td>${d}</td><td>$ ${m},00</td><td><span class="xs pr">Ver</span></td></tr>`).join("");
+$("cuerpoV").innerHTML = V.map(([n, d, m]) => `<tr${n === 9 ? ' id="fila9"' : ""}><td>${hora(n)}</td><td>V-0000000${n}</td><td>${d}</td><td>NO</td><td></td><td>$ ${m},00</td><td style="white-space:nowrap"><span class="xs gh"${n === 9 ? ' id="fac9"' : ""}>Facturar</span><span class="xs pr">Ver</span></td></tr>`).join("");
+// QR ilustrativo (no codifica nada: la factura es un EJEMPLO)
+(() => { let s = 7, h = ""; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  const fin = (x, y) => [[0, 0], [14, 0], [0, 14]].some(([a, b]) => { const u = x - a, v = y - b; if (u < 0 || v < 0 || u > 6 || v > 6) return false; return u === 0 || v === 0 || u === 6 || v === 6 || (u > 1 && u < 5 && v > 1 && v < 5); });
+  const zona = (x, y) => [[0, 0], [14, 0], [0, 14]].some(([a, b]) => x - a >= -1 && x - a <= 7 && y - b >= -1 && y - b <= 7);
+  for (let y = 0; y < 21; y++) for (let x = 0; x < 21; x++) h += `<i class="${(zona(x, y) ? fin(x, y) : rnd() > .52) ? "n" : ""}"></i>`;
+  $("qr").innerHTML = h; })();
+
+const FIN = 18800, DUR = FIN + 4100, FOTO = 14600;
+const ESC = 988 / 794;   // la hoja A4 ocupa todo el ancho del visor (fit() de print_factura.html)
+const CAM = [[0, 640, 360, 1], [3500, 640, 360, 1], [4100, 560, 300, 1.2], [5300, 560, 300, 1.2], [6000, 760, 350, 1.15], [7000, 760, 350, 1.15], [7500, 640, 400, 1.05],
+  [8300, 640, 400, 1.05], [8800, 640, 415, 1.3], [10000, 640, 415, 1.3], [10300, 660, 430, 1.15], [10600, 660, 430, 1.15], [11000, 640, 400, 1],
+  [13000, 640, 400, 1], [13900, 600, 430, 1.2], [15800, 600, 430, 1.2], [16500, 640, 400, 1]];
+const CAMINO = [[3300, 700, 640], [4300, "sCat"], [5050, "optV"], [6800, "fac9", 14, 10], [7700, 900, 300], [10300, "bEmit"], [11000, "bEmit", 60, -120], [12900, 980, 330]];
+const CLICS = [4400, 5150, 6900, 10400];
+const VIS = [3300, 14000];
+const SUBS = [
+  [3000, 4350, "Una venta que <em>ya hiciste</em>"],
+  [4500, 6750, "Filtrás por <em>Ventas</em>"],
+  [6950, 8500, "Toque uno: <em>Facturar</em>"],
+  [8600, 10250, "La letra de la factura <em>sale sola</em>"],
+  [10400, 12700, "Toque dos: <em>Emitir factura</em>"],
+  [12900, 14700, "Con CAE y el <em>QR de ARCA</em>"],
+  [14850, 16500, "Sin entrar a la <em>página de ARCA</em>"],
+  [16650, 18800, "Consumidor final: <em>dos toques</em>"],
+];
+function ESCENA(t) {
+  const out = p(t, 2200, 2700);
+  fade($("pk"), t, 150); fade($("ph"), t, 400, 0, 24); fade($("ps"), t, 800, 0, 24);
+  $("portada").style.opacity = 1 - out; $("portada").style.transform = `scale(${1 + .06 * out})`; $("portada").style.visibility = out >= 1 ? "hidden" : "visible";
+  const w = eo(p(t, 2300, 3300)), wo = 1 - p(t, FIN, FIN + 600);
+  S($("win"), w * wo, `translateY(${90 * (1 - w)}px) scale(${.9 + .1 * w}) perspective(1600px) rotateX(${10 * (1 - w)}deg)`);
+  // Categoría: Todos → Ventas. Al elegirla cambian las columnas y aparece Medio de pago
+  const lista = t >= 4450 && t < 5200, ventas = t >= 5250;
+  S($("lCat"), lista ? 1 : 0);
+  $("optV").classList.toggle("on", t > 4950);
+  $("sCat").classList.toggle("foco", t >= 4400 && t < 5400);
+  $("sCatT").textContent = ventas ? "Ventas" : "Todos";
+  $("wrapMedio").style.display = ventas ? "" : "none";
+  S($("tTodos"), ventas ? 0 : 1); S($("tVentas"), ventas ? 1 : 0);
+  $("fila9").classList.toggle("hov", t > 6500 && t < 7100);
+  // Toque uno: «Facturar» en la fila. Toque dos: «Emitir factura»
+  const m2 = modal($("mFac"), t, 7050, 10550);
+  $("fLetra").style.boxShadow = t > 8600 && t < 10200 ? "0 0 0 3px rgba(59,130,246,.35)" : "none";
+  $("fCli").classList.toggle("foco", t > 8600 && t < 10200);
+  // La factura se abre en el visor, y se baja hasta el CAE y el QR
+  const m3 = modal($("mDoc"), t, 10700);
+  S($("velo"), Math.max(m2, m3));
+  $("hoja").style.transform = `translateY(${-985 * eio(p(t, 12900, 13800))}px) scale(${ESC})`;
+  const sl = p(t, 11000, 11400);
+  S($("sello"), sl, `translate(-50%,-50%) rotate(-18deg) scale(${1.4 - .4 * eo(sl)})`);
+  const c = p(t, FIN + 600, FIN + 1100) * (1 - p(t, FIN + 3500, FIN + 4000));
+  S($("cierre"), c);
+  fade($("cm"), t, FIN + 700); fade($("ch"), t, FIN + 1000, 0, 24); fade($("cs"), t, FIN + 1500, 0, 24);
+}
+</script>
+</body>
+</html>
