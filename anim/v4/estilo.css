@@ -207,3 +207,17 @@ html,body{background:#6fb1f8}
 .f-et small{display:block;font:600 14px Inter,sans-serif;color:#425466;margin-top:3px}
 .f-et.g{background:#dbeafe}.f-et.r{background:#dcfce7}.f-et.f{background:#ffedd5}.f-et.x{background:#fee2e2}
 #nota{position:absolute;left:660px;top:48px;width:600px;text-align:center;font:800 24px Manrope,sans-serif;color:#0a2540}
+
+
+/* 09/11/2026 — Celulares y tablets (cuelgue en iPhone al scrollear): el desenfoque de las luces,
+   el grano con mezcla y las capas will-change del escenario de 1280×720 se dibujaban a 3× y
+   llenaban la memoria. En pantallas táctiles: luces con degradado (se ven igual), sin grano y
+   sin capas fijas. En la compu queda todo como estaba. */
+@media (hover:none) and (pointer:coarse){
+  .fx-luz{filter:none!important;will-change:auto!important}
+  .fx-luz.a{background:radial-gradient(closest-side,rgba(47,95,208,.9),rgba(47,95,208,0))}
+  .fx-luz.b{background:radial-gradient(closest-side,rgba(63,174,90,.9),rgba(63,174,90,0))}
+  .fx-luz.c{background:radial-gradient(closest-side,rgba(91,127,224,.9),rgba(91,127,224,0))}
+  .fx-grano{display:none!important}
+  #cam,.win,.f-ln>span,#lista{will-change:auto!important}
+}
