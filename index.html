@@ -540,6 +540,21 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 .s-tx .s-kick{font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#d6e4ff;margin-bottom:10px}
 .s-vd{background:#eaf2ff;border-radius:24px;padding:36px;display:flex;align-items:center}
 .s-vd iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#141f3d;box-shadow:0 24px 50px -20px rgba(10,37,64,.4)}
+/* 10/11/2026: tocar la animación la abre en pantalla completa (con velocidad más lenta a elección) */
+.s-vd-fr{position:relative;width:100%}
+.s-vd-zoom{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;margin:0;background:transparent;border-radius:12px;cursor:zoom-in;-webkit-tap-highlight-color:transparent}
+.s-vd-zoom span{position:absolute;right:10px;bottom:10px;width:32px;height:32px;border-radius:9px;background:rgba(10,20,45,.55);display:grid;place-items:center;opacity:.8;transition:opacity .15s,transform .15s}
+.s-vd-zoom:hover span,.s-vd-zoom:focus-visible span{opacity:1;transform:scale(1.08)}
+.s-vd-zoom svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#animFull{position:fixed;inset:0;z-index:2147483000;background:#0a1226;display:none;overflow:hidden;touch-action:none}
+#animFull.on{display:block}
+#animFull .af-caja{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;transform-origin:center}
+#animFull iframe{display:block;border:0;background:#141f3d;flex:none}
+#animFull .af-barra{flex:none;height:52px;display:flex;align-items:center;gap:8px;padding:0 10px;color:#c9d6ee;font:600 13px Inter,system-ui,sans-serif}
+#animFull .af-barra b{font-weight:600;margin-right:2px;white-space:nowrap}
+#animFull .af-barra button{border:1px solid rgba(255,255,255,.22);background:transparent;color:#e8eefb;font:700 13px Inter,system-ui,sans-serif;border-radius:9px;height:34px;min-width:46px;padding:0 10px;cursor:pointer}
+#animFull .af-barra button[aria-pressed="true"]{background:#fff;color:#0a1226;border-color:#fff}
+#animFull .af-barra .af-x{margin-left:auto;padding:0 14px}
 /* módulos */
 .s-g4m{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--s-line);border:1px solid var(--s-line);border-radius:20px;overflow:hidden;margin-top:48px}
 .s-ms{background:#fff;padding:28px}
@@ -770,10 +785,80 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
    Play cuando se ve, pausa cuando sale. */
 (function(){
   var fr=[].slice.call(document.querySelectorAll('.s-vd iframe'));
+  var enGrande=false;   // hay una animación abierta en pantalla completa → las de la página esperan en pausa
+  /* 10/11/2026: cada animación queda adentro de un marco con un botón transparente encima; tocarla la abre en grande.
+     (Se arma ANTES de cargar nada: mover un iframe ya cargado lo reiniciaría.) */
+  fr.forEach(function(f){
+    var m=document.createElement('div');m.className='s-vd-fr';
+    f.parentNode.insertBefore(m,f);m.appendChild(f);
+    var b=document.createElement('button');b.type='button';b.className='s-vd-zoom';
+    b.setAttribute('aria-label','Ver en pantalla completa: '+(f.getAttribute('title')||'animación'));
+    b.title='Ver en pantalla completa';
+    b.innerHTML='<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg></span>';
+    b.addEventListener('click',function(){abrir(f);});
+    m.appendChild(b);
+  });
   function viva(f){var s=f.getAttribute('src');return !!s&&s!=='about:blank';}
   function cargar(f){if(!viva(f))f.setAttribute('src',f.getAttribute('data-src'));}
   function soltar(f){if(viva(f))f.setAttribute('src','about:blank');}
-  function avisar(f){try{var w=f.contentWindow;if(w&&viva(f))w.postMessage({fias:f._vis?'play':'pause'},'*');}catch(e){}}
+  function avisar(f){try{var w=f.contentWindow;if(w&&viva(f))w.postMessage({fias:(f._vis&&!enGrande)?'play':'pause'},'*');}catch(e){}}
+
+  /* ── Pantalla completa + velocidad ── */
+  var ov=null,ovF=null,ovCaja=null,ovVel=1,BARRA=52;
+  function armarOv(){
+    ov=document.createElement('div');ov.id='animFull';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Animación en pantalla completa');
+    ov.innerHTML='<div class="af-caja"><iframe title="Animación en pantalla completa"></iframe><div class="af-barra"><b>Velocidad</b>'+
+      '<button type="button" data-v="1">1×</button><button type="button" data-v="0.75">0,75×</button><button type="button" data-v="0.5">0,5×</button><button type="button" data-v="0.25">0,25×</button>'+
+      '<button type="button" class="af-x" aria-label="Cerrar la pantalla completa">Cerrar ✕</button></div></div>';
+    document.body.appendChild(ov);
+    ovCaja=ov.querySelector('.af-caja');ovF=ov.querySelector('iframe');
+    ov.querySelector('.af-x').addEventListener('click',cerrar);
+    [].forEach.call(ov.querySelectorAll('[data-v]'),function(b){b.addEventListener('click',function(){velocidad(+b.getAttribute('data-v'));});});
+    ovF.addEventListener('load',function(){velocidad(ovVel);});
+    ov.addEventListener('click',function(e){if(e.target===ov)cerrar();});
+    document.addEventListener('keydown',function(e){if(enGrande&&(e.key==='Escape'||e.key==='Esc'))cerrar();});
+    window.addEventListener('resize',acomodar);window.addEventListener('orientationchange',function(){setTimeout(acomodar,250);});
+    ['fullscreenchange','webkitfullscreenchange'].forEach(function(n){document.addEventListener(n,function(){
+      if(enGrande&&ov._fs&&!(document.fullscreenElement||document.webkitFullscreenElement))cerrar();else acomodar();});});
+  }
+  function velocidad(v){
+    ovVel=v;
+    [].forEach.call(ov.querySelectorAll('[data-v]'),function(b){b.setAttribute('aria-pressed',(+b.getAttribute('data-v')===v)?'true':'false');});
+    try{ovF.contentWindow.postMessage({fias:'vel',v:v},'*');ovF.contentWindow.postMessage({fias:'play'},'*');}catch(e){}
+  }
+  /* La animación es 16:9. En un celular parado se gira para aprovechar toda la pantalla. */
+  function acomodar(){
+    if(!enGrande)return;
+    var W=window.innerWidth,H=window.innerHeight;
+    var girar=H>W&&window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
+    var aw=girar?H:W,ah=(girar?W:H)-BARRA;
+    var w=Math.min(aw,ah*16/9),h=w*9/16;
+    ovF.style.width=w+'px';ovF.style.height=h+'px';
+    ovCaja.style.width=w+'px';
+    ovCaja.style.transform='translate(-50%,-50%)'+(girar?' rotate(90deg)':'');
+  }
+  function abrir(f){
+    if(enGrande)return;
+    if(!ov)armarOv();
+    enGrande=true;ov._fs=false;ovVel=1;
+    fr.forEach(avisar);                                  // las de la página, en pausa
+    ov.classList.add('on');document.documentElement.style.overflow='hidden';
+    ovF.setAttribute('src',f.getAttribute('data-src'));  // arranca desde el principio, a velocidad normal
+    velocidad(1);acomodar();
+    try{                                                 // pantalla completa de verdad donde el navegador la da (en iPhone queda la capa)
+      var rq=ov.requestFullscreen||ov.webkitRequestFullscreen;
+      if(rq){var pr=rq.call(ov);ov._fs=true;if(pr&&pr.catch)pr.catch(function(){ov._fs=false;});}
+    }catch(e){ov._fs=false;}
+    try{ov.querySelector('.af-x').focus({preventScroll:true});}catch(e){}
+  }
+  function cerrar(){
+    if(!enGrande)return;
+    enGrande=false;
+    try{if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}
+    ov.classList.remove('on');document.documentElement.style.overflow='';
+    ovF.setAttribute('src','about:blank');
+    fr.forEach(avisar);                                  // las de la página siguen como estaban, a su velocidad de siempre
+  }
   fr.forEach(function(f){f.addEventListener('load',function(){avisar(f);});});
   if(!('IntersectionObserver' in window)){fr.forEach(function(f){f._vis=true;cargar(f);});return;}
   var ioCarga=new IntersectionObserver(function(es){es.forEach(function(e){

@@ -9,7 +9,8 @@
      VIS    [desde, hasta]: cuándo se ve el cursor
      SUBS   [[desde, hasta, "texto"]]: subtítulos (admite <em>)
      ESCENA(t): dibuja todo lo demás en el ms t
-   Play y pausa: postMessage({fias:"play"|"pause"}) desde index.html. ?t=5000 congela el ms 5000. */
+   Play y pausa: postMessage({fias:"play"|"pause"}) desde index.html. ?t=5000 congela el ms 5000.
+   Velocidad (10/11/2026): postMessage({fias:"vel", v:0.5}) o ?v=0.5 — 1 es la normal (la de siempre). */
 (() => {
 const $ = id => document.getElementById(id);
 const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
@@ -79,16 +80,20 @@ function dibujar(T) {
 
 const fijo = new URLSearchParams(location.search).get("t");
 const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
-let corriendo = !fijo && !quieto, t0 = performance.now(), tPausa = 0;
+// Reloj propio: avanza a la velocidad pedida (1 = normal). Pausar no lo mueve; cambiar la velocidad no pega saltos.
+const velOk = v => (v = +v, v >= .1 && v <= 2 ? v : 1);
+let corriendo = !fijo && !quieto, vel = velOk(new URLSearchParams(location.search).get("v") || 1), tv = 0, ult = performance.now();
 function loop(now) {
-  if (corriendo) dibujar((now - t0) % CAPA.largo());
+  if (corriendo) { tv = (tv + Math.min(now - ult, 250) * vel) % CAPA.largo(); dibujar(tv); }
+  ult = now;
   requestAnimationFrame(loop);
 }
 addEventListener("message", e => {
   if (!e.data || !e.data.fias || fijo || quieto || !window.CAPA) return;
-  if (e.data.fias === "pause" && corriendo) { corriendo = false; tPausa = (performance.now() - t0) % CAPA.largo(); }
-  if (e.data.fias === "play" && !corriendo) { corriendo = true; t0 = performance.now() - tPausa; }
+  if (e.data.fias === "pause") corriendo = false;
+  if (e.data.fias === "play") corriendo = true;
+  if (e.data.fias === "vel") vel = velOk(e.data.v);
 });
-const arrancar = () => { CAPA.armar(); medir(); dibujar(fijo ? +fijo : quieto ? CAPA.foto(FOTO) : 0); requestAnimationFrame(loop); };
+const arrancar = () => { CAPA.armar(); medir(); dibujar(fijo ? +fijo : quieto ? CAPA.foto(FOTO) : 0); ult = performance.now(); requestAnimationFrame(loop); };
 addEventListener("load", () => (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(arrancar));
 })();
