@@ -593,18 +593,62 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
 .s-nota{font-size:14px;color:var(--s-muted);text-align:center;margin-top:28px;line-height:1.7}
 .s-nota a{color:var(--s-azul);font-weight:700;text-decoration:none}
 /* preguntas */
-.s-faq{margin-top:30px}
-.s-faq details{border-bottom:1px solid var(--s-line);padding:22px 0}
-.s-faq summary{font:700 20px Inter,sans-serif;color:var(--s-navy);list-style:none;display:flex;justify-content:space-between;gap:16px;cursor:pointer}
+/* 11/11/2026 (Theo: «quedó un diseño muy básico»): preguntas en dos columnas, con tarjetas que se abren */
+.s-pre{background:var(--s-bg2)}
+.s-pre-g{display:grid;grid-template-columns:.8fr 1.25fr;gap:56px;align-items:start}
+.s-pre-i{position:sticky;top:120px}
+.s-pre-i p{color:var(--s-slate);font-size:18px;line-height:1.55;margin:18px 0 26px;max-width:360px}
+.s-pre-i .s-kick2{display:inline-flex;align-items:center;gap:8px;font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--s-azul);background:#e8f0ff;border-radius:999px;padding:7px 14px;margin-bottom:18px}
+.s-faq{display:grid;gap:12px}
+.s-faq details{background:#fff;border:1px solid var(--s-line);border-radius:18px;padding:0 24px;transition:border-color .2s,box-shadow .2s,background .2s}
+.s-faq details:hover{border-color:#c9d8f5;box-shadow:0 10px 30px -18px rgba(10,37,64,.35)}
+.s-faq details[open]{border-color:#b9cdf7;box-shadow:0 18px 40px -24px rgba(29,79,215,.45)}
+.s-faq summary{font:700 18.5px Inter,sans-serif;color:var(--s-navy);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:18px;cursor:pointer;padding:21px 0}
 .s-faq summary::-webkit-details-marker{display:none}
-.s-faq summary::after{content:"+"}
-.s-faq details p{color:var(--s-slate);margin-top:10px;line-height:1.6;font-size:16.5px}
+.s-faq summary::after{content:"";flex:none;width:34px;height:34px;border-radius:50%;background:#eef4ff center/14px 14px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path d='M7 1v12M1 7h12' stroke='%231d4fd7' stroke-width='2' stroke-linecap='round'/></svg>");transition:transform .25s cubic-bezier(.2,.8,.2,1),background-color .2s}
+.s-faq details[open] summary::after{transform:rotate(45deg);background-color:var(--s-azul);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path d='M7 1v12M1 7h12' stroke='%23fff' stroke-width='2' stroke-linecap='round'/></svg>")}
+.s-faq summary:focus-visible{outline:2px solid var(--s-azul);outline-offset:4px;border-radius:8px}
+.s-faq details p{color:var(--s-slate);margin:0;padding:0 46px 22px 0;line-height:1.6;font-size:16.5px}
+.s-faq details[open] p{animation:sFaqIn .28s cubic-bezier(.2,.7,.2,1)}
+@keyframes sFaqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 /* cierre */
-.s-fin{background:var(--s-grad);color:#fff;padding:110px 0}
-.s-fin h2{color:#fff;max-width:760px}
-.s-fin p{color:#e8efff;font-size:18px;margin-top:18px}
+/* 11/11/2026 (Theo: «la parte de abajo quedó muy sobria»): cierre con el azul cuadriculado y las tareas que hace FIAS */
+.s-fin{background:linear-gradient(115deg,#3d7ff0 0%,#4f8ff5 48%,#6fb1f8 100%);color:#fff;padding:104px 0;position:relative;overflow:hidden}
+.s-fin::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.11) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(120% 100% at 30% 50%,#000 30%,transparent 85%);mask-image:radial-gradient(120% 100% at 30% 50%,#000 30%,transparent 85%)}
+.s-fin .s-luz{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;will-change:transform}
+.s-fin .s-luz.a{width:520px;height:520px;right:-140px;top:-200px;background:#fff;opacity:.34;animation:sLuzA 16s ease-in-out infinite alternate}
+.s-fin .s-luz.b{width:420px;height:420px;left:-160px;bottom:-220px;background:#a9dcff;opacity:.38;animation:sLuzB 19s ease-in-out infinite alternate}
+@keyframes sLuzA{to{transform:translate(-70px,50px)}}
+@keyframes sLuzB{to{transform:translate(80px,-40px)}}
+.s-fin .s-w{position:relative;z-index:1}
+.s-fin-g{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.s-fin h2{color:#fff;max-width:640px}
+.s-fin p{color:#eef4ff;font-size:19px;margin-top:18px;line-height:1.5;max-width:520px}
+.s-fin .s-kick3{display:inline-flex;align-items:center;gap:8px;font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:7px 14px;margin-bottom:20px}
+.s-fin-b{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.s-btn-gh{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.45)}
+.s-btn-gh:hover{background:rgba(255,255,255,.2)}
+.s-fin-ok{display:flex;flex-wrap:wrap;gap:8px 22px;margin:30px 0 0;padding:0;list-style:none;color:#f4f8ff;font:600 15px Inter,sans-serif}
+.s-fin-ok li{display:flex;align-items:center;gap:8px}
+.s-fin-ok li::before{content:"";width:18px;height:18px;border-radius:50%;background:#5CB848 center/10px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.4l2.6 2.6L10 3.6' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>")}
+/* las tareas que FIAS hace solo: tarjetas que flotan y se van tildando */
+.s-hecho{position:relative;height:330px}
+.s-hecho div{position:absolute;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.96);color:var(--s-navy);border-radius:18px;padding:16px 20px 16px 16px;box-shadow:0 24px 50px -22px rgba(10,37,64,.55);font:700 16px Inter,sans-serif;white-space:nowrap;animation:sFlota 6s ease-in-out infinite}
+.s-hecho div small{display:block;font:500 13px Inter,sans-serif;color:var(--s-muted);margin-top:2px}
+.s-hecho div i{flex:none;width:38px;height:38px;border-radius:50%;background:#5CB848 center/18px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.4l2.6 2.6L10 3.6' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");animation:sTilde 6s cubic-bezier(.2,.8,.2,1) infinite}
+.s-hecho div:nth-child(1){left:0;top:6px}
+.s-hecho div:nth-child(2){right:0;top:88px;animation-delay:-1.5s}.s-hecho div:nth-child(2) i{animation-delay:.6s}
+.s-hecho div:nth-child(3){left:26px;top:172px;animation-delay:-3s}.s-hecho div:nth-child(3) i{animation-delay:1.2s}
+.s-hecho div:nth-child(4){right:18px;top:254px;animation-delay:-4.5s}.s-hecho div:nth-child(4) i{animation-delay:1.8s}
+@keyframes sFlota{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes sTilde{0%,8%{transform:scale(.55);opacity:.35}16%{transform:scale(1.12);opacity:1}22%,100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.s-hecho div,.s-hecho div i,.s-fin .s-luz{animation:none}}
 @media(max-width:820px){
   .s-w{padding:0 18px}.s-sec{padding:72px 0}.s-fin{padding:72px 0}
+  .s-pre-g{grid-template-columns:1fr;gap:26px}.s-pre-i{position:static}.s-pre-i p{max-width:none}
+  .s-faq details{padding:0 18px}.s-faq summary{font-size:17px;padding:18px 0}.s-faq details p{padding-right:0}
+  .s-fin-g{grid-template-columns:1fr;gap:36px}.s-fin p{font-size:17px}
+  .s-hecho{height:auto;display:grid;gap:12px}.s-hecho div{position:static;white-space:normal;animation:none}
   .s-sec h2,.s-fin h2{font-size:36px}
   .s-g4,.s-g3,.s-split{grid-template-columns:1fr}
   .s-g4m{grid-template-columns:1fr 1fr}
@@ -705,10 +749,15 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
   </div>
   <p class="s-nota">Pagás con Mercado Pago (tarjeta en cuotas de tu banco, débito o dinero en cuenta) y la clave de activación te llega al instante por email.<br>
   Precios en pesos, con revisión mensual. Las funciones con inteligencia artificial tienen un límite de uso razonable. ¿Querés probarlo primero? <a href="#contacto">Pedí tu prueba personalizada de 15 días →</a></p>
-</div></section><section class="s-sec" id="preguntas"><div class="s-w" style="max-width:860px">
-  <h2 class="rv">Lo que todos preguntan.</h2>
-  <div class="s-faq">
-      <details><summary>¿Necesito saber de computación?</summary>
+</div></section><section class="s-sec s-pre" id="preguntas"><div class="s-w"><div class="s-pre-g">
+  <div class="s-pre-i rv">
+    <span class="s-kick2">Preguntas frecuentes</span>
+    <h2>Lo que todos preguntan.</h2>
+    <p>¿No está la tuya? Escribinos: te responde quien construyó el sistema.</p>
+    <a class="s-btn s-btn-az" href="https://wa.me/5493516823367?text=Hola%21%20Vengo%20de%20la%20web%20de%20FIAS%20%28preguntas%29%20y%20tengo%20una%20consulta" target="_blank" rel="noopener">Hacé tu pregunta por WhatsApp</a>
+  </div>
+  <div class="s-faq rv d1">
+      <details open><summary>¿Necesito saber de computación?</summary>
         <p>No. FIAS se diseñó para el mostrador: escaneás o tipeás el código y vendés. Si sabés usar WhatsApp, sabés usar FIAS.</p></details>
       <details><summary>¿Qué pasa si se me rompe la computadora?</summary>
         <p>Nada grave: FIAS hace copias de seguridad automáticas locales y en la nube, que nadie puede borrar. Se instala en la máquina nueva, se restaura el backup y seguís trabajando.</p></details>
@@ -723,10 +772,24 @@ h1{font-size:clamp(2.2rem,4.6vw,3.5rem)!important}
       <details><summary>¿Cómo es el soporte?</summary>
         <p>Directo por WhatsApp, con quien construyó el sistema. Sin call centers ni tickets.</p></details>
     </div>
-</div></section><section class="s-fin" id="contacto"><div class="s-w">
-  <h2 class="rv">Vos ponés el negocio. Que las horas las ponga FIAS.</h2>
-  <p style="margin-top:30px"><a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Vengo%20de%20la%20web%20de%20FIAS%20%28final%20de%20la%20p%C3%A1gina%29%20y%20quiero%20consultar" target="_blank" rel="noopener">Consultá por WhatsApp</a></p>
-</div></section>
+</div></div></section><section class="s-fin" id="contacto"><span class="s-luz a"></span><span class="s-luz b"></span><div class="s-w"><div class="s-fin-g">
+  <div class="rv">
+    <span class="s-kick3">Empezá esta semana</span>
+    <h2>Vos ponés el negocio. Que las horas las ponga FIAS.</h2>
+    <p>Contanos cómo trabajás y te lo mostramos con tus productos. Podés probarlo 15 días antes de decidir.</p>
+    <div class="s-fin-b">
+      <a class="s-btn s-btn-w" href="https://wa.me/5493516823367?text=Hola%21%20Vengo%20de%20la%20web%20de%20FIAS%20%28final%20de%20la%20p%C3%A1gina%29%20y%20quiero%20consultar" target="_blank" rel="noopener">Consultá por WhatsApp</a>
+      <a class="s-btn s-btn-gh" href="#precios">Ver los planes</a>
+    </div>
+    <ul class="s-fin-ok"><li>Funciona sin internet</li><li>Copias de seguridad automáticas</li><li>Soporte directo por WhatsApp</li></ul>
+  </div>
+  <div class="s-hecho rv d2" aria-hidden="true">
+    <div><i></i><span>Boleta cargada con una foto<small>costos y stock al día</small></span></div>
+    <div><i></i><span>Lista de precios actualizada<small>con tu margen cuidado</small></span></div>
+    <div><i></i><span>Factura emitida en ARCA<small>en dos clics, con CAE</small></span></div>
+    <div><i></i><span>Caja cerrada<small>cuánto entró y por dónde</small></span></div>
+  </div>
+</div></div></section>
 <footer>
   <div class="foot">
     <div style="line-height:1.9">
